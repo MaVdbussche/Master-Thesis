@@ -1,0 +1,36 @@
+%! Author = Martin Vandenbussche
+
+- Describe the project, and the motivation behind the new grammar for Oz. (Use Nozc's README's background section as starting point).\newline
+- Previous works done in this context\newline
+In this chapter, we will provide an overview of what has been achieved in previous works covering Oz's grammar in general, and NewOz in particular
+We will describe how those served as a starting point for our reflexions.\newline
+\begin{itemize}
+    \item NewOz (Jean-Pacifique's thesis)
+    \item Ozma
+    \item Other previous works on Oz original grammar (used to get the philosophy behind it)
+\end{itemize}
+
+\section{NewOz (2020 version)}\label{sec:ch1JPNewOz}
+Last year's work of Jean-Pacifique Mbonyincungu used a very systematic approach consisting of reviewing a lot of languages features and syntax elements of Oz.
+For each of these, code snippets in both Oz and Scala/Ozma were provided and compared.
+The code served as a basis for the discussion that followed, comparing pros and cons of both syntax's, and motivating the final choices being made.
+The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.
+\newline
+The two main results of this work were the definition of a new syntax, described in~\ref{sec:appendix-a} as an EBNF grammar, as well as the writing of a Parser, which is able to convert any code written in NewOz to the equivalent Oz code.
+
+\subsection{Current state of the NewOz grammar}\label{subsec:ch1CurrentGrammar}
+Talk about pros and cons of Jean-Pacifique's NewOz
+
+\subsection{The NewOz Parser}\label{subsec:ch1CurrentParser}
+Talk about pros and cons of Jean-Pacifique's Scala Parser
+
+\section{Ozma : a Scala extension}\label{sec:ch1Ozma}
+Why this work proved that Oz's philosophy could be applied in other languages and fit nicely in their syntax;
+How it laid the foundations of NewOz's Scala-inspired grammar
+
+\section{Other works}\label{sec:ch1OtherWorks}
+\begin{itemize}
+    \item Kornstaedt 1996
+    \item History of the Oz Multiparadigm Language
+    \item Concepts, Techniques and Models of Computer Programming (does it fit here ?)
+\end{itemize}

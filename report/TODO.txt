@@ -1,0 +1,23 @@
+Missing mandatory features :
+
+[OK] handle strings
+[OK] handle char literals
+[] handle strings represented as [46,32,2]
+[] handle chars represented as °P
+[] handle strings represented as [°P,°K,°b]
+[OK] handle newOz atoms
+[OK] handle octal/hexa numbers
+[] !! operator is actually used ! see Oz doc online
+[] For now we can handle functors (ozc -c MyFunctor.oz => yFunctor.ozf). How do we handle files not representing functors ?
+[] make imports like :
+ IMPORT VARIABLESTRICT DOT VARIABLE
+ instead of record-like stuff
+ No issue in parsing since we have IMPORT keyword anyway - codegen doesn't change
+[] enforce atomLisp for records everywhere
+
+Missing "nice-to-haves"
+
+[] We need an equivalent to Scala "currying", where dots are facultative
+ ex: ex1(7).ex2().browse()
+[OK] The idea of a built-in function list must be complete, completely coherent, and explicit to the user.
+Is it the case today ?
