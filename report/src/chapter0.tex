@@ -1,27 +1,53 @@
 %! Author = Martin Vandenbussche
 
-- Describe the project, and the motivation behind the new grammar for Oz. (Use Nozc's README's background section as starting point).\newline
-- Previous works done in this context\newline
-In this chapter, we will provide an overview of what has been achieved in previous works covering Oz's grammar in general, and NewOz in particular
-We will describe how those served as a starting point for our reflexions.\newline
-\begin{itemize}
-    \item NewOz (Jean-Pacifique's thesis)
-    \item Ozma
-    \item Other previous works on Oz original grammar (used to get the philosophy behind it)
-\end{itemize}
+The Oz programming language is a multi-paradigm language developed, along with its official implementation called Mozart, in the 1990s by researchers from DFKI (the German Research Center for Artificial Intelligence), SICS (the Swedish Institute of Computer Science), the University of the Saarland, UCLouvain (the Université Catholique de Louvain), and others.
+It is designed for advanced, concurrent, networked, soft real-time, and reactive applications.
+Oz provides the salient features of object-oriented programming (including state, abstract data types, objects, classes, and inheritance),
+functional programming (including compositional syntax, first-class procedures/functions, and lexical scoping), as well as
+logic programming and constraint programming (including logic variables, constraints, disjunction constructs, and programmable search mechanisms).
+Oz allows users to dynamically create any number of sequential threads, which can be described as dataflow-driven, in the sense that a thread executing an operation will suspend until all needed operands have a well-defined value.
+SOURCE : MOZART2.ORG
+
+Over the years, the Oz programming language has been used with success in various MOOCs and university courses.
+It's multi-paradigm philosophy proved to be an invaluable strength in teaching students the basics of programming paradigms, through its \textit{one-fits-all} approach.
+
+However, it has become obvious over time that the syntax of the language constitutes a drawback.
+In particular, Oz has not been updated like other languages have, which is hindering its ability to keep a growing and active community of developers around it.
+
+Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 (TO CONFIRM) that a new syntax would be developed for Oz. \textcolor{red}{Reformulate this sentence}
+The objective behind what would later be called NewOz is ambitious : bringing the syntax of Oz to par with modern programming languages, while keeping alive the philosophy that makes its strength : giving access to a plethora of programming paradigms in a single, unique environment.
+This process has started in 2020, with the master thesis of Jean-Pacifique Mbonyincungu\footnote{insert proper referencing system !!! https://dial.uclouvain.be/memoire/ucl/object/thesis:25311}, who created a first design for the NewOz syntax, heavily inspired by Ozma and Scala (see below).
+This thesis continues this work by making more refinements to the syntax, as well as creating a fully fletched compiler around it.
+
+In the following sections, we will provide an overview of what has been achieved in previous works covering Oz's grammar in general, and NewOz in particular.
+We will describe how those served as a starting point for our reflexions, and the problems or limitations we identified.\newline
 
 \section{NewOz (2020 version)}\label{sec:ch1JPNewOz}
-Last year's work of Jean-Pacifique Mbonyincungu used a very systematic approach consisting of reviewing a lot of languages features and syntax elements of Oz.
+Last year's work of Jean-Pacifique Mbonyincungu had as main objective to "create, elaborate and motivate a new syntax"\cite{jpthesis} for Oz, by systematically reviewing a lot of languages features and syntax elements of Oz.
 For each of these, code snippets in both Oz and Scala/Ozma were provided and compared.
-The code served as a basis for the discussion that followed, comparing pros and cons of both syntax's, and motivating the final choices being made.
-The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.
-\newline
-The two main results of this work were the definition of a new syntax, described in~\ref{sec:appendix-a} as an EBNF grammar, as well as the writing of a Parser, which is able to convert any code written in NewOz to the equivalent Oz code.
+The code served as a basis for the reflexion and ensuing discussion, comparing pros and cons of both existing approaches, conceiving a new one when required, and motivating the final choices being made.
+The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.\newline
+
+This thesis provided two main results :
+\begin{itemize}
+    \item The definition of a new syntax (which we will call NewOz 2020 in this document), as we said before;
+    this syntax has been described\footnote{See the appendix C.2 of last year's thesis~\cite{jpthesis}} as an EBNF grammar.
+    \item The writing of a Parser, which is able to convert code written in NewOz to the equivalent Oz code.
+    This Parser is actually a compiler, in the sense that it "translates computer code written in one programming language into another language"\footnote{Wikipedia Compiler page ref}.
+    However, it does not have the advantages and flexibility of most compilers, as we will explain in section~\ref{subsec:ch1CurrentParser}.
+\end{itemize}
 
 \subsection{Current state of the NewOz grammar}\label{subsec:ch1CurrentGrammar}
 Talk about pros and cons of Jean-Pacifique's NewOz
 
 \subsection{The NewOz Parser}\label{subsec:ch1CurrentParser}
+As Jean-Pacifique Mbonyincungu explains in his thesis~\cite{jpthesis}, creating a new syntax only makes sense if it can actually be used by programmers.
+This requires the creation of some kind of program able to eventually transform NewOz code into machine code.
+Two possible approaches were identified : rewriting the existing Oz compiler, \textit{ozc}, or creating a NewOz-to-Oz "parser".
+Jean-Pacifique Mbonyincungu decided to go with the second approach, while we selected a third approach that could be described as a mix of both.
+
+DESCRIBE PROS AND CONS OF COMPILER AND PARSER (JPM thesis section 3.2)
+But this presents multiple difficulties : (1) it is technically more difficult and would take more time than the
 Talk about pros and cons of Jean-Pacifique's Scala Parser
 
 \section{Ozma : a Scala extension}\label{sec:ch1Ozma}
@@ -29,6 +55,7 @@ Why this work proved that Oz's philosophy could be applied in other languages an
 How it laid the foundations of NewOz's Scala-inspired grammar
 
 \section{Other works}\label{sec:ch1OtherWorks}
+Used to get a sense of the philosophy behind Oz
 \begin{itemize}
     \item Kornstaedt 1996
     \item History of the Oz Multiparadigm Language
