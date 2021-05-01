@@ -1,0 +1,4 @@
+https://doc.rust-lang.org
+
+Replace attr by this mechanism from C# ? https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties
+
