@@ -1,29 +1,45 @@
 %! Author = Martin Vandenbussche
 
-\section{A quick introduction to compilers}\label{sec:ch3-compilers}
-MAKE THIS section 3.0
-How do compilers work in general ?
-Try to keep it not TOO technical and long.
-Lexer - Parser/syntax analysis - Semantic analysis - (optimizer) - code generator
+In this chapter, we will give a couple of definitions of concepts that are relevant to this section, and describe to the situation that\textit{NewOz} was in, from a software perspective, at the end of last year's thesis.
+We will then give an evaluation of that situation, highlighting problems or areas that required the most attention.
+The next natural step is to describe the solution we have imagined and developed, both holistically and in technical terms.
+We will then conclude the chapter by providing a self-evaluation of the implementation, as well as some attention points and leads for future improvements.
 
-\section{The intial situation (find a better title)}\label{sec:ch3-Parser}
+\section{A quick introduction to compilers}\label{sec:ch3-compilers}
+In programming, a compiler is a piece of software that is able to translate code written in one language, to another language.
+The \textit{target} language is usually a lower-level language : the main use of compilers is to create machine level, platform-specific code that is directly executable by the computer.
+\textit{C}, \textit{Erlang} and \textit{Rust} are examples of compiled languages.
+Compilers are usually designed in three main blocks : a front-end, middle-end, and back-end.~\cite{wikiCompiler}\newline
+The front-end typically scans the input code in a \textit{Lexer}, recognizing keywords and known literals and storing them as \textit{tokens}.
+It then proceeds with the syntax analysis, which will try to match those series of tokens to known language structures, such as statements, arithmetic operations, or method definitions.
+This allows for the creation of an \textit{Abstract Syntax Tree}, which stores the program's in a structure that is not only easy to analyze and understand, but also generic enough to be compatible with the middle- and back-end.
+In a third step, the compiler performs \textit{semantic analysis} on the generated \textit{AST}, checking variable types and assignments and populating the \textit{symbol table}, which stores the names and definitions known in the context of the program.\newline
+The middle-end of a compiler performs optimizations on the \textit{AST} to improve the performance of the target code that will be generated in the next step.
+An important property of compilers is that the middle-end is typically independent of both the source language being compiled, and the target platform, thanks to the generic properties of the \textit{AST}.
+A fascinating example of this property is the \textit{GNU Compiler Collection}~\cite{gcc}, which provides a single middle-end used in multiple front- and back-end combinations.\newline
+Finally, the back-end part of a compiler will generate the target computer code from the optimized \textit{AST}.
+This code is usually machine code, specialized for a specific CPU architecture and operating system, but there are exceptions (\texttt{nozc} is one of them).
+
+\section{The intial situation}\label{sec:ch3-Parser}
 Extract from M. Mbonyincungu's thesis :
 "One of the key elements of this project is that compatibility has to be maintained with the existing Mozart system, for the official release of Mozart2.
-The idea of writing a new compiler has thus quickly been set aside, as it would drastically increase the time and complexity requirements of the project."\cite{jpthesis}
+The idea of writing a new compiler has thus quickly been set aside, as it would drastically increase the time and complexity requirements of the project."~\cite{jpthesis}
 
 Instead, last year's thesis brought forward (???) the idea of writing a syntax parser, that would serve as a compatibility layer between the \textit{NewOz} syntax, and the existing \textit{Oz} syntax supported by the current version of Mozart.
 \textit{NewOz} code will be translated to the directly equivalent \textit{Oz} code, and then fed to the existing \textit{Oz} compiler, \texttt{ozc}.
-Some readers might interject that lies closer to the definition of a compiler than a parser;
-for this reason, I think it is important to take the time and explicit the definition we give to each term in the context of this work.
-Wikipedia defines parsing as "the formal analysis by a computer of a sentence or other string of words into its constituents, resulting in a parse tree showing their syntactic relation to each other [\ldots]".\footnote{Cite correctly : \url{https://en.wikipedia.org/wiki/Parsing}, consulted on 13/05-11:54}
-A compiler, on the other hand, is described as "a computer program that translates computer code written in one programming language (the source language) into another language (the target language)."\footnote{Cite correctly : \url{https://en.wikipedia.org/wiki/Compiler}, consulted on 13/05-12:06}
-In my opinion, the program created by M. Mbonyincungu doesn't match any of those two definitions [de manière satisfaisante], as we will discuss later;
-I think it lies somewhere in between those two definitions.
-But to stay consistent with the vocabulary used in lest year's thesis and avoid confusion, we will refer to it as "the Parser" in the rest of this document.
+Some readers might interject that this description lies closer to the definition of a compiler than a parser;
+for this reason, I think it is important to take the time and explicit the definition we give to each term in the context of this work.\newline
 
-M. Mbonyincungu's Parser makes use of Scala's Parsing Combinators library\footnote{cite correctly : \url{https://www.scala-lang.org/api/2.12.3/scala-parser-combinators/scala/util/parsing/combinator/Parsers.html}}, which provides a syntax to match regular expressions and describe the relationship between them.
-The matched expressions are then translated to \textit{Oz} code, with a great emphasis being put on maintaining the code's visual format.\footnote{See sections 3.2.3 and 3.3.1 of~\cite{jpthesis}}
-This is important because the Parser was designed as a decorator to the Mozart compiler (which means that having code roughly at the same place will make debugging programs a lot easier), but also because it can prove useful in a teaching context in the future, when comparing the two syntax's side by side.
+Wikipedia defines parsing as "the formal analysis by a computer of a sentence or other string of words into its constituents, resulting in a parse tree showing their syntactic relation to each other [\ldots]".~\cite{wikiParser}
+A compiler, on the other hand, is described as "a computer program that translates computer code written in one programming language (the source language) into another language (the target language)."~\cite{wikiCompiler}
+In my opinion, the program created by M. Mbonyincungu doesn't match any of those two definitions [de manière satisfaisante], as we will discuss later;
+I think it lies somewhere in between those two definitions, as a decorator to the \texttt{ozc} compiler.
+But to stay consistent with the vocabulary used in lest year's thesis and avoid confusion, we will refer to it as "the Parser" in the rest of this document.\newline
+
+M. Mbonyincungu's Parser makes use of Scala's Parsing Combinators library\footnote{See its documentation at \url{https://www.scala-lang.org/api/2.12.3/scala-parser-combinators/scala/util/parsing/combinator/Parsers.html}~\cite{ScalaParsers}}, which provides a syntax to match regular expressions and describe the relationship between them.
+The Parser used it to describe pattern-matching rules which it then applied to the \textit{NewOz} code.
+Finally, the \textit{Oz} code equivalent to each matched sentence was generated, with a great emphasis being put on maintaining the code's visual format.\footnote{See sections 3.2.3 and 3.3.1 of~\cite{jpthesis}}
+This is important because the Parser was designed as a decorator to the Mozart compiler (which means that having code roughly at the same place will make debugging programs a lot easier), but also because it can prove useful in a teaching context in the future, when comparing the two syntax's side by side.\newline
 
 This "parser approach" has been preferred over a rewrite/modification of the existing Mozart compiler for multiple reasons, which we will comment on in the next section :
 \begin{enumerate}
@@ -33,18 +49,19 @@ This "parser approach" has been preferred over a rewrite/modification of the exi
     \item The use of a modern technology like Scala would make the codebase easier to maintain and collaborate on;
     \item Future extensions and modifications would be easy, thanks to the inheritance concepts embedded in the library used
 \end{enumerate}
-M. Mbonyincungu then describes the limitations and problems identified in its approach and implementation :
+M. Mbonyincungu then describes the limitations and problems identified in his approach and implementation :
 \begin{enumerate}[resume]
     \item The order in which some expressions alternations are declared in the pattern-matching code has a huge impact on the performance of the program.
     For example, if the code defines a statement of type A as \texttt{(p1 | p2)}, parsing \texttt{p2} in the code to compile is much more costly than parsing a statement \texttt{p1}.
     In practice, this results in much longer compilation time for the user, depending on the particular statements, expressions, or keywords they used.
     This leads to a lot of confusion from my experience, as two programs of the same syntactic complexity can have drastically different compilation time.
     \item The Parser is stateless.
-    This has a lot of implications when it comes to variable types, making it impossible, for example, to evaluate if an arithmetic operation is valid for two given arguments.
+    This has a lot of implications, mainly when it comes to variable types;
+    making it impossible, for example, to evaluate the validity of an arithmetic operation for two given arguments.
 \end{enumerate}
 
 \section{The need for something else}\label{sec:ch3-problems}
-"We will now discuss the points above :"
+To explain the thought process that lead to the creation of \texttt{nozc}, we think it is important to firstly explicit our interpretation and opinion of the points enumerated above.
 Points 1 through 3 are very valid considerations when tackling a project of this size, especially in the context of a master thesis with limited time and a fixed deadline.
 In that regard, the Parser is a great solution that accomplishes its objective : allowing programmers to test and run code written using the \textit{NewOz} syntax.\newline
 However, since this year's thesis was placed in the direct continuation of M. Mbonyincungu's work, we had a lot more time on our hands [too informal ?], which allowed us to design a solution that is more ambitious technically and, we hope, more pleasant to use.
@@ -64,18 +81,20 @@ Moreover, we should remember that one of the goals of this approach was to make 
 Even though the Parser's output formatting does a great job at maintaining a visual equivalency between the \textit{NewOz} and \textit{Oz} versions of the code, some error messages will inevitably be undecipherable for the end user.
 In my opinion, this limitation kind of defeats the purpose of making a new syntax and compiler in the first place, and is the main reason that pushed us to conceive a new solution involving a more complete compiler.
 
-\section{Nozc dissected}\label{sec:ch3-nozc}
-The \textit{NewOz} Compiler\cite{NozcGitHub}, which we decided to call \texttt{nozc} in reference to Mozart's \texttt{ozc} utility, is a complete compiler able to transform a \textit{NewOz} program written in a \texttt{.noz} file, into code executable using Mozart's \texttt{ozengine} command.
-It runs on Windows, MacOS, and Linux, through a command-line interface.
-The overall approach used by \texttt{nozc} is the same as the one imagined by M. Mbonyincungu for the Parser : the program will ingest a \texttt{.noz} file, write the equivalent \texttt{.oz} one, and then run \texttt{ozc} with that input.
-However, we believe this year's approach is technically more accomplished, as it fully encompasses the 4 main phases of a classic compiler : lexer, parser, semantic analysis, and code generation.
+\section{A solution : \texttt{Nozc} in details}\label{sec:ch3-nozc}
+The \textit{NewOz} Compiler~\cite{NozcGitHub}, which we decided to call \texttt{nozc} in reference to Mozart's \texttt{ozc} utility, is a complete compiler able to transform a \textit{NewOz} program written in a \texttt{.noz} file, into code executable using Mozart's \texttt{ozengine} command.
+In that regard, it does not fit the most classic definition of a compiler, as we mentioned before, since it does not generate low-level machine code, but instead translates from one high-level language to another.
+The current version of \texttt{nozc} runs on Windows, MacOS, and Linux, through a command-line interface.\newline
+The overall approach used by this compiler is thus the same as the one imagined by M. Mbonyincungu for the Parser : the program will ingest a \texttt{.noz} file, write the equivalent \texttt{.oz} one, and then run \texttt{ozc} with that input.
+However, we believe this year's approach is technically more accomplished, as it fully encompasses the 4 main phases of a classic compiler : lexer, parser, semantic analysis, and code generation, including a limited amount of optimization.
 As such, it is able to produce informative, precise error messages that make debugging a \textit{NewOz} program a lot easier, without relying on the underlying \texttt{ozc} compiler.
 The ultimate goal is to be able to handle in this compiler all warnings and errors, systematically generating \textit{Oz} code that will pass smoothly in the underlying \texttt{ozc} compiler.
 Achieving this is essential if we want to mask the internal reliance on \texttt{ozc} to the end user.\newline
 On top of its standard compilation functionality, \texttt{nozc} also provides other useful features, such as the ability to print the syntax tree of the program directly in the command-line, or to compile multiple files at a time.
-Additionally, a couple of quality-of-life features have been embedded, such as a robust command-line interface that will make \texttt{nozc} easy to integrate in other tools by complying to general, good-practice CLI guidelines\footnote{See \url{https://clig.dev/\#philosophy} for an interesting read on the subject}.
-The user also has the ability to see the intermediary \textit{Oz} code generated during the compilation, or else [??] to personalize the logging level of the output, by using the well-known Apache's Log4j logging levels\footnote{To be exact, \texttt{nozc} does not use Log4j itself, but adopted the same logging levels per convention. See \url{https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/Level.html} for a description of those levels.}.
-\newline\newline
+Additionally, a couple of quality-of-life features have been embedded, such as a robust command-line interface that will make \texttt{nozc} easy to integrate in other tools by complying to general, good-practice CLI guidelines\footnote{More information on those practices can be found at \url{https://clig.dev/\#philosophy}~\cite{clig}}.
+The user also has the ability to see the intermediary \textit{Oz} code generated during the compilation, or else [??] to personalize the logging level of the output, by using the well-known Apache's Log4j logging levels\footnote{To be exact, \texttt{nozc} does not use Log4j, but adopted the same logging levels per convention. See \url{https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/Level.html} for a technical description of those levels and their meanings~\cite{log4j}}.\newline
+
+
 General description of the inner workings of the compiler.
 Do not go in ridiculous details, as the code is well documented and available.
 Explain modularity : ideally, most changes should simply involve modifying the JavaCC source grammar file
@@ -84,27 +103,27 @@ Use an example and show its evolution when going through the compiler.
 \section{Technologies used}\label{sec:ch3-technologies}
 As said before, an important consideration when designing \texttt{nozc} was the maintainability of the project in the future.
 Because this project will continue for multiple years and see different maintainers, it was important to select a technology that was either widespread and well known, or easy to apprehend, to future contributors to the project.
-Another point of attention is the future support of the technologies chosen: again, future contributors should be able to find support and documentation easily.
+Another point of attention is the future support of the technologies chosen: again, later contributors should be able to find support and documentation easily.
 For the programming language itself, our choice landed on \textit{Java}, more specifically the last version to date, JDK16.
 Oracle's release cycle for Java has provided a major release every 6 months since September 2017, and it is a given at this point that Java will remain relevant for the years to come.\newline
 Other tools and libraries include :
 \begin{itemize}
-    \item Picocli, a framework for creating Java command line applications following POSIX conventions\footnote{Cite correctly : \url{https://picocli.info/}}.
+    \item Picocli, a framework for creating Java command line applications following POSIX conventions\footnote{The online documentation for Picocli is located at \url{https://picocli.info/}~\cite{picocli}}.
     A decisive factor in selecting this tool, apart from its very widespread use and great documentation, is the fact that it is designed to be shipped as a single \texttt{.java} file to include in the final application's source code.
     This means that upstream maintenance is not really a concern, as the source code is directly available to the programmer and can be easily be modified locally in the future, would ever need be.
-    \item JavaCC, a powerful parser generator creating a parser executable in a JRE\footnote{cite : \url{https://javacc.github.io/javacc/}}.
+    \item JavaCC, a powerful parser generator creating a parser executable in a JRE\footnote{An overview of JavaCC's features can be found at \url{https://javacc.github.io/javacc/}~\cite{javacc}}.
     This tool is by far the most interesting improvement over last year's Parser.
     JavaCC provides a flexible and easy-to-use grammar to describe the grammar rules of the source language.
     This, along with its very complete documentation and wide community, means that a new maintainer should be able to quickly get a grip on [too informal ?] this part of the compiler, which is the one most [probable] to be modified in the future, as we said before.
     JavaCC works by reading a grammar file, written by the user, describing the lexical and syntactic grammars of the language.
     It then automatically generates \textit{Java} classes describing a lexer and a parser, which can then be used to build the abstract syntax tree for valid programs, or report errors when needed.
     This solution saves a lot of time compared to writing a lexer and parser from scratch, with no identifiable drawbacks in our use case.
-    \item Gradle, a build and packaging tool offering great documentation, regular updates and a powerful DSL, with built-in support in the most popular \textit{Java} IDEs.
+    \item Gradle\footnote{Gradle's homepage is located at \url{https://gradle.org/}~\cite{gradle}}, a build and packaging tool offering great documentation, regular updates and a powerful DSL, with built-in support in the most popular \textit{Java} IDEs.
     It is also designed to integrate automatically in any CD/CI pipeline.
     \item JUnit, the best unit testing framework for \textit{Java} programs.
-    An additional library called System Rules\footnote{This collection of JUnit rules allows to test programs that make use of the \textit{System.exit()} instruction, allowing to test the correctness of the program's return codes directly from a JUnit test suite, without having to interrupt it. See \url{https://stefanbirkner.github.io/system-rules/index.html}} was used for some specific test cases.
+    An additional library called System Rules\footnote{This collection of JUnit~\cite{JUnit} rules allows to test programs that make use of the \textit{System.exit()} instruction, allowing to test the correctness of the program's return codes directly from a JUnit test suite, without having to interrupt it. See \url{https://stefanbirkner.github.io/system-rules/index.html}~\cite{SystemRules}} was used for some specific test cases.
 \end{itemize}
-Overall, a great emphasis has been put on making \texttt{nozc} a future-proof and maintainable tool by : (a) using popular tools that, if they are not already mastered by future contributors, can be in a timely manner; (b) using tools that are actively maintained, reducing the risk associated with legacy code; (c) selecting trusted, open-source software, with licences that make them suited for use in our context.\newline
+Overall, a great emphasis has been put on making \texttt{nozc} a future-proof and maintainable tool by : (a) using popular tools that, if they are not already mastered by future contributors, can be in a timely manner; (b) using tools that are actively maintained, reducing the risk associated with legacy code; (c) selecting trusted, open-source software, with licences that make them suited for use in our context; (d) limiting the amount of external tools used, once again to reduce the risk of dependencies depreciation in the future.\newline
 The program itself is published on GitHub under the BSD license\footnote{This license is available for consultation at \url{https://github.com/MaVdbussche/nozc/blob/master/LICENSE}}.
 
 \section{Evaluation of our approach}\label{sec:ch3-pros-cons}
@@ -112,24 +131,25 @@ We are convinced that the approach we selected with \texttt{nozc} makes it a gre
 The modularity of the code makes it easy to add and remove language features without affecting others, while remaining flexible by making few assumptions about the language's grammar.
 The code is also well documented, and we strongly believe that it can serve as a stepping stone towards the creation of a complete software ecosystem around \textit{NewOz}.\newline
 
-However, we have to mention limitations that we identified in our current implementation.
-In particular, our approach does not free itself from the dependency on the legacy \texttt{ozc} compiler, which was one of our criticism towards M. Mbonyincungu's approach.
+However, we have to mention limitations that we identified in our current implementation.\newline
+The main one, in our opinion, is the inability of the compiler to print the generated \textit{Oz} code in a format that stays as close as possible to that of the source \textit{NewOz} code.
+This is due to the fact that the lexer, in this particular implementation, ignores spaces and new line characters when reading the input.
+This comes as a disadvantage compared to last year's Parser, but it also allows for a lot more flexibility in the way the programmer is allowed to format the source code.
+This issue can raise some concerns, as we touched upon earlier : it implies that error messages generated by the underlying \texttt{ozc} compiler will most probably indicate an erroneous line number to the programmer.
+However, this problem will progressively disappear over time with the maturation of \texttt{nozc}, as more and more of those errors will get caught in the first phase of the compilation.\newline
+
+Another issue with of our approach lies in the fact that this compiler does not free itself from the dependency on the legacy \texttt{ozc}, which was one of our criticism towards M. Mbonyincungu's Parser implementation.
 A more mature compiler should be able to generate machine code directly, or at the very least code that can be executed though Mozart's \texttt{ozengine} command, by itself, without relying on another piece of software.
 As often seems to be the case in master theses however, time was a limiting factor;
 supporting machine code generation for the various existing systems would take a lot of time and effort which we simply didn't have this year.\newline
-A solution to consider could be to rely on the JVM's multi-platform capabilities, by making \texttt{nozc} output JVM bytecode, effectively removing the need for multi-platform support.
-However, this approach would also come with its own drawbacks and difficulties, as some programming paradigms provided by \textit{Oz} and \textit{NewOz} will probably be difficult to support and implement on the JVM (in particular, one would lose Mozart's support for fine-grain threads, dataflow, and failed values)\footnote{Further relfexions on this approach might benefit from reading the work of Sébastien Doeraene on Ozma\cite{Ozma}}.\newline
-Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax.
+A solution to consider could be to rely on the JVM's multi-platform capabilities, by making \texttt{nozc} output JVM bytecode, effectively removing the need for  "manual" multi-platform support.
+However, this approach would also come with its own drawbacks and difficulties, as some programming paradigms provided by \textit{Oz} and \textit{NewOz} will probably be difficult to support and implement on the JVM (in particular, one would lose Mozart's support for fine-grain threads, dataflow, and failed values)\footnote{Further reflexions on this approach might benefit from reading the work of Sébastien Doeraene on Ozma~\cite{Ozma}}.\newline
+Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax.[Reformulate : "plug" nozc as a front-end to ozc]\newline
 
-\section{What's next for \texttt{nozc} ?}\label{sec:ch3-next}
-Specific areas of the compiler that need improvements:
-\begin{itemize}
-    \item Better functors support
-    \item Pretty printing
-    \item See other open issues on GitHub
-    \item Interactive, Mozart/Emacs-style compilation (will be difficult without complete rewrite imho)
-\end{itemize}
+But the main area of focus for future \texttt{nozc} improvements should probably be its integration in the existing Mozart environment through its Emacs interface.
+The ability to compile regions of code directly from the Emacs editor is a major feature of \textit{Oz}, that has been left aside in this current implementation.
+There is a lot of gains to be made here, especially from a teaching standpoint.
+This would probably be a massive undertaking though, and would require some knowledge of the Emacs system in general, and Mozart in particular.\newline
 
-Conclusion du chapitre :
 As you can see, even though we feel like this result is a significant improvement over last year's Parser, there is a lot of work to be done before the publication of a first release version of \textit{nozc}.
-We are confident however in the fact that the current \textit{beta} version is a major first step in that direction.
+We are confident however in the fact that the current \textit{beta} version is a significant first step in that direction.
