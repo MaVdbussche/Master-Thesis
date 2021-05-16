@@ -6,18 +6,21 @@ It is designed for advanced, concurrent, networked, soft real-time, and reactive
 \textit{Oz} provides the salient features of object-oriented programming (including state, abstract data types, objects, classes, and inheritance),
 functional programming (including compositional syntax, first-class procedures/functions, and lexical scoping), as well as
 logic programming and constraint programming (including logic variables, constraints, disjunction constructs, and programmable search mechanisms).
-\textit{Oz} allows users to dynamically create any number of sequential threads, which can be described as dataflow-driven, in the sense that a thread executing an operation will suspend until all needed operands have a well-defined value.~\cite{mozart2tutorial}
+\textit{Oz} allows users to dynamically create any number of sequential threads, which can be described as dataflow-driven, in the sense that a thread executing an operation will suspend until all needed operands have a well-defined value~\cite{mozart2tutorial}.\newline
 
 Over the years, the \textit{Oz} programming language has been used with success in various MOOCs and university courses.
-It's multi-paradigm philosophy proved to be an invaluable strength in teaching students the basics of programming paradigms, through its \textit{one-fits-all} approach.
+It's multi-paradigm philosophy proved to be an invaluable strength in teaching students the basics of programming paradigms, in a manner that very few other languages could, thanks to its ability to implement such a variety of concepts in a single unified syntax.
+However, it has become obvious over time that said syntax also constitutes a drawback.
+In particular, \textit{Oz} has not been updated like other languages have, which is hindering its ability to keep a growing and active community of developers around it.\newline
 
-However, it has become obvious over time that the syntax of the language constitutes a drawback.
-In particular, \textit{Oz} has not been updated like other languages have, which is hindering its ability to keep a growing and active community of developers around it.
-
-Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 [TO CONFIRM, WHO and WHEN] that a new syntax would be developed for \textit{Oz}. \textcolor{red}{Reformulate this sentence}
+Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 [TO CONFIRM, WHO and WHEN] that a new syntax would be developed for \textit{Oz}, with the utlimate goal of including this syntax in the official release of Mozart 2.
 The objective behind what would later be called \textit{NewOz} is ambitious : bringing the syntax of \textit{Oz} to par with modern programming languages, while keeping alive the philosophy that makes its strength : giving access to a plethora of programming paradigms in a single, coherent environment.
-This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis}, who created a first design for the \textit{NewOz} syntax, heavily inspired by Ozma and Scala.
-This thesis continues this work by making more refinements to the syntax, as well as creating a fully fletched compiler supporting it.
+This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis}, who created a first design for the \textit{NewOz} syntax, heavily inspired by Ozma and Scala.\newline
+
+This thesis continues this work by providing three major results :
+(a) the definition of a new, more refined version of \textit{NewOz}'s syntax;
+(b) the creation of a complete, robust compiler supporting it;
+(c) a broad reflection on the syntax design process as a whole, the mistakes that were made during the \textit{NewOz} project so far, and some ideas that might help future contributors to the cause.\newline
 
 In the following sections, we will provide an overview of what our sources of inspiration have been when designing this new syntax, which results previous works have achieved, and we will give an overview of the contributions that this thesis made to the \textit{NewOz} project in general.
 
@@ -38,28 +41,20 @@ How it laid the foundations of \textit{NewOz}'s Scala-inspired grammar
 \subsection{NewOz 2020}\label{subsec:ch1-newoz2020}
 Last year's work of Jean-Pacifique Mbonyincungu had as main objective to "create, elaborate and motivate a new syntax"~\cite{jpthesis} for \textit{Oz}, by systematically reviewing a subset of the languages features and syntax elements of \textit{Oz}.
 For each of these, code snippets in both \textit{Oz} and Scala/Ozma were provided and compared.
-The code served as a basis for the reflexion and ensuing discussion, comparing pros and cons of both existing approaches, conceiving a new one when required, and motivating the final choices being made.
+The code served as a basis for the reflection and ensuing discussion, comparing pros and cons of both existing approaches, conceiving a new one when required, and motivating the final choices being made.
 The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.\newline
 
-This thesis provided two main results :
+This thesis has provided two main results :
 \begin{itemize}
     \item The definition of a new syntax (which we will refer to as \textit{NewOz} 2020 in this document), as we said before;
-    this syntax has been described\footnote{See the appendix C.2 of last year's thesis~\cite{jpthesis}} as an EBNF grammar.
-    \item The writing of a Parser, which is able to convert code written in \textit{NewOz} to the equivalent \textit{Oz} code.
+    this syntax can be consulted in the appendices of the thesis\footnote{See the appendix C.2 of last year's thesis~\cite{jpthesis}} in the form of an EBNF grammar.
+    This result served as the starting point for the syntax designed in this year's work;
+    chapter~\ref{ch:2} describes how we covered syntax elements left untouched last year, on top of further refining other aspects.[meh]
+    \item The writing of what we will call the "Parser", which is able to convert code written in \textit{NewOz} to the equivalent \textit{Oz} code.
     This Parser was an important step to bring [legitimacy] to the new syntax, as it allows programmers to actually use the syntax in a real-world context;
     however, it lacked some key functionalities present in most compilers, and wasn't very reliable.
     This eventually lead us to the idea that a new technical implementation of a \textit{NewOz} compiler was necessary, as we will explain in chapter~\ref{ch:3}.
 \end{itemize}
-
-\subsection{The \textit{NewOz} Parser (not here ?)}\label{subsec:ch1-parser}
-As M. Mbonyincungu explains in his thesis~\cite{jpthesis}, creating a new syntax only makes sense if it can actually be used by programmers.
-This requires the creation of some kind of program able to eventually transform \textit{NewOz} code into machine code.
-Two possible approaches were identified : rewriting the existing \textit{Oz} compiler, \textit{ozc}, or creating a NewOz-to-Oz "parser".
-M. Mbonyincungu decided to go with the second approach, while we selected a third approach that could be described as a mix of both.
-
-DESCRIBE PROS AND CONS OF COMPILER AND PARSER (JPM thesis section 3.2)
-But this presents multiple difficulties : (1) it is technically more difficult and would take more time than the
-Talk about pros and cons of Jean-Pacifique's Scala Parser
 
 \subsection{Other works}\label{subsec:ch1-others}
 Used to get a sense of the philosophy behind \textit{Oz}
