@@ -2,13 +2,58 @@
 
 In this chapter, we will describe the general objectives we felt were important to attain with the \textit{NewOz} syntax, as well as the characteristics that we deemed desirable for this syntax to have.
 We will then review the important changes that were made  with respects to \textit{NewOz 2020}, and explain the motivation behind said changes.
-The goal here is not to repeat what was said before by M. Mbonyincungu in~\cite{jpthesis} : we will instead focus on syntax elements that were either overlooked in that thesis, or that have been significantly modified during this year's work.
+The goal here is not to repeat what was said before by M. Mbonyincungu in~\cite{jpthesis};
+the interested reader can consult his thesis for a systematic review of the syntactic changes proposed last year.
+We will instead focus on syntax elements that were either overlooked in that thesis, or that have been significantly modified during this year's work.
 Finally, we will conclude the chapter by evaluating whether this new version of \textit{NewOz} fulfills its announced objectives, and outline potential improvements areas that we identified at that stage of the work.\newline
 
 TODO - go once through the whole EBNF to be sure everything is covered !
 
 \section{Our purpose : the big picture}\label{sec:ch2-goal}
+The main goal of the multi-year project, as we have said before, is to create a new syntax that feels more modern to new programmers than the existing one, while keeping the same functionalities that \textit{Oz} currently has.
+Furthermore, this syntax should be able to integrate new concepts and paradigms in the future, in a way that is consistent with existing language features.
+In his thesis, M. Mbonyincungu decided to [verb] the design process around \textit{Scala} and \textit{Ozma}, while incorporating some elements from other languages in limited places.
+This has the main advantage of making the syntax very consistent from the start, provided the design process [pays attention] to only introduce elements from other languages when necessary;
+at any given moment, one has to ask themselves if the value provided by this new, foreign element is worth the inevitable inconsistency it will cause in the syntax, or in the general philosophy of the language.\newline
+
+In that regard, I think that \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's used nowadays, but it also feels more consistent than \textit{Oz} in some places.
+Object-oriented syntax, in particular, underwent some major changes that make it way more pleasing to use.
+But as M. Mbonyincungu mentioned himself, \textit{NewOz 2020} still needed maturation : it is a huge step in the right direction, but it still has flaws that need to be fixed before it could be used by online programmers or as a teaching tool.
+In the next section, we will go over some of those changes that we feel are worth mentioning, because they raised interesting questions and reflections;
+the reader will find code examples covering those changes in appendix~\ref{sec:appendix-examples}, in the form of programs written in \textit{Oz}, \textit{NewOz 2020} and \textit{NewOz 2021} presented side by side.
 
 \section{In practice : a review of the relevant syntax elements}\label{sec:ch2-review}
+A first syntax element we reviewed in \textit{NewOz 2020} was the declaration and use of variables.
+While the use of keywords \texttt{var} and \texttt{val} is a big improvement, and a great way to hide the behaviour of cells in Oz, the possibility that was introduced to write a semicolon ";" at the end of a line declaring variables immediately caught our attention.
+To quote M. Mbonyincungu's thesis, "the ";" end of line token is just a random addition inspired from \textit{Scala} to allow those with \textit{Scala} creating aan unbound value with a peace of mind" (\textit{sic}).
+This justification seems us precarious at best;
+not only does it go again the general idea in \textit{Oz} that carriage returns are the preferred way to delimit statements, but it also is the only use of the semicolon character in the whole syntax.
+We felt like two options were available : either use this delimiter for every statement in the syntax, like in Java for example, or never use it at all.
+We decided to go for the second option, if only because it stays closer to the original \textit{Oz} philosophy.\newline
+
+Cells in \textit{Oz} provide a specific syntax for reading and writing their content, using respectively the tokens \texttt{@} and \texttt{:=}, whereas variables use the \texttt{=} sign.
+\textit{NewOz 2020} proposed to keep this syntax for the now-called \texttt{var}s, arguing that it allows to better showcase the fundamental difference between cells and variables in \textit{Oz}.
+Our take is that using the more intuitive \texttt{=} token in both places is not only aesthetically more pleasing than the dated \texttt{@} and \texttt{:=} symbols, but it also doesn't take away the teaching opportunity that \textit{Oz}'s immutable variables represent.
+Indeed, the unification of the notation allows new programmers, that haven't used \textit{Oz} in the past, to use \texttt{var}s and \texttt{val}s in an intuitive manner, with the resulting behaviour that they expect;
+on the other hand, students using \textit{NewOz} can receive an explanation of the reason why \texttt{var}s are mutable, and how this is in fact implemented in \textit{Oz} and its kernel language.
+For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.\newline
+
+Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
+As M. Mbonyincungu duly notes, lambdas are the same concept as what \textit{Oz} calls anonymous functions and procedures;
+but in this case, we feel like the syntax proposed in \textit{NewOz 2020} sacrifices usability, readability, and the respect of \textit{Oz}'s philosophy for the sheer will of bringing the syntax closer to that of \textit{Scala}.
+As can be seen in the "Fibonacci" example in appendix~\ref{sec:appendix-examples}, \textit{NewOz 2020}'s notation uses a \texttt{=>} like Scala or JavaScript for lambda functions.
+Lambda procedures, on the other hand, omit this symbol.
+We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
+it is our opinion that keeping the keyword \texttt{fun} and \texttt{proc}, or rather their replacement \texttt{def} and \texttt{defproc}, would be preferable.
+We also think that this "arguments \texttt{=>} body" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
+For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
+
+The syntax elements linked to object-oriented programming haven't seen many changes.
+The syntax for accessing class attributes has been adapted to match the changes discussed above regarding mutable variables;
+the motivation for this was of course to keep the language consistent with itself.
+The keyword \texttt{super}, used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
+It will be up to the compiler to enforce the presence of this argument when necessary.
+This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).
+[Also discussed the change at the top of page 39 in JPM's thesis] (again, ancient limitation due to the Parser -> fixed in nozc)
 
 \section{In the end : a self-evaluation}\label{sec:ch2-evaluation}

@@ -39,7 +39,7 @@ In my opinion, the program created by M. Mbonyincungu doesn't match any of those
 I think it lies somewhere in between those two definitions, as a decorator to the \texttt{ozc} compiler.
 But to stay consistent with the vocabulary used in lest year's thesis and avoid confusion, we will refer to M. Mbonyincungu's program as "the Parser" in the rest of this document.\newline
 
-M. Mbonyincungu's Parser makes use of Scala's Parsing Combinators library\footnote{See its documentation at \url{https://www.scala-lang.org/api/2.12.3/scala-parser-combinators/scala/util/parsing/combinator/Parsers.html}~\cite{ScalaParsers}}, which provides a syntax to match regular expressions and describe the relationship between them.
+M. Mbonyincungu's Parser makes use of \textit{Scala}'s Parsing Combinators library\footnote{See its documentation at \url{https://www.scala-lang.org/api/2.12.3/scala-parser-combinators/scala/util/parsing/combinator/Parsers.html}~\cite{ScalaParsers}}, which provides a syntax to match regular expressions and describe the relationship between them.
 The Parser used it to describe pattern-matching rules which it then applied to the \textit{NewOz} code.
 Finally, the \textit{Oz} code equivalent to each matched sentence was generated, with a great emphasis being put on maintaining the code's visual format.\footnote{See sections 3.2.3 and 3.3.1 of~\cite{jpthesis}}
 This is important because the Parser was designed as a decorator to the Mozart compiler (which means that having code roughly at the same place will make debugging programs a lot easier), but also because it can prove useful in a teaching context in the future, when comparing the two syntax's side by side.\newline
@@ -49,7 +49,7 @@ This "parser approach" has been preferred over a rewrite/modification of the exi
     \item Because of its lower technical complexity, it would take less time to design;
     \item Working on an existing codebase could have revealed unforeseen problems and limitations;
     \item This approach would limit the amount of regression testing required;
-    \item The use of a modern technology like Scala would make the codebase easier to maintain and collaborate on;
+    \item The use of a modern technology like \textit{Scala} would make the codebase easier to maintain and collaborate on;
     \item Future extensions and modifications would be easy, thanks to the inheritance concepts embedded in the library used
 \end{enumerate}
 M. Mbonyincungu then describes the limitations and problems identified in his approach and implementation :
