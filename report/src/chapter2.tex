@@ -10,7 +10,7 @@ Finally, we will conclude the chapter by evaluating whether this new version of 
 TODO - go once through the whole EBNF to be sure everything is covered !
 
 \section{Our purpose : the big picture}\label{sec:ch2-goal}
-The main goal of the multi-year project, as we have said before, is to create a new syntax that feels more modern to new programmers than the existing one, while keeping the same functionalities that \textit{Oz} currently has.
+The main goal of the multi-year project, as we have said before, is to create a new syntax that feels more modern to new programmers than the existing one, while keeping in the language all the functionalities that \textit{Oz} currently has.
 Furthermore, this syntax should be able to integrate new concepts and paradigms in the future, in a way that is consistent with existing language features.
 In his thesis, M. Mbonyincungu decided to [verb] the design process around \textit{Scala} and \textit{Ozma}, while incorporating some elements from other languages in limited places.
 This has the main advantage of making the syntax very consistent from the start, provided the design process [pays attention] to only introduce elements from other languages when necessary;
@@ -37,6 +37,7 @@ Our take is that using the more intuitive \texttt{=} token in both places is not
 Indeed, the unification of the notation allows new programmers, that haven't used \textit{Oz} in the past, to use \texttt{var}s and \texttt{val}s in an intuitive manner, with the resulting behaviour that they expect;
 on the other hand, students using \textit{NewOz} can receive an explanation of the reason why \texttt{var}s are mutable, and how this is in fact implemented in \textit{Oz} and its kernel language.
 For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.\newline
+[Small code example]\newline
 
 Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
 As M. Mbonyincungu duly notes, lambdas are the same concept as what \textit{Oz} calls anonymous functions and procedures;
@@ -45,15 +46,18 @@ As can be seen in the "Fibonacci" example in appendix~\ref{sec:appendix-examples
 Lambda procedures, on the other hand, omit this symbol.
 We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
 it is our opinion that keeping the keyword \texttt{fun} and \texttt{proc}, or rather their replacement \texttt{def} and \texttt{defproc}, would be preferable.
-We also think that this "arguments \texttt{=>} body" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
+We also think that this "\textit{arguments} \texttt{=>} \textit{body}" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
 For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
+[Small code example]\newline
 
 The syntax elements linked to object-oriented programming haven't seen many changes.
 The syntax for accessing class attributes has been adapted to match the changes discussed above regarding mutable variables;
 the motivation for this was of course to keep the language consistent with itself.
 The keyword \texttt{super}, used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
 It will be up to the compiler to enforce the presence of this argument when necessary.
-This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).
+This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).\newline
+[Small code example]\newline
+
 [Also discussed the change at the top of page 39 in JPM's thesis] (again, ancient limitation due to the Parser -> fixed in nozc)
 
 \section{In the end : a self-evaluation}\label{sec:ch2-evaluation}
