@@ -25,7 +25,7 @@ the reader will find code examples covering those changes in appendix~\ref{sec:a
 \section{In practice : a review of the relevant syntax elements}\label{sec:ch2-review}
 A first syntax element we reviewed in \textit{NewOz 2020} was the declaration and use of variables.
 While the use of keywords \texttt{var} and \texttt{val} is a big improvement, and a great way to hide the behaviour of cells in Oz, the possibility that was introduced to write a semicolon ";" at the end of a line declaring variables immediately caught our attention.
-To quote M. Mbonyincungu's thesis, "the ";" end of line token is just a random addition inspired from \textit{Scala} to allow those with \textit{Scala} creating aan unbound value with a peace of mind" (\textit{sic}).
+To quote M. Mbonyincungu's thesis, "the ";" end of line token is just a random addition inspired from \textit{Scala} to allow those with \textit{Scala} creating an unbound value with a peace of mind" (\textit{sic}).
 This justification seems us precarious at best;
 not only does it go again the general idea in \textit{Oz} that carriage returns are the preferred way to delimit statements, but it also is the only use of the semicolon character in the whole syntax.
 We felt like two options were available : either use this delimiter for every statement in the syntax, like in Java for example, or never use it at all.
@@ -56,8 +56,20 @@ the motivation for this was of course to keep the language consistent with itsel
 The keyword \texttt{super}, used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
 It will be up to the compiler to enforce the presence of this argument when necessary.
 This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).\newline
+Similarly, public methods don't need to be written using an \textit{atomLisp} anymore;
+this was only done due to the fact that the Parser was stateless, and thus couldn't differentiate public methods from attributes in \textit{NewOz 2020}.
+Since the new compiler can now leverage a symbol table, this limitation is lifted and more "standard" function names can be used (again, see chapter~\ref{ch:3}).\newline
 [Small code example]\newline
 
-[Also discussed the change at the top of page 39 in JPM's thesis] (again, ancient limitation due to the Parser -> fixed in nozc)
+\textit{NewOz 2021} enforces the presence of a code block in the second part of a match structure (that is, the part after the \texttt{=>} symbol).
+This used to be optional in cases where the \textit{consequence} only contained one statement or expression.
+However, we felt like this was kind of arbitrary, and we valued the consistency with the conditional structures - in which a proper code block with curly brackets is also mandatory - over this small quality-of-life improvement in switch-case patterns.
+We also feel, even though this could be a matter of personal opinions, that a code block make the code easier to read.\newline
+Similarly, the \texttt{catch} clauses often make use of pattern-matching on the caught expression.
+Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.\newline
+
+Another important improvement was the import of the complete \textit{Oz} standard library, as described in the official Mozart documentation\footnote{Mozart's online documentation provides an overview of what is called the \textit{Oz Base Environment}, which is an extensive list of functions and procedures directly available to the programmer when writing \textit{Oz} code. This library can be found online at~\cite{mozart2doc}}, into the compiler itself.
+The Parser from M. Mbonyincungu only supported a subset of pre-defined functions that were put in manually;
+this adaptation will allow a more convenient use of the language by developers, and is a major step towards the goal of reaching functional parity between \textit{NewOz} and \textit{Oz} in the future.
 
 \section{In the end : a self-evaluation}\label{sec:ch2-evaluation}
