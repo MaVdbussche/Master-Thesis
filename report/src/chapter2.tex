@@ -16,29 +16,208 @@ In his thesis, M. Mbonyincungu decided to [verb] the design process around \text
 This has the main advantage of making the syntax very consistent from the start, provided the design process [pays attention] to only introduce elements from other languages when necessary;
 at any given moment, one has to ask themselves if the value provided by this new, foreign element is worth the inevitable inconsistency it will cause in the syntax, or in the general philosophy of the language.\newline
 
-In that regard, I think that \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's used nowadays, but it also feels more consistent than \textit{Oz} in some places.
+In that regard, I think that \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's of languages used nowadays, but it also feels more consistent than \textit{Oz} in some places.
 Object-oriented syntax, in particular, underwent some major changes that make it way more pleasing to use.
 But as M. Mbonyincungu mentioned himself, \textit{NewOz 2020} still needed maturation : it is a huge step in the right direction, but it still has flaws that need to be fixed before it could be used by online programmers or as a teaching tool.
 In the next section, we will go over some of those changes that we feel are worth mentioning, because they raised interesting questions and reflections;
-the reader will find code examples covering those changes in appendix~\ref{sec:appendix-examples}, in the form of programs written in \textit{Oz}, \textit{NewOz 2020} and \textit{NewOz 2021} presented side by side.
+the reader will find extensive code examples covering those changes in appendix~\ref{sec:appendix-examples}, in the form of programs written in \textit{Oz}, \textit{NewOz 2020} and \textit{NewOz 2021} presented side by side.
 
 \section{In practice : a review of the relevant syntax elements}\label{sec:ch2-review}
-A first syntax element we reviewed in \textit{NewOz 2020} was the declaration and use of variables.
-While the use of keywords \texttt{var} and \texttt{val} is a big improvement, and a great way to hide the behaviour of cells in Oz, the possibility that was introduced to write a semicolon ";" at the end of a line declaring variables immediately caught our attention.
+As mentioned above, we will not cover the thought process behind every syntactic element in detail, as it would be a repetition of the work done in M. Mbonyincungu's thesis.
+However, we still feel it is important to briefly describe them, in order to provide a global overview of \textit{NewOz 2021} in a single place.\newline
+In this section, code examples will present \textit{Scala} and \textit{Ozma} as a single entity, since \textit{Ozma} is an extension of \textit{Scala}'s syntax;
+on the other hand, \textit{NewOz 2020} and \textit{2021} snippets, when applicable, will be separated to emphasize their differences and highlight the specific contributions made in this year's version.
+
+\subsection{Variables and values}
+A first syntax element we reviewed in \textit{NewOz 2020} was the declaration and use of variables and values.
+While the introduction of keywords \texttt{var} and \texttt{val} is a big improvement, and a great way to hide the behaviour of cells in Oz, the possibility that was introduced to write a semicolon ";" at the end of a line declaring variables immediately caught our attention.
 To quote M. Mbonyincungu's thesis, "the ";" end of line token is just a random addition inspired from \textit{Scala} to allow those with \textit{Scala} creating an unbound value with a peace of mind" (\textit{sic}).
-This justification seems us precarious at best;
+This justification seems to us precarious at best;
 not only does it go again the general idea in \textit{Oz} that carriage returns are the preferred way to delimit statements, but it also is the only use of the semicolon character in the whole syntax.
 We felt like two options were available : either use this delimiter for every statement in the syntax, like in Java for example, or never use it at all.
 We decided to go for the second option, if only because it stays closer to the original \textit{Oz} philosophy.\newline
+
+Another idea that was left out in \textit{NewOz 2021} was the support for variables in both uppercase and lowercase;
+this idea seems problematic to us because it goes against the conventions used by most programming languages.
+Not keeping this in the new syntax also allows us to save capitalized nouns for class names (see later).\newline
 
 Cells in \textit{Oz} provide a specific syntax for reading and writing their content, using respectively the tokens \texttt{@} and \texttt{:=}, whereas variables use the \texttt{=} sign.
 \textit{NewOz 2020} proposed to keep this syntax for the now-called \texttt{var}s, arguing that it allows to better showcase the fundamental difference between cells and variables in \textit{Oz}.
 Our take is that using the more intuitive \texttt{=} token in both places is not only aesthetically more pleasing than the dated \texttt{@} and \texttt{:=} symbols, but it also doesn't take away the teaching opportunity that \textit{Oz}'s immutable variables represent.
 Indeed, the unification of the notation allows new programmers, that haven't used \textit{Oz} in the past, to use \texttt{var}s and \texttt{val}s in an intuitive manner, with the resulting behaviour that they expect;
 on the other hand, students using \textit{NewOz} can receive an explanation of the reason why \texttt{var}s are mutable, and how this is in fact implemented in \textit{Oz} and its kernel language.
-For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.\newline
-[Small code example]\newline
+For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.
+%\newline
+\begin{figure}
+    \caption{Variables and values}
+    \noindent\begin{minipage}{.49\textwidth}
+    \begin{lstlisting}[title={Oz},language=oz]
+local
+  X
+  Y = 8
+  Z = {NewCell 5}
+in
+  Z := Y
+end
+    \end{lstlisting}
+\end{minipage}
+\hfill
+    \noindent\begin{minipage}{.49\textwidth}
+    \begin{lstlisting}[title={Scala/Ozma}]
+... {
+  val x: Int
+  val y = 8
+  var z: Int = 5
 
+  z = y
+}
+    \end{lstlisting}
+\end{minipage}
+%\newline
+%\noindent
+    \noindent\begin{minipage}{.49\textwidth}
+    \begin{lstlisting}[title={NewOz 2020},language=newoz]
+... {
+  val x;
+  val Y = 8
+  var z = 5
+  z := Y
+}
+    \end{lstlisting}
+\end{minipage}
+\hfill
+    \noindent\begin{minipage}{.49\textwidth}
+    \begin{lstlisting}[title={NewOz 2021},language=newoz]
+... {
+  val x
+  val y = 8
+  var z = 5
+  z = y
+}
+    \end{lstlisting}
+\end{minipage}
+\end{figure}
+
+\subsection{Data structures}
+The syntactic elements related to data structures like lists, records, and tuples haven't seen many changes compared to \textit{NewOz 2020}.
+The introduction of the comma separator for parameters/arguments is first seen here, but has effect in other places like methods definitions and calls, for example.\newline
+
+Numeric labels (implicit or not) are supported in \textit{NewOz}, which is something that wasn't possible in \textit{Scala} but existed in \textit{Oz}.
+Finally, labels in records must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.
+%\newline
+\begin{figure}
+    \caption{Data structures}
+    \noindent\begin{minipage}{.49\textwidth}
+        \begin{lstlisting}[title={Oz},language=oz]
+local L1 L2 L3 R T A in
+  L1 = 3|5|1|nil
+  L2 = [3 5 1]
+  L3 = L1 | L2
+  % Numeric labels are implicit
+  R = l(a:10 10)
+  A = l.1
+
+  T = 1#2#3
+end
+        \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+        \begin{lstlisting}[title={Scala/Ozma}]
+... {
+  val l1 = 3::5::1::Nil
+  val l2 = List(3,5,1,Nil)
+  val l3 = l1 :: l2
+  // Numeric labels are not supported
+  case class L(a:Int, b:Int)
+  var c = L(10,10)
+  val a = c.b
+  val t = (1,2,3)
+}
+        \end{lstlisting}
+    \end{minipage}
+    \begin{center}
+    \noindent\begin{minipage}{.89\textwidth}
+        \begin{lstlisting}[title={NewOz 2020/2021},language=newoz]
+... {
+  val l1 = 3::5::1::nil
+  val l2 = [3,5,1]
+  val l3 = l1 :: l2
+  // Numeric labels are supported
+  var c = 'l('a:10, 10)
+  val a = c.1
+  val t = (1#2#3)
+}
+        \end{lstlisting}
+    \end{minipage}
+    \end{center}
+\end{figure}
+
+\subsection{Mathematical elements}
+All mathematical operations in \textit{NewOz} are directly inherited from \textit{Scala}.
+In particular, the keywords "\texttt{orelse}" and "\texttt{andthen}" in \textit{Oz} have been replaced by the more modern "\texttt{||}" and "\texttt{\&\&}", since the confusion with the pipe symbol "\texttt{|}" has been lifted following the syntactic changes made to lists (see above).
+Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus operator finally using the "\texttt{-}" sign instead of "\texttt{\~}".
+\begin{figure}
+    \caption{Basic operations}
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Oz},language=oz]
+local A=0.0 B C D Maximum in
+  C = {Sin A}
+  D = ~1.2
+  B = (D=<C)
+  if (({IsFloat D} andthen {IsFloat C}) orelse {Not B}) then
+    Maximum = {Max D C}
+  end
+end
+                 \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Scala/Ozma}]
+... {
+  val a=0.0; val b:Any;
+  val d:Any; val maximum:Any
+  val c = Math.sin(a)
+  d = -1.2
+  b = (d<=c)
+  if (d isInstanceOf Float && c isInstanceOf Float) || !b) {
+    maximum = Math.max(d, c)
+  }
+}
+                 \end{lstlisting}
+    \end{minipage}
+    \noindent\begin{minipage}{.49\textwidth}
+     \begin{lstlisting}[title={NewOz 2020},language=newoz]
+... { //the library methods used here aren't actually available (*in*) NewOz 2020
+  var a=0.0, b, d, maximum
+  val c = sin(a)
+  d = ~1.2
+  b = (d=<c)
+  if ((isFloat(d) && isFloat(c)) || isInt(a)) {
+    maximum = max(d, c)
+  }
+}
+     \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+     \begin{lstlisting}[title={NewOz 2021},language=newoz]
+... { //the library methods used here are available (*in*) NewOz 2021
+  var a=0.0, b, d, maximum
+  val c = sin(a)
+  d = -1.2
+  b = (d<=c)
+  if ((isFloat(d) && isFloat(c)) || isInt(a)) {
+    maximum = max(d, c)
+  }
+}
+     \end{lstlisting}
+    \end{minipage}
+\end{figure}
+
+\subsection{Functions and procedures definition}
+
+\subsection{Lambdas}
 Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
 As M. Mbonyincungu duly notes, lambdas are the same concept as what \textit{Oz} calls anonymous functions and procedures;
 but in this case, we feel like the syntax proposed in \textit{NewOz 2020} sacrifices usability, readability, and the respect of \textit{Oz}'s philosophy for the sheer will of bringing the syntax closer to that of \textit{Scala}.
@@ -50,6 +229,7 @@ We also think that this "\textit{arguments} \texttt{=>} \textit{body}" construct
 For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
 [Small code example]\newline
 
+\subsection{Object-oriented features}
 The syntax elements linked to object-oriented programming haven't seen many changes.
 The syntax for accessing class attributes has been adapted to match the changes discussed above regarding mutable variables;
 the motivation for this was of course to keep the language consistent with itself.
@@ -61,6 +241,7 @@ this was only done due to the fact that the Parser was stateless, and thus could
 Since the new compiler can now leverage a symbol table, this limitation is lifted and more "standard" function names can be used (again, see chapter~\ref{ch:3}).\newline
 [Small code example]\newline
 
+\subsection{Conditions and pattern-matching}
 \textit{NewOz 2021} enforces the presence of a code block in the second part of a match structure (that is, the part after the \texttt{=>} symbol).
 This used to be optional in cases where the \textit{consequence} only contained one statement or expression.
 However, we felt like this was kind of arbitrary, and we valued the consistency with the conditional structures - in which a proper code block with curly brackets is also mandatory - over this small quality-of-life improvement in switch-case patterns.
@@ -68,6 +249,10 @@ We also feel, even though this could be a matter of personal opinions, that a co
 Similarly, the \texttt{catch} clauses often make use of pattern-matching on the caught expression.
 Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.\newline
 
+\subsection{Threads, locks, and exceptions}
+Exceptions = "raise"
+
+\subsection{Built-in library}
 Another important improvement was the import of the complete \textit{Oz} standard library, as described in the official Mozart documentation\footnote{Mozart's online documentation provides an overview of what is called the \textit{Oz Base Environment}, which is an extensive list of functions and procedures directly available to the programmer when writing \textit{Oz} code. This library can be found online at~\cite{mozart2doc}}, into the compiler itself.
 The Parser from M. Mbonyincungu only supported a subset of pre-defined functions that were put in manually;
 this adaptation will allow a more convenient use of the language by developers, and is a major step towards the goal of reaching functional parity between \textit{NewOz} and \textit{Oz} in the future.

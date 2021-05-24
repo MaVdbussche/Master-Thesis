@@ -5,8 +5,41 @@
 
 \usepackage{amsmath,amsthm,amssymb}
 
+\usepackage{float}
+
 \usepackage{listings,enumitem}
+\lstset{
+    tabsize=2,
+    language=scala,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=true,
+    escapeinside={(*}{*)},
+}
+% "define" NewOz
+\lstdefinelanguage{newoz}{
+    morekeywords={at,attr,break,case,catch,class,continue,declare,def,defproc,default,%
+    do,else,export,extends,false,feat,finally,for,from,functor,if,import,in,lazy,lock,%
+    match,meth,nil,or,prop,raise,return,skip,super,this,thread,true,try,unit,val,var},
+    otherkeywords={=,+=,-=,:=,==,\\=,<,>,<=,>=,=>,\&\&,||,!,-,+,*,/,\%,\#,\_,\$},
+    sensitive=true,
+    morecomment=[l]{//},
+    morecomment=[n]{/*}{*/},
+    morestring=[b]",
+}
+%\usepackage{caption}
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#3}}}
+%\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
 \usepackage{graphicx}
+
 \usepackage{url,hyperref}
 
 \usepackage{comment}
@@ -17,5 +50,8 @@
 
 \usepackage{xcolor}
 \definecolor{red}{RGB}{255,0,0}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \usepackage[toc,page]{appendix}
