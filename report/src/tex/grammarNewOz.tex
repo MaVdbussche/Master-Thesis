@@ -1,17 +1,17 @@
-\begin{lstlisting}[label={lst:newOzEBNF},frame=single,basicstyle=\footnotesize\ttfamily,escapeinside={(*}{*)}]
+\begin{lstlisting}[label={lst:newOzEBNF},language=ebnf]
 EBNF grammar for newOz, suitable for recursive descent
 - Note that the concatenation symbol in EBNF (comma) is
 omitted for readability reasons
 Notation      Meaning
 ===========================================================================
-(*\epsilon*)             singleton containing the empty word
-(*$(w)$*)           grouping of regular expressions
-(*$[w]$*)           union of \epsilon with the set of words w (optional group)
-(*$\{w\}$*)          zero or more times w
-(*$\{w\}+$*)         one or more times w
-(*$w_1~w_2$*)         concatenation of (*$w_1$*) with (*$w_2$*)
-(*$w_1 | w_2$*)         logical union of (*$w_1$*) and (*$w_2$*) (OR)
-(*$w_1-w_2$*)       difference of (*$w_1$*) and (*$w_2$*)
+;\epsilon;             singleton containing the empty word
+;$(w)$;           grouping of regular expressions
+;$[w]$;           union of ;\epsilon; with the set of words w (optional group)
+;$\{w\}$;          zero or more times w
+;$\{w\}+$;         one or more times w
+;$w_1~w_2$;        concatenation of ;$w_1$; with ;$w_2$;
+;$w_1 | w_2$;         logical union of ;$w_1$; and ;$w_2$; (OR)
+;$w_1-w_2$;       difference of ;$w_1$; and ;$w_2$;
 
 // Interactive statements [ENTRYPOINT]
 interStatement ::= statement

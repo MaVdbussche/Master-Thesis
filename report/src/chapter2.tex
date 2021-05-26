@@ -49,7 +49,6 @@ on the other hand, students using \textit{NewOz} can receive an explanation of t
 For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.
 %\newline
 \begin{figure}
-    \caption{Variables and values}
     \noindent\begin{minipage}{.49\textwidth}
     \begin{lstlisting}[title={Oz},language=oz]
 local
@@ -63,7 +62,7 @@ end
 \end{minipage}
 \hfill
     \noindent\begin{minipage}{.49\textwidth}
-    \begin{lstlisting}[title={Scala/Ozma}]
+    \begin{lstlisting}[title={Scala/Ozma},language=scala]
 ... {
   val x: Int
   val y = 8
@@ -96,6 +95,7 @@ end
 }
     \end{lstlisting}
 \end{minipage}
+\caption{Variables and values syntax comparison}
 \end{figure}
 
 \subsection{Data structures}
@@ -106,7 +106,6 @@ Numeric labels (implicit or not) are supported in \textit{NewOz}, which is somet
 Finally, labels in records must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.
 %\newline
 \begin{figure}
-    \caption{Data structures}
     \noindent\begin{minipage}{.49\textwidth}
         \begin{lstlisting}[title={Oz},language=oz]
 local L1 L2 L3 R T A in
@@ -123,7 +122,7 @@ end
     \end{minipage}
     \hfill
     \noindent\begin{minipage}{.49\textwidth}
-        \begin{lstlisting}[title={Scala/Ozma}]
+        \begin{lstlisting}[title={Scala/Ozma},language=scala]
 ... {
   val l1 = 3::5::1::Nil
   val l2 = List(3,5,1,Nil)
@@ -151,17 +150,19 @@ end
         \end{lstlisting}
     \end{minipage}
     \end{center}
+\caption{Data structures syntax comparison}
 \end{figure}
 
 \subsection{Mathematical elements}
 All mathematical operations in \textit{NewOz} are directly inherited from \textit{Scala}.
 In particular, the keywords "\texttt{orelse}" and "\texttt{andthen}" in \textit{Oz} have been replaced by the more modern "\texttt{||}" and "\texttt{\&\&}", since the confusion with the pipe symbol "\texttt{|}" has been lifted following the syntactic changes made to lists (see above).
-Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus operator finally using the "\texttt{-}" sign instead of "\texttt{\~}".
+Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".
 \begin{figure}
-    \caption{Basic operations}
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={Oz},language=oz]
-local A=0.0 B C D Maximum in
+local
+  A=0.0 B C D Maximum
+in
   C = {Sin A}
   D = ~1.2
   B = (D=<C)
@@ -173,7 +174,7 @@ end
     \end{minipage}
     \hfill
     \noindent\begin{minipage}{.49\textwidth}
-                 \begin{lstlisting}[title={Scala/Ozma}]
+                 \begin{lstlisting}[title={Scala/Ozma},language=scala]
 ... {
   val a=0.0; val b:Any;
   val d:Any; val maximum:Any
@@ -188,7 +189,7 @@ end
     \end{minipage}
     \noindent\begin{minipage}{.49\textwidth}
      \begin{lstlisting}[title={NewOz 2020},language=newoz]
-... { //the library methods used here aren't actually available (*in*) NewOz 2020
+... { //the library methods used weren't actually available in NewOz 2020
   var a=0.0, b, d, maximum
   val c = sin(a)
   d = ~1.2
@@ -202,7 +203,7 @@ end
     \hfill
     \noindent\begin{minipage}{.49\textwidth}
      \begin{lstlisting}[title={NewOz 2021},language=newoz]
-... { //the library methods used here are available (*in*) NewOz 2021
+... { //the library methods used here are available in NewOz 2021
   var a=0.0, b, d, maximum
   val c = sin(a)
   d = -1.2
@@ -213,6 +214,7 @@ end
 }
      \end{lstlisting}
     \end{minipage}
+\caption{Basic operations syntax comparison}
 \end{figure}
 
 \subsection{Functions and procedures definition}
@@ -221,33 +223,236 @@ end
 Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
 As M. Mbonyincungu duly notes, lambdas are the same concept as what \textit{Oz} calls anonymous functions and procedures;
 but in this case, we feel like the syntax proposed in \textit{NewOz 2020} sacrifices usability, readability, and the respect of \textit{Oz}'s philosophy for the sheer will of bringing the syntax closer to that of \textit{Scala}.
-As can be seen in the "Fibonacci" example in appendix~\ref{sec:appendix-examples}, \textit{NewOz 2020}'s notation uses a \texttt{=>} like Scala or JavaScript for lambda functions.
+As can be seen in the "Fibonacci" example in appendix~\ref{sec:appendix-examples}, \textit{NewOz 2020}'s notation uses a "\texttt{=>}" like Scala or JavaScript for lambda functions.
 Lambda procedures, on the other hand, omit this symbol.
 We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
-it is our opinion that keeping the keyword \texttt{fun} and \texttt{proc}, or rather their replacement \texttt{def} and \texttt{defproc}, would be preferable.
+it is our opinion that keeping the keywords "\texttt{fun}" and "\texttt{proc}", or rather their replacement "\texttt{def}" and "\texttt{defproc}", would be preferable.\newline
 We also think that this "\textit{arguments} \texttt{=>} \textit{body}" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
-For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
-[Small code example]\newline
+For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Oz},language=oz]
+local Ex1 in
+  Ex1 = proc {$ X Y} X*Y end
+  {Browse {Ex1 6 4}}
+end
+                 \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Scala/Ozma},language=scala]
+... {
+  val ex2 = (x:Int, y:Int) => x * y
+  println(ex2(6, 4))
+}
+                 \end{lstlisting}
+    \end{minipage}
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={NewOz 2020},language=newoz]
+... {
+  val ex2 = (x, y) => {x * y}
+  browse(ex2(6, 4))
+}
+                 \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={NewOz 2021},language=newoz]
+... {
+  val ex2 = defproc $ (x, y) {x * y}
+  browse(ex2(6, 4))
+}
+                 \end{lstlisting}
+    \end{minipage}
+\caption{Lambdas syntax comparison}
+\end{figure}
 
 \subsection{Object-oriented features}
 The syntax elements linked to object-oriented programming haven't seen many changes.
-The syntax for accessing class attributes has been adapted to match the changes discussed above regarding mutable variables;
-the motivation for this was of course to keep the language consistent with itself.
-The keyword \texttt{super}, used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
-It will be up to the compiler to enforce the presence of this argument when necessary.
+The way of accessing class attributes has been adapted to match the changes discussed above regarding mutable variables;
+the motivation for this was of course to keep the language consistent, as class attributes are in fact a syntactic sugar for cells.
+The keyword "\texttt{super}", used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
+It will be up to the compiler to enforce the presence of this argument when it is necessary.
 This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).\newline
-Similarly, public methods don't need to be written using an \textit{atomLisp} anymore;
+
+Similarly, public methods don't need to be written using an \textit{atomLisp} (using the apostrophe "\texttt{'}") anymore;
 this was only done due to the fact that the Parser was stateless, and thus couldn't differentiate public methods from attributes in \textit{NewOz 2020}.
 Since the new compiler can now leverage a symbol table, this limitation is lifted and more "standard" function names can be used (again, see chapter~\ref{ch:3}).\newline
-[Small code example]\newline
+
+In \textit{NewOz 2021}, class methods must now use the keyword "\texttt{defproc}". \textit{NewOz 2020} used "\texttt{def}", which is misleading in our opinion since class methods cannot return values in \textit{Oz};
+they are procedures, and we feel like this syntactic change is also a better way to explicit this than the "\texttt{meth}" keyword used in \textit{Oz}.\newline
+
+Finally, object application now longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Oz},language=oz]
+class Counter
+  attr value pm:PrivateMethod
+  % The private method is now accessible to children through the attribute
+  meth inc(I)
+    value := @value + I
+  end
+  meth PrivateMethod(X)
+    {Browse X}
+  end
+  meth incr
+    {self inc(1)}
+  end
+end
+class Child from Counter Other
+  meth superCall
+    Counter,inc(5)
+  end
+end
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Scala/Ozma},language=scala]
+class Counter {
+  var value:Int
+  val pm:Unit = privateMethod
+
+  def inc(i) = {
+    value = value + i
+  }
+  private def privateMethod(val x:Int)={
+    println(x)
+  }
+  def incr() = {
+    this.inc(1)
+  }
+}
+class Child extends Counter with Other {
+  def superCall() = {
+    super.inc(5)
+  }
+}
+\end{lstlisting}
+    \end{minipage}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={NewOz 2020},language=newoz]
+class Counter {
+  attr value;
+  attr pm = PrivateMethod
+  def 'inc(i) {
+    value := @value + i
+  }
+  def PrivateMethod(x) {
+    browse(x)
+  }
+  def incr() {
+    this.inc(1)
+  }
+}
+class Child extends Counter, Other {
+
+  def superCall() {
+    super(Counter).inc(5)
+  }
+}
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={NewOz 2021},language=newoz]
+class Counter {
+  attr value
+  attr pm = PrivateMethod
+  def inc(i) {
+    value = value + i
+  }
+  def PrivateMethod(x) {
+    browse(x)
+  }
+  def incr() {
+    this.inc(1)
+  }
+}
+class Child extends Counter, Other {
+  def superCall() {
+    super(Counter).inc(5)
+    //In case of single inheritance :
+    super.inc(5)
+  }
+}
+                 \end{lstlisting}
+    \end{minipage}
+\caption{Classes and objects syntax comparison}
+\end{figure}
 
 \subsection{Conditions and pattern-matching}
 \textit{NewOz 2021} enforces the presence of a code block in the second part of a match structure (that is, the part after the \texttt{=>} symbol).
 This used to be optional in cases where the \textit{consequence} only contained one statement or expression.
 However, we felt like this was kind of arbitrary, and we valued the consistency with the conditional structures - in which a proper code block with curly brackets is also mandatory - over this small quality-of-life improvement in switch-case patterns.
-We also feel, even though this could be a matter of personal opinions, that a code block make the code easier to read.\newline
-Similarly, the \texttt{catch} clauses often make use of pattern-matching on the caught expression.
-Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.\newline
+We also feel, even though this could be a matter of personal opinions, that a code block makes the code easier to read.\newline
+
+Similarly, the \texttt{catch} clauses make use of pattern-matching on the caught expression.
+Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Oz},language=oz]
+local L=[1 3 5] in
+  if {Contains L 3} then {Browse 'Has 3'}
+  elseif {Contains L 5} then
+    {Browse 'Has 5 but no 3'}
+  end
+  %
+  case L
+  of 1|L2 then {Browse 'Case 1'}
+  [] 3|L2 then {Browse 'Case 2'}
+  else {Browse 'Default case'}
+  end
+end
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Scala/Ozma},language=scala]
+val l = List(1, 3, 5)
+if (l.contains(3)) {println("Has 3")}
+else if (l.contains(5)) {
+  println("Has 5 but not 3")
+} // This code is not quite equivalent because Scala lists aren't recursive structures :
+l(1) match {
+  case 1 => println("Case 1")
+  case 3 => {println("Case 2")}
+  case _ => printlnt("Default case")
+}
+\end{lstlisting}
+    \end{minipage}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={NewOz 2020},language=newoz]
+var l = [1, 3, 5]
+if (contains(l, 3)) {browse("Has 3")}
+else if (contains(l, 5)) {
+  browse("Has 5")
+} //
+match l {
+  case 1::l2 => browse("Case 1")
+  case 3::l2 => {browse("Case 2")}
+  else browse("Default case")
+}
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={NewOz 2021},language=newoz]
+var l = [1, 3, 5]
+if (contains(l, 3)) {browse("Has 3")}
+else if (contains(l, 5)) {
+  browse("Has 5")
+} //
+match l {
+  case 1::l2 => {browse("Case 1")}
+  case 3::l2 => {browse("Case 2")}
+  else {browse("Default case")}
+}
+\end{lstlisting}
+    \end{minipage}
+\caption{Conditional structures syntax comparison}
+\end{figure}
+
 
 \subsection{Threads, locks, and exceptions}
 Exceptions = "raise"

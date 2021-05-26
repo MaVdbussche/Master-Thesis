@@ -6,11 +6,17 @@
 \usepackage{amsmath,amsthm,amssymb}
 
 \usepackage{float}
+\usepackage{caption}
+\captionsetup[figure]{skip=0pt}
+
+% The following block is used to change the font in lstlistings.
+% It might cause problems in other places, so be careful : for example, it changes the font in \texttt blocks
+\usepackage{fontspec}
+\setmonofont[Scale=0.8]{Fira Mono}
 
 \usepackage{listings,enumitem}
 \lstset{
     tabsize=2,
-    language=scala,
     basicstyle={\small\ttfamily},
     numbers=none,
     numberstyle=\tiny\color{gray},
@@ -27,13 +33,20 @@
     morekeywords={at,attr,break,case,catch,class,continue,declare,def,defproc,default,%
     do,else,export,extends,false,feat,finally,for,from,functor,if,import,in,lazy,lock,%
     match,meth,nil,or,prop,raise,return,skip,super,this,thread,true,try,unit,val,var},
-    otherkeywords={=,+=,-=,:=,==,\\=,<,>,<=,>=,=>,\&\&,||,!,-,+,*,/,\%,\#,\_,\$},
+    otherkeywords={=,+=,-=,:=,==,\\=,<,>,<=,>=,=>,\&\&,||,!,\#,\_,\$},
     sensitive=true,
     morecomment=[l]{//},
     morecomment=[n]{/*}{*/},
     morestring=[b]",
 }
-%\usepackage{caption}
+% "define" EBNF
+\lstdefinelanguage{ebnf}{
+    otherkeywords={::=,|,\),\},\],(,\{,[,+,*},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]",
+    escapeinside={;}{;},
+}
 %\DeclareCaptionFont{white}{\color{white}}
 %\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#3}}}
 %\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
