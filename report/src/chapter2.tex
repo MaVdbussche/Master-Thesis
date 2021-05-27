@@ -25,7 +25,10 @@ the reader will find extensive code examples covering those changes in appendix~
 \section{In practice : a review of the relevant syntax elements}\label{sec:ch2-review}
 As mentioned above, we will not cover the thought process behind every syntactic element in detail, as it would be a repetition of the work done in M. Mbonyincungu's thesis.
 However, we still feel it is important to briefly describe them, in order to provide a global overview of \textit{NewOz 2021} in a single place.\newline
-In this section, code examples will present \textit{Scala} and \textit{Ozma} as a single entity, since \textit{Ozma} is an extension of \textit{Scala}'s syntax;
+You will thus find some small code examples targeting a specific syntactic element;
+the interested reader can find complete program examples in appendix~\ref{sec:appendix-examples}.\newline
+
+In this section, code examples will present \textit{Scala} and \textit{Ozma} as a single entity, since, as we presented before, \textit{Ozma} is an extension of \textit{Scala}'s syntax;
 on the other hand, \textit{NewOz 2020} and \textit{2021} snippets, when applicable, will be separated to emphasize their differences and highlight the specific contributions made in this year's version.
 
 \subsection{Variables and values}
@@ -46,7 +49,8 @@ Cells in \textit{Oz} provide a specific syntax for reading and writing their con
 Our take is that using the more intuitive \texttt{=} token in both places is not only aesthetically more pleasing than the dated \texttt{@} and \texttt{:=} symbols, but it also doesn't take away the teaching opportunity that \textit{Oz}'s immutable variables represent.
 Indeed, the unification of the notation allows new programmers, that haven't used \textit{Oz} in the past, to use \texttt{var}s and \texttt{val}s in an intuitive manner, with the resulting behaviour that they expect;
 on the other hand, students using \textit{NewOz} can receive an explanation of the reason why \texttt{var}s are mutable, and how this is in fact implemented in \textit{Oz} and its kernel language.
-For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.
+For those reasons, we felt like using the more standard \texttt{=} token everywhere was a preferable solution in this case.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-var}.
 %\newline
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -96,15 +100,62 @@ end
     \end{lstlisting}
 \end{minipage}
 \caption{Variables and values syntax comparison}
+\label{fig:code-comp-var}
+\end{figure}
+
+\subsection{Functions and procedures definition}
+In \textit{Oz}, functions are in fact a subclass of procedures.
+This allows for a lot of flexibility in the way they are called, since it allows for the ability to store the result in a variable, or to return it directly.
+Consequently, it allows for the call to be a statement or an expression, depending on what the situation demands.\newline
+However, there is still a syntactic difference between the two : the keywords used to declare them highlights this contrast, and provide an important educational, but also visual, value.
+The decision was thus made by M. Mbonyincungu to keep two separate keywords for the two use cases, albeit not the same : "\texttt{fun}" becomes "\texttt{def}" and "\texttt{proc}" becomes "\texttt{defproc}".\newline
+More importantly, the way those functions and procedures are called has been completely overhauled, to align with \textit{Scala} and other modern languages.
+In particular, functions are now called using their (non-capitalized) name, followed by the comma-separated arguments list enclosed in parentheses.
+Similarly, their definition also requires the arguments to be separated by commas.
+This feels way better than the old curly braces-based method, on top of improving consistency with the objects syntax (see later).\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-fun}.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Oz},language=oz]
+local F P in
+  proc {P X Y} Y = 2*X end
+  fun {F X} 2*X end
+  {Browse {F 1}}
+end
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Scala/Ozma},language=scala]
+... {
+  def p(x:Int, y:Int):Unit => {y = 2*x}
+  def f(x:Int):Int => {return 2*x}
+  println(f(1))
+}
+\end{lstlisting}
+    \end{minipage}
+    \begin{center}
+    \noindent\begin{minipage}{.89\textwidth}
+\begin{lstlisting}[title={NewOz 2020/2021},language=newoz]
+... {
+  defproc p(x, y) {y = 2*x}
+  def f(x) {2*x}
+  browse(f(1))
+}
+\end{lstlisting}
+    \end{minipage}
+    \end{center}
+\caption{Functions and procedures syntax comparison}
+\label{fig:code-comp-fun}
 \end{figure}
 
 \subsection{Data structures}
 The syntactic elements related to data structures like lists, records, and tuples haven't seen many changes compared to \textit{NewOz 2020}.
-The introduction of the comma separator for parameters/arguments is first seen here, but has effect in other places like methods definitions and calls, for example.\newline
+Lists can now be defined using a square brackets-enclosed, comma-separated list of values, in a desire to align with the way functions and procedures arguments are now defined (see before).\newline
 
-Numeric labels (implicit or not) are supported in \textit{NewOz}, which is something that wasn't possible in \textit{Scala} but existed in \textit{Oz}.
-Finally, labels in records must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.
-%\newline
+Numeric labels (implicit or not) for records, tuples, and trees are fully supported in \textit{NewOz}, which is something that wasn't possible in \textit{Scala} but existed in \textit{Oz}.
+Finally, those labels must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-data}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
         \begin{lstlisting}[title={Oz},language=oz]
@@ -151,12 +202,14 @@ end
     \end{minipage}
     \end{center}
 \caption{Data structures syntax comparison}
+\label{fig:code-comp-data}
 \end{figure}
 
 \subsection{Mathematical elements}
 All mathematical operations in \textit{NewOz} are directly inherited from \textit{Scala}.
 In particular, the keywords "\texttt{orelse}" and "\texttt{andthen}" in \textit{Oz} have been replaced by the more modern "\texttt{||}" and "\texttt{\&\&}", since the confusion with the pipe symbol "\texttt{|}" has been lifted following the syntactic changes made to lists (see above).
-Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".
+Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-math}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={Oz},language=oz]
@@ -215,9 +268,8 @@ end
      \end{lstlisting}
     \end{minipage}
 \caption{Basic operations syntax comparison}
+\label{fig:code-comp-math}
 \end{figure}
-
-\subsection{Functions and procedures definition}
 
 \subsection{Lambdas}
 Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
@@ -228,7 +280,8 @@ Lambda procedures, on the other hand, omit this symbol.
 We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
 it is our opinion that keeping the keywords "\texttt{fun}" and "\texttt{proc}", or rather their replacement "\texttt{def}" and "\texttt{defproc}", would be preferable.\newline
 We also think that this "\textit{arguments} \texttt{=>} \textit{body}" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
-For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.
+For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-lambda}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={Oz},language=oz]
@@ -265,6 +318,7 @@ end
                  \end{lstlisting}
     \end{minipage}
 \caption{Lambdas syntax comparison}
+\label{fig:code-comp-lambda}
 \end{figure}
 
 \subsection{Object-oriented features}
@@ -282,7 +336,8 @@ Since the new compiler can now leverage a symbol table, this limitation is lifte
 In \textit{NewOz 2021}, class methods must now use the keyword "\texttt{defproc}". \textit{NewOz 2020} used "\texttt{def}", which is misleading in our opinion since class methods cannot return values in \textit{Oz};
 they are procedures, and we feel like this syntactic change is also a better way to explicit this than the "\texttt{meth}" keyword used in \textit{Oz}.\newline
 
-Finally, object application now longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.
+Finally, object application now longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-obj}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
 \begin{lstlisting}[title={Oz},language=oz]
@@ -355,7 +410,7 @@ class Child extends Counter, Other {
     \end{minipage}
     \hfill
     \noindent\begin{minipage}{.49\textwidth}
-                 \begin{lstlisting}[title={NewOz 2021},language=newoz]
+\begin{lstlisting}[title={NewOz 2021},language=newoz]
 class Counter {
   attr value
   attr pm = PrivateMethod
@@ -376,9 +431,10 @@ class Child extends Counter, Other {
     super.inc(5)
   }
 }
-                 \end{lstlisting}
+\end{lstlisting}
     \end{minipage}
 \caption{Classes and objects syntax comparison}
+\label{fig:code-comp-obj}
 \end{figure}
 
 \subsection{Conditions and pattern-matching}
@@ -388,7 +444,8 @@ However, we felt like this was kind of arbitrary, and we valued the consistency 
 We also feel, even though this could be a matter of personal opinions, that a code block makes the code easier to read.\newline
 
 Similarly, the \texttt{catch} clauses make use of pattern-matching on the caught expression.
-Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.
+Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-cond}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
 \begin{lstlisting}[title={Oz},language=oz]
@@ -451,11 +508,52 @@ match l {
 \end{lstlisting}
     \end{minipage}
 \caption{Conditional structures syntax comparison}
+\label{fig:code-comp-cond}
 \end{figure}
 
+\subsection{Other structures}
+Other syntactic structures have undergone some changes, whose motivation was simply to make them match with what had been modified before.
+In particular, the syntax for threads, locks, and the "\texttt{raise}" statement was slightly adapted to incorporate the new scope system using curly braces.\newline
+A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-other}.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Oz},language=oz]
+local A B E in
+  thread {Compute A @B} end
+  lock A then C in C=@B B:=C+1 end
 
-\subsection{Threads, locks, and exceptions}
-Exceptions = "raise"
+  raise E end
+end
+                 \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+                 \begin{lstlisting}[title={Ozma},language=scala]
+... {
+  thread { compute(a, b) }
+  // Locks do not have nice such a nice syntactic support in Scala
+  throw e;
+}
+                 \end{lstlisting}
+    \end{minipage}
+    \begin{center}
+    \noindent\begin{minipage}{.89\textwidth}
+\begin{lstlisting}[title={NewOz 2020/2021},language=newoz]
+... {
+  thread { compute(a, b) }
+  lock (a) {
+    var c
+    c = b
+    b = c+1
+  }
+  raise {e}
+}
+\end{lstlisting}
+    \end{minipage}
+    \end{center}
+\caption{Threads, locks and exception raising syntax comparison}
+\label{fig:code-comp-other}
+\end{figure}
 
 \subsection{Built-in library}
 Another important improvement was the import of the complete \textit{Oz} standard library, as described in the official Mozart documentation\footnote{Mozart's online documentation provides an overview of what is called the \textit{Oz Base Environment}, which is an extensive list of functions and procedures directly available to the programmer when writing \textit{Oz} code. This library can be found online at~\cite{mozart2doc}}, into the compiler itself.

@@ -13,7 +13,7 @@ It's multi-paradigm philosophy proved to be an invaluable strength in teaching s
 However, it has become obvious over time that said syntax also constitutes a drawback.
 In particular, \textit{Oz} has not been updated like other languages have, which is hindering its ability to keep a growing and active community of developers around it.\newline
 
-Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 [TO CONFIRM, WHO and WHEN] that a new syntax would be developed for \textit{Oz}, with the ultimate goal of including this syntax in the official release of Mozart 2.
+Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 that a new syntax would be developed for \textit{Oz}, with the ultimate goal of including this syntax in the official release of Mozart 2.
 The objective behind what would later be called \textit{NewOz} is ambitious : bringing the syntax of \textit{Oz} to par with modern programming languages, while keeping alive the philosophy that makes its strength : giving access to a plethora of programming paradigms in a single, coherent environment.
 This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis}, who created a first design for the \textit{NewOz} syntax, heavily inspired by \textit{Ozma} and \textit{Scala}.\newline
 
@@ -40,17 +40,17 @@ One of the reason it was created in the first place is to address the lack of su
 on top of this, the huge library it inherits from Oracle's language allows it to be used in the most various of situations.\newline
 Moreover, it natively supports a lot of features found in \textit{Oz} : lazy evaluation, immutability, anonymous functions, actor model\footnote{In the last versions of \textit{Scala}, the use of the \textit{Akka} toolkit\cite{akka}, written in \textit{Scala}, is the preferred method for writing programs leveraging distributed programming},\ldots
 That is not to say that \textit{Scala} is the perfect language :
-it has a very steep learning curve, which may be why the language as a whole hasn't soared in popularity as we could have expected\footnote{The reader will find interesting opinions on the subject in the bibliography, at~\cite{scalaOpinion1} NEED MORE SOURCES HERE}.
+it has a very steep learning curve, which may be why the language as a whole doesn't quite have the popularity we could have expected\footnote{The reader will find some interesting opinions and figures on this polarizing subject in the bibliography, at~\cite{scalaOpinion1}, \cite{scalaOpinion2}, and~\cite{tiobeindex}}.
 However, it still seems overall that \textit{Scala} is a very good point to start our journey towards a vision of a definitive multi-paradigm language.
 
 \subsection{Ozma : a springboard}\label{subsec:ch1-ozma}
-We were not the first to take interest in \textit{Scala} in the \textit{Oz} community.
+We were not the first to take interest in \textit{Scala} among the \textit{Oz} community.
 And we were certainly not the first to notice the language lacks some critical elements in the context of our quest.\newline
 The 2003 thesis of Sébastien Doeraene~\cite{Ozma} investigated the idea of adding the elegant and efficient concurrency capabilities of \textit{Oz} directly into \textit{Scala}, by expanding its syntax.
 The brilliant success of this project did not only open him the doors of the EPFL (École polytechnique fédérale de Lausanne, the institution behind \textit{Scala}), where he is now the executive director of the Scala Center;
 it also had a direct impact on the development of the \textit{Scala} language itself.\newline
 
-If anything, this work proved how realistic and important our goal is : reflections on syntax design and programming languages in general inspire other programmers, influence their way of working and thinking, and actively impacts the future of programming.
+If anything, this work proved how realistic and important our goal is : reflections on syntax design and programming languages in general inspire other programmers, influence their way of working and thinking, and actively impacts the future of programming as a discipline.
 
 \subsection{NewOz 2020 : the great big jump}\label{subsec:ch1-newoz2020}
 Bolstered by the success of the \textit{Ozma} project, the thesis of Jean-Pacifique Mbonyincungu started with the main objective to "create, elaborate and motivate a new syntax"~\cite{jpthesis} for \textit{Oz}.
@@ -64,9 +64,9 @@ This thesis has provided two main results :
     \item The definition of a new syntax (which we will refer to as \textit{NewOz} 2020 in this document), as we said before;
     this syntax can be consulted in the appendices of the thesis\footnote{See the appendix C.2 of last year's thesis~\cite{jpthesis}} in the form of an EBNF grammar.
     This result served as the starting point for the syntax designed in this year's work;
-    chapter~\ref{ch:2} describes how we covered syntax elements left untouched last year, on top of further refining other aspects.[meh]
+    chapter~\ref{ch:2} describes how we covered syntax elements left untouched last year, on top of further refining other aspects.
     \item The writing of what we will call the "Parser", which is able to convert code written in \textit{NewOz} to the equivalent \textit{Oz} code.
-    This Parser was an important step to bring [legitimacy] to the new syntax, as it allows programmers to actually use the syntax in a real-world context;
+    This Parser was an important step to bring legitimacy to the new syntax, as it allows programmers to actually use it in a real-world context;
     however, it lacked some key functionalities present in most compilers, and wasn't very reliable.
     This eventually lead us to the idea that a new technical implementation of a \textit{NewOz} compiler was necessary, as we will explain in chapter~\ref{ch:3}.
 \end{itemize}
@@ -75,10 +75,10 @@ This thesis has provided two main results :
 The objectives of this thesis were multiple :
 \begin{itemize}
     \item Make further adaptations to the M. Mbonyincungu's \textit{NewOz 2020} syntax, by addressing points that were left open last year, or by expanding the reflection on other elements;
-    \item Creating a compiler for \textit{NewOz} : even if last year's thesis made work in that direction, we felt like a more robust solution was necessary to give legitimacy to \textit{NewOz};
+    \item Creating a compiler for \textit{NewOz} : even if last year's thesis made work in that direction, we felt like a more robust solution was necessary to gain acceptance around \textit{NewOz};
     \item Gathering, for the first time, feedback from the community on the new syntax : it is indeed crucial to leverage the experience and opinions of numerous programmers when designing a syntax, especially from people outside our close social and professional circle;
     \item Conducting a broad reflection on what is necessary to design a good syntax, why it is important, and how this thesis enters into an ambitious, long-term goal of creating an improved and accepted syntax for the \textit{Oz} programming language.
 \end{itemize}
 
 \section{Conclusions on the new syntax}\label{sec:ch1-4}
-Rappel : ceci est un chapitre d'intro
+What did we conclude at the end of the thesis ? \textcolor{red}{[TODO]}
