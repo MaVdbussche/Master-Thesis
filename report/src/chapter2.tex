@@ -16,7 +16,7 @@ In his thesis, M. Mbonyincungu decided to [verb] the design process around \text
 This has the main advantage of making the syntax very consistent from the start, provided the design process [pays attention] to only introduce elements from other languages when necessary;
 at any given moment, one has to ask themselves if the value provided by this new, foreign element is worth the inevitable inconsistency it will cause in the syntax, or in the general philosophy of the language.\newline
 
-In that regard, I think that \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's of languages used nowadays, but it also feels more consistent than \textit{Oz} in some places.
+In that regard, we feel like \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's of languages used nowadays, but it also feels more consistent than \textit{Oz} in some places.
 Object-oriented syntax, in particular, underwent some major changes that make it way more pleasing to use.
 But as M. Mbonyincungu mentioned himself, \textit{NewOz 2020} still needed maturation : it is a huge step in the right direction, but it still has flaws that need to be fixed before it could be used by online programmers or as a teaching tool.
 In the next section, we will go over some of those changes that we feel are worth mentioning, because they raised interesting questions and reflections;
@@ -156,7 +156,7 @@ Lists can now be defined using a square brackets-enclosed, comma-separated list 
 Numeric labels (implicit or not) for records, tuples, and trees are fully supported in \textit{NewOz}, which is something that wasn't possible in \textit{Scala} but existed in \textit{Oz}.
 Finally, those labels must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.\newline
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-data}.
-\begin{figure}
+\begin{figure}[t]
     \noindent\begin{minipage}{.49\textwidth}
         \begin{lstlisting}[title={Oz},language=oz]
 local L1 L2 L3 R T A in
@@ -210,7 +210,7 @@ All mathematical operations in \textit{NewOz} are directly inherited from \texti
 In particular, the keywords "\texttt{orelse}" and "\texttt{andthen}" in \textit{Oz} have been replaced by the more modern "\texttt{||}" and "\texttt{\&\&}", since the confusion with the pipe symbol "\texttt{|}" has been lifted following the syntactic changes made to lists (see above).
 Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".\newline
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-math}.
-\begin{figure}
+\begin{figure}[t]
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={Oz},language=oz]
 local
@@ -561,3 +561,4 @@ The Parser from M. Mbonyincungu only supported a subset of pre-defined functions
 this adaptation will allow a more convenient use of the language by developers, and is a major step towards the goal of reaching functional parity between \textit{NewOz} and \textit{Oz} in the future.
 
 \section{In the end : a self-evaluation}\label{sec:ch2-evaluation}
+\textcolor{red}{[TODO] Briefly, what we think of our syntax at this stage}

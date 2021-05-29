@@ -37,12 +37,12 @@ The idea of writing a new compiler has thus quickly been set aside, as it would 
 Instead, that idea emerged of writing a "syntax parser" (\textit{sic}), that would serve as a compatibility layer between the \textit{NewOz} syntax, and the existing \textit{Oz} syntax supported by the current version of Mozart.
 \textit{NewOz} code will be translated to the directly equivalent \textit{Oz} code, and then fed to the existing \textit{Oz} compiler, \texttt{ozc}.
 Some readers might interject that this description lies closer to the definition of a compiler than a parser;
-for this reason, I think it is important to take the time and explicit the definition we give to each term in the context of this work.\newline
+for this reason, We feel like it is important to take the time and explicit the definition we give to each term in the context of this work.\newline
 
 Wikipedia defines parsing as "the formal analysis by a computer of a sentence or other string of words into its constituents, resulting in a parse tree showing their syntactic relation to each other [\ldots]".~\cite{wikiParser}
 A compiler, on the other hand, is described as "a computer program that translates computer code written in one programming language (the source language) into another language (the target language)."~\cite{wikiCompiler}
 In my opinion, the program created by M. Mbonyincungu doesn't match any of those two definitions perfectly, as we will discuss later;
-I think it lies somewhere in between those two definitions, as a decorator to the \texttt{ozc} compiler.
+We think it lies somewhere in between those two definitions, as a decorator to the \texttt{ozc} compiler.
 But to stay consistent with the vocabulary used in lest year's thesis and avoid confusion, we will refer to M. Mbonyincungu's program as "the Parser" in the rest of this document.\newline
 
 M. Mbonyincungu's Parser makes use of \textit{Scala}'s Parsing Combinators library\footnote{See its documentation at \url{https://www.scala-lang.org/api/2.12.3/scala-parser-combinators/scala/util/parsing/combinator/Parsers.html}~\cite{ScalaParsers}}, which provides a syntax to match regular expressions and describe the relationship between them.
@@ -110,7 +110,7 @@ achieving this is essential if we want to mask the internal reliance on \texttt{
 
 On top of its standard compilation functionality, \texttt{nozc} also provides other useful features, such as the ability to print the syntax tree of the program directly in the command-line, or to compile multiple files at a time.
 Additionally, a couple of quality-of-life features have been embedded, such as a robust command-line interface that will make \texttt{nozc} easy to integrate in other tools by complying to general, good-practice CLI guidelines\footnote{More information on those practices can be found at \url{https://clig.dev/\#philosophy}~\cite{clig}}.
-The user also has the ability to see the intermediary \textit{Oz} code generated during the compilation, or else [??] to personalize the logging level of the output, by using the well-known Apache's Log4j logging levels\footnote{To be exact, \texttt{nozc} does not use Log4j, but adopted the same logging levels per convention. See \url{https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/Level.html} for a technical description of those levels and their meanings~\cite{log4j}}.
+The user also has the ability to see the intermediary \textit{Oz} code generated during the compilation, or even to personalize the logging level of the output, by using the well-known Apache's Log4j logging levels\footnote{To be exact, \texttt{nozc} does not use Log4j, but adopted the same logging levels per convention. See \url{https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/Level.html} for a technical description of those levels and their meanings~\cite{log4j}}.\newline
 \begin{figure}
     \begin{lstlisting}
         TODO - reusing the same image as above, but slightly modifed to nozc
@@ -118,10 +118,7 @@ The user also has the ability to see the intermediary \textit{Oz} code generated
     \caption{Schematic representation of the structure of the \texttt{nozc} compiler}
 \end{figure}
 
-General description of the inner workings of the compiler.
-Do not go in ridiculous details, as the code is well documented and available.
-Explain modularity : ideally, most changes should simply involve modifying the JavaCC source grammar file
-Use an example and show its evolution when going through the compiler.
+The interested reader will find in appendix~\ref{sec:appendix-compilation} a small example of the compilation process in \texttt{nozc}.
 
 \section{Technologies used}\label{sec:ch3-technologies}
 As said before, an important consideration when designing \texttt{nozc} was the maintainability of the project in the future.
@@ -158,7 +155,7 @@ However, we have to mention limitations that we identified in our current implem
 The main one, in our opinion, is the inability of the compiler to print the generated \textit{Oz} code in a format that stays as close as possible to that of the source \textit{NewOz} code.
 This is due to the fact that the lexer, in this particular implementation, ignores spaces and new line characters when reading the input.
 This comes as a disadvantage compared to last year's Parser, but it also allows for a lot more flexibility in the way the programmer is allowed to format the source code.
-This issue can raise some concerns, as we touched upon earlier : it implies that error messages generated by the underlying \texttt{ozc} compiler will most probably indicate an erroneous line and or/ column number to the programmer.
+This issue can raise some concerns, as we touched upon earlier : it implies that error messages generated by the underlying \texttt{ozc} compiler will most probably indicate an erroneous line and/or column number to the programmer.
 However, this problem will progressively disappear over time with the maturation of \texttt{nozc}, as more and more of those errors will get caught in the first phase of the compilation.\newline
 
 Another issue with of our approach lies in the fact that this compiler does not free itself from the dependency on the legacy \texttt{ozc}, which was one of our criticism towards M. Mbonyincungu's Parser implementation.

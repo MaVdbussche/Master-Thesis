@@ -1,83 +1,56 @@
 \begin{lstlisting}[label={lst:newOzLexical},language=ebnf]
-Lexical grammar for newOz
 Notation      Meaning
 ===========================================================================
 ;\epsilon;             singleton containing the empty word
 ;$(w)$;           grouping of regular expressions
-;$[w]$;            union of ;\epsilon; with the set of words w (optional group)
-;$\{w\}$;           zero or more times w
-;$\{w\}+$;         one or more times w
+;$[w]$;            union of ;\epsilon; with the set of words ;$w$; (optional group)
+;$\{w\}$;           zero or more times ;$w$;
+;$\{w\}+$;         one or more times ;$w$;
 ;$w_1~w_2$;         concatenation of ;$w_1$; with ;$w_2$;
-;$w_1 | w_2$;         logical union of \%$w_1$\% and ;$w_2$; (OR)
-;$w_1-w_2$;       difference of \%$w_1$\% and ;$w_2$;
+;$w_1 | w_2$;         logical union of ;$w_1$; and ;$w_2$; (OR)
+;$w_1-w_2$;       difference of ;$w_1$; and ;$w_2$;
 
 // White spaces - ignored
 WHITESPACE ::= (" "|"\b"|"\t"|"\n"|"\r"|"\f")
 
 // Comments - ignored
-("//" {~("\n"|"\r")} ("\n"|"\r"["\n"])) | "?"
-
+("//" {~("\n"|"\r")} ("\n"|"\r"|"\r\n")
 // Multi-line comments - ignored
 "/*" {CHAR - "*/"} "*/"
 
 // Reserved keywords
-//ANDTHEN ::= "andthen"
 AT      ::= "at"
 ATTR    ::= "attr"
 BREAK   ::= "break"
 CASE    ::= "case"
 CATCH   ::= "catch"
-//CHOICE  ::= "choice"
 CLASS   ::= "class"
-//COLLECT ::= "collect"
-//COND    ::= "cond"
-CONTINUE  ::= "continue"
+CONTINUE::= "continue"
 DECLARE ::= "declare"
 DEF     ::= "def"
 DEFPROC ::= "defproc"
-DEFAULT ::= "default"
-//DEFINE  ::= "define"
-//DIS     ::= "dis"
-//DIV     ::= "div"
 DO      ::= "do"
 ELSE    ::= "else"
-//ELSECASE  ::= "elsecase"
-//ELSEIF  ::= "elseif"
-//ELSEOF  ::= "elseof"
-//END     ::= "end"
 EXPORT  ::= "export"
 EXTENDS ::= "extends"
-//FAIL    ::= "fail"
 FALSE   ::= "false"
-//FEAT    ::= "feat"
 FINALLY ::= "finally"
 FOR     ::= "for"
 FROM    ::= "from"
-//FUN     ::= "fun"
 FUNCTOR ::= "functor"
 IF      ::= "if"
 IMPORT  ::= "import"
 IN      ::= "in"
 LAZY    ::= "lazy"
-//LOCAL   ::= "local"
 LOCK    ::= "lock"
 MATCH   ::= "match"
-METH    ::= "meth"
-//MOD     ::= "mod"
 NIL     ::= "nil"
-//NOT     ::= "not"
-//OF      ::= "of"
 OR      ::= "or"
-//ORELSE  ::= "orelse"
-//PREPARE ::= "prepare"
-//PROC    ::= "proc"
 PROP    ::= "prop"
 RAISE   ::= "raise"
-//REQUIRE ::= "require"
 RETURN  ::= "return"
-//SELF    ::= "self"
 SKIP    ::= "skip"
-//THEN    ::= "then"
+SUPER   ::= "super"
 THIS    ::= "this"
 THREAD  ::= "thread"
 TRUE    ::= "true"
@@ -86,85 +59,77 @@ UNIT    ::= "unit"
 VAL     ::= "val"
 VAR     ::= "var"
 
-ASSIGN      ::= "=" ok
-DEFINE      ::= ":=" ok
-PLUSASS  ::= "+=" ok
-MINUSASS ::= "-=" ok
-EQUAL       ::= "==" ok
-NE          ::= "\=" ok
-LT          ::= "<" ok
-GT          ::= ">" ok
-LE          ::= "=<" ok
-GE          ::= ">=" ok
-LBARROW     ::= "<=" ok
-IMPL        ::= "=>" ok
-AND         ::= "&" ok TODO DELETED
-LAND        ::= "&&" ok
-PIPE        ::= "|" ok TODO DELETED
-LOR         ::= "||" ok
-LNOT        ::= "!" ok
-LNOTNOT     ::= "!!" ok
-MINUS       ::= "-" ok
-PLUS        ::= "+" ok
-STAR        ::= "*" ok
-SLASH       ::= "/" ok
-BACKSLASH   ::= "\" ok
-MODULO      ::= "%" ok
-HASHTAG     ::= "#" ok
-UNDERSCORE  ::= "_" ok
-DOLLAR      ::= "$" ok
-APOSTROPHE  ::= "'" ok
-QUOTE       ::= """ ok
-LACCENT     ::= "`" ok
-RACCENT     ::= "´" ok
-HAT         ::= "^" ok
-BOX         ::= "[]" ok
-//TILDE       ::= "~" ok
-DEGREE      ::= "°" ok
-//COMMERCAT   ::= "@" ok
-//LARROW      ::= "<-" ok
-//RARROW      ::= "->" ok
-//FDASSIGN    ::= "=:" //skipped
-//FDNE        ::= "\=:" //skipped
-//FDLT        ::= "<:" //skipped
-//FDLE        ::= "=<:" //skipped
-//FDGT        ::= ">:" //skipped
-//FDGE        ::= ">=:" //skipped
-COLCOL      ::= "::" ok
-//COLCOLCOL   ::= ":::" ok
-
-COMMA       ::= "," ok
-DOT         ::= "." ok
-LBRACK      ::= "[" ok
-LCURLY      ::= "{" ok
-LPAREN      ::= "(" ok
-RBRACK      ::= "]" ok
-RCURLY      ::= "}" ok
-RPAREN      ::= ")" ok
-SEMI        ::= ";\;;" ok
-COLON       ::= ":" ok
-DOTDOT      ::= ".." ok
-ELLIPSIS    ::= "..." ok
+// Operators
+ASSIGN      ::= "="
+PLUSASS     ::= "+="
+MINUSASS    ::= "-="
+EQUAL       ::= "=="
+NE          ::= "\\="
+LT          ::= "<"
+GT          ::= ">"
+LE          ::= "<="
+GE          ::= ">="
+IMPL        ::= "=>"
+LAND        ::= "&&"
+LOR         ::= "||"
+LNOT        ::= "!"
+MINUS       ::= "-"
+PLUS        ::= "+"
+STAR        ::= "*"
+SLASH       ::= "/"
+MODULO      ::= "%"
+HASHTAG     ::= "#"
+UNDERSCORE  ::= "_"
+DOLLAR      ::= "$"
+APOSTROPHE  ::= "'"
+QUOTE       ::= "\""
+DEGREE      ::= "°"
+COLCOL      ::= "::"
+COMMA       ::= ","
+LBRACK      ::= "["
+LCURLY      ::= "{"
+LPAREN      ::= "("
+RBRACK      ::= "]"
+RCURLY      ::= "}"
+RPAREN      ::= ")"
+SEMI        ::= ";;"
+COLON       ::= ":"
+DOT         ::= "."
+DOTDOT      ::= ".."
+ELLIPSIS    ::= "..."
 
 // Literals
-UPPERCASE      ::= "A"|...|"Z" ok
-LOWERCASE      ::= "a"|...|"z" ok
-DIGIT          ::= "0"|...|"9" ok
-NONZERODIGIT   ::= "1"|...|"9" ok
-CHARINT        ::= "0"|...|"255" ok
-ALPHANUM       ::= UPPERCASE | LOWERCASE | DIGIT | "_" ok
-ATOMCHAR       ::= CHAR - ("'"|"\")
-STRINGCHAR     ::= CHAR - ("""|"\")
-VARIABLECHAR   ::= CHAR - ("`"|"\")
-CHARCHAR       ::= CHAR - ("\")
-ESCCHAR        ::= "a"|"b"|"f"|"n"|"r"|"t"|"v"|"\"|"'"|"""|"`"|"°"
-OCTDIGIT       ::= "0"|...|"7" ok
-HEXDIGIT       ::= "0"|...|"9"|"A"|...|"F"|"a"|...|"f" ok
-BINDIGIT       ::= "0"|"1" ok
-NONZERODIGIT   ::= "1"|...|"9" ok
-PSEUDOCHAR     ::= "\" OCTDIGIT OCTDIGIT OCTDIGIT ok
-                | "\" ("x" | "X") HEXDIGIT HEXDIGIT ok
-
+VARIABLESTRICT ::= UPPERCASE{ALPHANUM}
+                    | "`"(ESC | PSEUDO_CHAR | ~("`"|"\\"|"\n"|"\r") )"`")
+VARIABLE       ::= LOWERCASE{ALPHANUM}
+ATOM           ::= (ATOMLISP | "´" (ESC | PSEUDO_CHAR | ~("\\"|"\n"|"\r") ) "´")
+ATOMLISP       ::= "'" {LETTER}
+STRING         ::= "\"" { ESC | PSEUDO_CHAR | ~("\""|"\\"|"\n"|"\r") } "\""
+CHARACTER      ::= (DEGREE(CHARCHAR | PSEUDO_CHAR)
+                    | "'" (ESC | ~("'"|"\\"|"\n"|"\r") ) "'" )
+INT            ::= (DECINT | HEXINT | OCTINT | BININT)
+FLOAT          ::= {DIGIT}+ DOT {DIGIT} [ ("e"|"E")["~"]{DIGIT}+ ]
+UPPERCASE      ::= "A"|...|"Z"
+LOWERCASE      ::= "a"|...|"z"
+LETTER         ::= "A"|...|"Z"|"a"|...|"z"
+DIGIT          ::= "0"|...|"9"
+NON_ZERO_DIGIT ::= "1"|...|"9"
+CHARINT        ::= ("0"|...|"9") | ("1"|...|"9")("0"|...|"9")
+                    | "1"("0"|...|"9")("0"|...|"9")
+                    | "2"("0"|...|"4")("0"|...|"9")|"25"("0"|...|"5") // (0-255)
+ALPHANUM       ::= (UPPERCASE | LOWERCASE | DIGIT | UNDERSCORE)
+DECINT         ::= ("0" | (NON_ZERO_DIGIT{DIGIT}))
+HEXINT         ::= "0" ("x"|"X") {HEXDIGIT}+
+OCTINT         ::= "0" {OCTDIGIT}+
+BININT         ::= "0" ("b"|"B") {BINDIGIT}+
+OCTDIGIT       ::= "0"|...|"7"
+HEXDIGIT       ::= (DIGIT | ("A"|...|"F") | ("a"|...|"f"))
+BINDIGIT       ::= ("0"|"1")
+ESC            ::= "\\" ESCAPE_CHAR
+ESCAPE_CHAR    ::= ("a"|"b"|"f"|"n"|"r"|"t"|"\\"|"'"|"\""|DEGREE)
+CHARCHAR       ::= ~("\\")
+// In the classes of words <variable>, <atom>, <string>, and <character>, we use pseudo-characters, which represent single characters in different notations.
+PSEUDO_CHAR    ::= ( "\\"(OCTDIGIT)(OCTDIGIT)(OCTDIGIT) ) | ( "\\"("x"|"X")(HEXDIGIT)(HEXDIGIT) )
 // End of file
 EOF            ::= "<end of file>"
 

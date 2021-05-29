@@ -1,16 +1,25 @@
 %! Author = Martin Vandenbussche
 
-\section*{Appendix A : \textit{NewOz} EBNF Grammar (2021 version)}\label{sec:appendix-grammar}
+\appendix
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\renewcommand{\thesection}{\Alph{section}}
+
+\section{Appendix A : \textit{NewOz} EBNF Grammar (2021 version)}\label{sec:appendix-grammar}
 This EBNF grammar is a reworked version of the one provided in the appendices of Jean-Pacifique Mbonyincungu's thesis,
-removing left-recursion problems and including changes made in the syntax since then.
+removing left-recursion problems and including changes made in the syntax since then.\newline
+This EBNF grammar is thus suitable for recursive descent, and is the grammar used by \texttt{nozc}.
 \input{tex/grammarNewOz.tex}
 
-\section*{Appendix B : Lexical Grammar}\label{sec:appendix-lexical-grammar}
+\section{Appendix B : Lexical Grammar (2021 version)}\label{sec:appendix-lexical-grammar}
+This is the lexical grammar used by \texttt{nozc}.
 \input{tex/lexicalGrammarNewOz.tex}
 
-\section*{Appendix C : Some Examples}\label{sec:appendix-examples}
+\section{Appendix C : Some Examples}\label{sec:appendix-examples}
 Code examples : Oz vs \textit{NewOz}
 \input{tex/codeExample1.tex}
 
-\section*{Appendix D : Documentation and tutorial}\label{sec:appendix-doc}
+\section{Appendix D : Compilation example}\label{sec:appendix-compilation}
+
+\section{Appendix E : Documentation and tutorial}\label{sec:appendix-doc}
 Move this as the first appendix ?

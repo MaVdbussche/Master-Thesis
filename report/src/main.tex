@@ -1,7 +1,7 @@
 %! Author = Martin Vandenbussche
 
 \documentclass[a4paper,12pt]{scrreprt}
-\usepackage{textcomp}
+
 \input{header.tex}
 
 \title{NewOz: Steps toward a modern syntax for the Oz programming language}
@@ -15,6 +15,7 @@
 
 \input{abstract.tex}
 
+\setcounter{tocdepth}{1} % Show up to sections in TOC
 \tableofcontents
 
 %\medskip
@@ -40,9 +41,7 @@
 \printbibliography[keyword=software,title={Software and Tools}]
 \printbibliography[keyword=perso,title={Personnal contributions}]
 
-\begin{appendices}
 \input{appendices.tex}
-\end{appendices}
 
 
 
