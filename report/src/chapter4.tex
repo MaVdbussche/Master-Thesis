@@ -36,43 +36,80 @@ However, we firstly had to create an extensive documentation around the language
 This documentation is also available on the same repository, at~\cite{NozcGitHub}.
 
 \subsection{Results of this approach}
-In this section, we will provide a summary of contributions we received from the community.
-All of these opinions and ideas were gathered on \textit{GitHub}, as we said, and will remain available online at~\cite{NozcGitHub}.
+In this section, we will provide a rapid summary of contributions we received from the community;
+the interested reader can consult (and participate in !) the full discussion online.
+All of these opinions and ideas were gathered on \textit{GitHub}, as we said, and will remain available at~\cite{NozcGitHub}.
 The contributors keep full intellectual credit for their contribution;
 we simply compile them here in a succinct manner for the purposes of the discussion.\newline
 
-(a) return keyword (b) attribute pos in classes (c) val and var (d) records definition (e) unicode adoption\newline
-For each, briefly and if applicable :
+A first suggestion that was brought to the table was the addition of a "\texttt{return}" keyword.
+It was mentioned how, being only allowed in functions, it would allow the user to keep in mind the differences with procedures.
+It could also make the creation of future syntax highlighting tools easier by clearly identifying the last statement of a function.
+However, we identified two problems with this suggestion :
 \begin{itemize}
-    \item Description of the change
-    \item Motivations (previous problem, how it fixes it, philosophy of \textit{Oz}) : personal opinion
-    \item Implications on other existing features
-    \item Implications in the compiler
-    \item What did others think of it ? (probably =/= my opinion) Should we integrate their feedback ? Why/why not ?
+    \item Function bodies are expressions in \textit{Oz}; this change would not fit nicely in that perspective, making the body of all methods essentially a statement;
+    \item Distinguishing functions from procedures is arguably easy enough, thanks to the use of separate keywords in their respective definition, but also because of the point above.
 \end{itemize}
+The point about future tooling like syntax highlighting was indeed important to mention;
+even though the language is still far from a state where a proper software ecosystem develops around it, it is still important to keep this sort of things in mind from the start.
+In this specific case, the absence of a return keyword means that some sort of analysis phase needs to be performed on the program to determine if a phrase is an expression or a statement, which can in turn determine if it is a suitable last phrase in a function.
+It does not seem to us like a big issue, even though we admittedly don't have much knowledge about this type of tools.
+Another option could be to copy the behavior of \textit{Scala}, which seems to make the "\texttt{return}" keyword optional;
+but this comes with its own problems\footnote{See in that regard the answer from user \texttt{dhg} on \textit{StackOverflow} (\url{https://stackoverflow.com/a/12560532}), but also the blog post from Rob Norris at~\cite{returnscala}}.\newline
+
+Another talking point was the way attributes in classes are expressed.
+In the current version of the syntax, they must be declared before the opening of the class' scope (see the code examples in appendix~\ref{sec:appendix-examples}), with a repetition of the "\texttt{attr}" keyword for each new attribute.
+This syntax was rightfully deemed redundant, and it was suggested to take inspiration from \textit{C\#}'s properties syntax to design a more elegant approach\footnote{See \url{https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties}}.
+More simply, declaring them in a sequence, separating them with commas, could be another option, that would be more akin to the way variables and values are declared.\newline
+
+It was also mentioned that the choice of the keywords "\texttt{var}"/"\texttt{val}" might not be most wise, as they look very similar, which might pose problems for some people.
+Different options were proposed, like "\texttt{mut}"/"\texttt{val}", "\texttt{let mut}"/"\texttt{let}", or even "\texttt{cel/cell}"/"\texttt{var}", in a witty nod to \textit{Oz}'s cells feature.
+A lot of arguments can be made for each of those propositions and others;
+the good point here is that it does not impact the language's philosophy in any way, nor its implementation significantly, as modifications to the lexical grammar have minimal consequences on the compiler's implementation.
+Changes to it will, however, break compatibility with existing programs, something that has to be kept in mind in future iterations of the syntax.
+
+Additionally, another good point was made regarding a visually confusing syntax element : the labels and features of records.
+The current version of the syntax uses an apostrophe "\texttt{\'}" in front of the non-capitalized name, which is necessary to make the distinction with variable names or method calls.
+However, it was brought to our attention how this could be not only be too subtle for people with poor eyesight, but also how it could be confused with strings in general.
+While we agree that the current solution is not satisfactory, we could not find a suitable replacement yet : most characters on the keyboard are either already used, or are not standard enough to appear on all keyboard layouts.
+A syntax using chevrons was suggested, but we didn't take it on as it would create a lot of problems with \textit{HTML}-like content;
+in particular, online documentation and emails displaying code snippets would see their formatting disrupted if these particular characters were used without careful escaping.\newline
+
+Finally, we will quickly mention the problem that was brought to our attention regarding Unicode support in \textit{Mozart}.
+Even though \texttt{nozc} could natively supports all Unicode characters, the fact that the Mozart2 compiler doesn't, poses a problem : a variable named "\texttt{bµ}" can't be compiled by the underlying \texttt{ozc} compiler.
+This problem could be circumvented by "translating" problematic characters, giving something like "\texttt{B\_C2B5\_}" in output of \texttt{nozc}.
+We find this solution acceptable since it probably won't enter into play very often;
+nonetheless, it is an important addition to include in a future version of \texttt{nozc}.
 
 \section{First evaluation and adjustments}\label{sec:ch4-adjustments}
-What was user feedback in general ?
-First impressions of newcomers (relevant for forging our expectations on what future students will say, for example).\newline
-Can we say this feedback met our goal described in \textit{NewOz}'s philosophy ?
-Not in terms of numbers.
-In terms of content, we hoped for "deeper"/"higher-level" reflections.
-Instead, we mainly got propositions for the usage of a particular keyword or small-scope syntax modifications.\newline
+Our general takeaway on the feedback we received is the following : we didn't get the high-level, philosophical reflections we expected, but the fault probably lies in our ill-suited approach for a debate on those subjects.\newline
+In terms of content, we hoped for more content-focused reactions on the general philosphy of the language.
+Instead, we mainly got propositions for the usage of a particular keyword or small-scope syntax modifications.
 We identify two possible reasons for this discrepancy between the expected and the actual feedback.\newline
 
 First of all, outside users will use the language for a short amount of time before giving feedback.
-Granted, we can't reasonably blame them for not willing to invest hours upon hours on contributing to an open source project online, to which they dedicate some time freely.
+Granted, we can't reasonably blame them for not willing to invest hours upon hours on contributing to an open source project online, to which they dedicate their time freely.
 But this means that the feedback they are able to give is mainly focused on what is apparent at first glance, that is, the "vocabulary" of the syntax.
-In-depth reflections can only come after extensive use of the syntax, from people having written different programs using various programming paradigms.
+In-depth reflections can only come after extensive use of the syntax, from people having written different programs using various paradigms.
 In that regard, calling upon the online community to help us in a deep reflection on the philosophy of a syntax was probably a process that was doomed to fail.\newline
 
-Nevertheless, the remarks we did gather raised interesting questions and will definitely be useful in the design process of \textit{NewOz}.
+Secondly, the "philosophy" behind the \textit{NewOz} maybe wasn't explicit enough in the first place;
+how then could users react upon it ?
+The debate would probably have benefited from a deeper high-level presentation of the language in the documentation, similar to the extensive syntax tutorial that was written.
+Such a document could have presented our vision more explicitly, which would have allowed contributors to gie us some of their opinions on it.\newline
+
+With all this being said, the remarks we did gather still raised interesting questions and will definitely be useful in the design process of \textit{NewOz}.
 Relevant syntax elements from different languages were proposed, and it is clear that such proposals are essential to design a good syntax, simply because the experience of each programmer is different, and so is their knowledge and approach of what a powerful, convenient, or even fun programming syntax is.
 
 \section{A second approach : a broader reflection on the project itself}\label{sec:ch4-reflection}
+\textcolor{red}{[TODO] Broad reflection on how syntax design should happen. Did we do a good job at that ?}
+We see two ways to do it :  (a) start from Oz, "translate" it piece by piece with various inspirations (while keeping consistency) (this is what we did with newOz) (b) Take an existing language, and add what we need on top of it (e.g. Ozma, FlowJava). This ensures consistency, but is it really its own language at this point ?
+Explicit our opinion on this matter.
+
 \begin{itemize}
-\item Nous sommes une étape dans travail de longue haleine (long-term project/collaboration) - spread over multiple master's projects
+\item We are but one step in a large-scope work (long-term project/collaboration) - spread over multiple master's projects
 \item Toward ultimate goal of a new, improved, and accepted syntax for the Oz multi-paradigm language (Multiparadigm = now it is accepted that languages must be multiparadigm-Java has lambdas, Scala is functional-objet, Cloud analytics combine functional, concurrent, and database structure)
-\item Etre honnête - c'est compliqué de faire une syntaxe, les limites de temps rencontrées, pourquoi c'est un process multi-year -> ce qu'on a fait pour pallier à ces limitations "physiques"
-\item Final, definitive way of formulating a multiparadigm language.  Oz was a pioneer, followed by Scala, Ozma, etc., but what will multiparadigm languages look like in the future?  In the future when all languages are multiparadigm. We are making steps toward this - take Oz original ideas but with new syntax inspired by existing languages. Lyric goal : here we made one small step in this (Appollo reference)
+\item Be honest - it is hard to design a syntax - problems encountered, why this is a multi-year project -> what we did to alleviate these challenges
+\item Final, definitive way of formulating a multiparadigm language.  Oz was a pioneer, followed by Scala, Ozma, etc., but what will multiparadigm languages look like in the future?  In the future when all languages are multiparadigm. We are making steps toward this - take Oz original ideas but with new syntax inspired by existing languages. Lyric goal : here we made one small step in this (Apollo reference?)
 \end{itemize}
+Some items of this list probably have their place in the next chapter !
