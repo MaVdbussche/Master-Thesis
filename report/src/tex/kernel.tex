@@ -1,0 +1,34 @@
+%! Author = Martin Vandenbussche
+\begin{table}[H]
+\begin{adjustbox}{width=1.2\textwidth,center}
+\begin{tabular}{|lr|ll|}
+\hline
+<s> ::= & & & <s> ::=\\
+~~~~\textbf{skip} & \multicolumn{2}{c}{Empty statement} & ~~~~\textbf{skip}\\
+~~|  <s>\textsubscript{1} <s>\textsubscript{2} & \multicolumn{2}{c}{Statement sequence} & ~~|  <s>\textsubscript{1} <s>\textsubscript{2}\\
+~~|  \textbf{local} <x> \textbf{in} <s> \textbf{end} & Variable creation & Value declaration & ~~|  \{ \textbf{val} <x> <s> \}\\
+~~|  <x>\textsubscript{1}=<x>\textsubscript{2} & Variable binding & Variable/value binding & ~~|  <x>\textsubscript{1}=<x>\textsubscript{2}\\
+~~|  <x>=<v> & Value creation & Variable/Value assignment & ~~|  <x>=<v>\\
+\hline
+~~|  \{<x> <y>\textsubscript{1} \ldots <y>\textsubscript{n}\} & \multicolumn{2}{c}{Procedure application} & ~~|  x(<y>\textsubscript{1}, \ldots, <y>\textsubscript{n})\\
+\begin{tabular}[c]{@{}l@{}}~~|  \textbf{if} <x> \textbf{then} <s>\textsubscript{1}\\~~~~\textbf{else} <s>\textsubscript{2} \textbf{end}\end{tabular} & \multicolumn{2}{c}{Conditional} & \begin{tabular}[c]{@{}l@{}}~~|  \textbf{if} (<x>) \{ <s>\textsubscript{1} \}\\~~~~\textbf{else} \{ <s>\textsubscript{2} \}\end{tabular}\\
+\begin{tabular}[c]{@{}l@{}}~~|  \textbf{case} <x> \textbf{of} <pattern>\\~~~~\textbf{then} <s>\textsubscript{1}\\~~~~\textbf{else} <s>\textsubscript{2} \textbf{end}\end{tabular} & \multicolumn{2}{c}{Pattern matching} & \begin{tabular}[c]{@{}l@{}}~~|  \textbf{match} <x> \{\\~~~~\textbf{case} <pattern> => \{<s>\textsubscript{1}\}\\~~~~\textbf{else} \{ <s>\textsubscript{2} \} \}\end{tabular}\\
+~~|  \textbf{thread} <s> \textbf{end} & \multicolumn{2}{c}{Thread creation} & ~~|  \textbf{thread} \{ <s> \}\\
+~~|  \{ByNeed <x> <y>\} & \multicolumn{2}{c}{Trigger creation} & ~~|  byNeed(<x>, <y>)\\
+\hline
+~~|  \{NewName <x>\} & \multicolumn{2}{c}{Name creation} & ~~| newName(<x>)\\
+~~|  <y>=!!<x> & \multicolumn{2}{c}{Read-only view} & \emph{Not implemented yet}\\
+\hline
+\begin{tabular}[c]{@{}l@{}}~~|  \textbf{try} <s>\textsubscript{1} \textbf{catch} <x>\\~~~~\textbf{then} <s>\textsubscript{2} \textbf{end}\end{tabular} & \multicolumn{2}{c}{Exception context} & \begin{tabular}[c]{@{}l@{}}~~|  \textbf{try} \{ <s>\textsubscript{1} \} \textbf{catch} \{\\~~~~\textbf{case} <pattern> => \{<s>\textsubscript{2}\}\}\end{tabular}\\
+~~|  \textbf{raise} <x> \textbf{end} & \multicolumn{2}{c}{Raise exception} & ~~|  raise \{ <x> \}\\
+~~|  \{FailedValue <x> <y>\} & \multicolumn{2}{c}{Failed value} & ~~|  failed(<x>, <y>)\\
+\hline
+~~|  \{NewCell <x> <y>\} & Cell creation & Variable declaration & ~~|  var <x>=<y>\\
+~~|  \{Exchange <x> <y> <z>\} & \multicolumn{2}{c}{Cell exchange} & ~~|  exchangeCell(<x>, <y>, <z>)\\
+~~|  \{IsDet <x> <y>\} & \multicolumn{2}{c}{Boundness test} & ~~|  isDet(<x>, <y>)\\
+\hline
+\end{tabular}
+\end{adjustbox}
+    \caption{The \textit{Oz} and \textit{NewOz} general kernel languages compared}
+    \label{tab:OzKernel}
+\end{table}

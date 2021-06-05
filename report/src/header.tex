@@ -5,7 +5,10 @@
 
 \usepackage{amsmath,amsthm,amssymb}
 
+
+\usepackage{graphicx}
 \usepackage{float}
+\usepackage{adjustbox}
 \usepackage{caption}
 \captionsetup[figure]{skip=0pt}
 
@@ -47,11 +50,18 @@
     morestring=[b]",
     escapeinside={;}{;},
 }
+% "define" the Oz kernel language
+\lstdefinelanguage{kernelOz}{
+    morekeywords={skip,local,in,end,if,then,else,case,of,try,catch,raise},
+    otherkeywords={},
+    sensitive=true,
+    %morecomment=[l]{//},
+    %morestring=[b]",
+    escapeinside={;}{;},
+}
 %\DeclareCaptionFont{white}{\color{white}}
 %\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#3}}}
 %\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
-
-\usepackage{graphicx}
 
 \usepackage{url,hyperref}
 

@@ -5,26 +5,28 @@ We will then review the important changes that were made  with respects to \text
 The goal here is not to repeat what was said before by M. Mbonyincungu in~\cite{jpthesis};
 the interested reader can consult his thesis for a systematic review of the syntactic changes proposed last year.
 We will instead focus on syntax elements that were either overlooked in that thesis, or that have been significantly modified during this year's work.
-Finally, we will conclude the chapter by evaluating whether this new version of \textit{NewOz} fulfills its announced objectives, and outline potential improvements areas that we identified at that stage of the work.\newline
+Finally, we will conclude the chapter by evaluating whether this new version of \textit{NewOz} fulfills its announced objectives, and outline potential improvements areas that we identified at this stage of the work.\newline
 
-\section{Our purpose : the big picture}\label{sec:ch2-goal}
+\section{The big picture : what we started with}\label{sec:ch2-goal}
 The main goal of the multi-year project, as we have said before, is to create a new syntax that feels more modern to new programmers than the existing one, while keeping in the language all the functionalities that \textit{Oz} currently has.
 Furthermore, this syntax should be able to integrate new concepts and paradigms in the future, in a way that is consistent with existing language features.
-In his thesis, M. Mbonyincungu decided to [verb] the design process around \textit{Scala} and \textit{Ozma}, while incorporating some elements from other languages in limited places.
-This has the main advantage of making the syntax very consistent from the start, provided the design process [pays attention] to only introduce elements from other languages when necessary;
+In his thesis, M. Mbonyincungu decided to focus the design process around \textit{Scala} and \textit{Ozma}, while incorporating some elements from other languages in limited places.
+This has the main advantage of making the syntax very consistent from the start, provided the design process makes sure to only introduce elements from other languages when necessary;
 at any given moment, one has to ask themselves if the value provided by this new, foreign element is worth the inevitable inconsistency it will cause in the syntax, or in the general philosophy of the language.\newline
 
-In that regard, we feel like \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's of languages used nowadays, but it also feels more consistent than \textit{Oz} in some places.
-Object-oriented syntax, in particular, underwent some major changes that make it way more pleasing to use.
+\textcolor{red}{DESCRIPTION OF JP's SYNTAX (~4 pages)}\newline
+
+In many regards, we feel like \textit{NewOz 2020} has been successful : this new syntax feels modern and more in par with the syntax's of languages used nowadays, but it also feels more consistent than \textit{Oz} in some places.
+Object-oriented syntax, in particular, underwent some major changes that make it more pleasing to use.
 But as M. Mbonyincungu mentioned himself, \textit{NewOz 2020} still needed maturation : it is a huge step in the right direction, but it still has flaws that need to be fixed before it could be used by online programmers or as a teaching tool.
 In the next section, we will go over some of those changes that we feel are worth mentioning, because they raised interesting questions and reflections;
-the reader will find extensive code examples covering those changes in appendix~\ref{sec:appendix-examples}, in the form of programs written in \textit{Oz}, \textit{NewOz 2020} and \textit{NewOz 2021} presented side by side.
+the reader will find extensive code examples covering those changes in Appendix~\ref{sec:appendix-examples}, in the form of programs written in \textit{Oz}, \textit{NewOz 2020} and \textit{NewOz 2021} presented side by side.
 
 \section{In practice : a review of the relevant syntax elements}\label{sec:ch2-review}
 As mentioned above, we will not cover the thought process behind every syntactic element in detail, as it would be a repetition of the work done in M. Mbonyincungu's thesis.
 However, we still feel it is important to briefly describe them, in order to provide a global overview of \textit{NewOz 2021} in a single place.\newline
 You will thus find some small code examples targeting a specific syntactic element;
-the interested reader can find complete program examples in appendix~\ref{sec:appendix-examples}.\newline
+the interested reader can find complete program examples in Appendix~\ref{sec:appendix-examples}.\newline
 
 In this section, code examples will present \textit{Scala} and \textit{Ozma} as a single entity, since, as we presented before, \textit{Ozma} is an extension of \textit{Scala}'s syntax;
 on the other hand, \textit{NewOz 2020} and \textit{2021} snippets, when applicable, will be separated to emphasize their differences and highlight the specific contributions made in this year's version.
@@ -34,13 +36,13 @@ A first syntax element we reviewed in \textit{NewOz 2020} was the declaration an
 While the introduction of keywords \texttt{var} and \texttt{val} is a big improvement, and a great way to hide the behaviour of cells in Oz, the possibility that was introduced to write a semicolon ";" at the end of a line declaring variables immediately caught our attention.
 To quote M. Mbonyincungu's thesis, "the ";" end of line token is just a random addition inspired from \textit{Scala} to allow those with \textit{Scala} creating an unbound value with a peace of mind" (\textit{sic}).
 This justification seems to us precarious at best;
-not only does it go again the general idea in \textit{Oz} that carriage returns are the preferred way to delimit statements, but it also is the only use of the semicolon character in the whole syntax.
+not only does it go again the general idea in \textit{Oz} that blank spaces are the preferred way to delimit statements, but it also is the only use of the semicolon character in the whole syntax.
 We felt like two options were available : either use this delimiter for every statement in the syntax, like in Java for example, or never use it at all.
 We decided to go for the second option, if only because it stays closer to the original \textit{Oz} philosophy.\newline
 
 Another idea that was left out in \textit{NewOz 2021} was the support for variables in both uppercase and lowercase;
 this idea seems problematic to us because it goes against the conventions used by most programming languages.
-Not keeping this in the new syntax also allows us to save capitalized nouns for class names (see later).\newline
+Not keeping this in the new syntax also allows us to save capitalized nouns for class names (see below).\newline
 
 Cells in \textit{Oz} provide a specific syntax for reading and writing their content, using respectively the tokens \texttt{@} and \texttt{:=}, whereas variables use the \texttt{=} sign.
 \textit{NewOz 2020} proposed to keep this syntax for the now-called \texttt{var}s, arguing that it allows to better showcase the fundamental difference between cells and variables in \textit{Oz}.
@@ -110,7 +112,7 @@ The decision was thus made by M. Mbonyincungu to keep two separate keywords for 
 More importantly, the way those functions and procedures are called has been completely overhauled, to align with \textit{Scala} and other modern languages.
 In particular, functions are now called using their (non-capitalized) name, followed by the comma-separated arguments list enclosed in parentheses.
 Similarly, their definition also requires the arguments to be separated by commas.
-This feels way better than the old curly braces-based method, on top of improving consistency with the objects syntax (see later).\newline
+This feels way better than the old curly braces-based method, on top of improving consistency with the objects syntax (see below).\newline
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-fun}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -273,7 +275,7 @@ end
 Another element that underwent heavy changes was the way \textit{NewOz 2020} handled lambda functions and procedures.
 As M. Mbonyincungu duly notes, lambdas are the same concept as what \textit{Oz} calls anonymous functions and procedures;
 but in this case, we feel like the syntax proposed in \textit{NewOz 2020} sacrifices usability, readability, and the respect of \textit{Oz}'s philosophy for the sheer will of bringing the syntax closer to that of \textit{Scala}.
-As can be seen in the "Fibonacci" example in appendix~\ref{sec:appendix-examples}, \textit{NewOz 2020}'s notation uses a "\texttt{=>}" like Scala or JavaScript for lambda functions.
+As can be seen in the "Fibonacci" example in Appendix~\ref{sec:appendix-examples}, \textit{NewOz 2020}'s notation uses a "\texttt{=>}" like Scala or JavaScript for lambda functions.
 Lambda procedures, on the other hand, omit this symbol.
 We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
 it is our opinion that keeping the keywords "\texttt{fun}" and "\texttt{proc}", or rather their replacement "\texttt{def}" and "\texttt{defproc}", would be preferable.\newline
@@ -284,7 +286,7 @@ A comparison of the successive versions of this syntax can be found in Figure~\r
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={Oz},language=oz]
 local Ex1 in
-  Ex1 = proc {$ X Y} X*Y end
+  Ex1 = fun {$ X Y} X*Y end
   {Browse {Ex1 6 4}}
 end
                  \end{lstlisting}
@@ -310,7 +312,7 @@ end
     \noindent\begin{minipage}{.49\textwidth}
                  \begin{lstlisting}[title={NewOz 2021},language=newoz]
 ... {
-  val ex2 = defproc $ (x, y) {x * y}
+  val ex2 = def $ (x, y) {x * y}
   browse(ex2(6, 4))
 }
                  \end{lstlisting}
@@ -334,7 +336,8 @@ Since the new compiler can now leverage a symbol table, this limitation is lifte
 In \textit{NewOz 2021}, class methods must now use the keyword "\texttt{defproc}". \textit{NewOz 2020} used "\texttt{def}", which is misleading in our opinion since class methods cannot return values in \textit{Oz};
 they are procedures, and we feel like this syntactic change is also a better way to explicit this than the "\texttt{meth}" keyword used in \textit{Oz}.\newline
 
-Finally, object application now longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.\newline
+\textit{NewOz 2021} now enforces the first letter of class names to be capitalized, following the conventions of languages like \textit{Java}, \textit{Swift} or \textit{Python}.
+Finally, object application no longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.\newline
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-obj}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -509,47 +512,131 @@ match l {
 \label{fig:code-comp-cond}
 \end{figure}
 
+\subsection{Dataflow computing}
+Arguably, one of the most powerful features of \textit{Oz} are the dataflow variables, which allow to efficiently create concurrent, multi-agent programs, using the concepts of ports and streams.
+The translation of those concepts in \textit{NewOz} was fairly straightforward, as it was simply a matter of following the conventions we applied in the previous sections.
+The resulting syntax can be seen in Figure~\ref{fig:code-comp-dataflow}.
+\begin{figure}
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Oz},language=oz]
+local S=_ P={NewPort S} Server Client in
+  proc {Server S1}
+    case S1
+    of nil then skip
+    [] M|T then
+      %Do some logic with the message
+      {Handle M}
+      {Server T} %Read the next message
+    end
+  end
+  proc {Client M}
+    %Some client logic
+    {Browse M}
+    {Send P M} %Send a message to the server
+  end
+  %Run this code in different threads :
+  thread {Server S} end
+  thread {Client 'Message'} end
+  thread {Client 'Message2'} end
+  %Potentially many clients !
+end
+\end{lstlisting}
+    \end{minipage}
+    \hfill
+    \noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[title={Ozma},language=scala]
+... {
+  val s, val p=Port.make(s)
+  def server(s1: List[String]) {
+    s1 match {
+      case Nil => ()
+      case m::t =>
+        handle(m)
+        server(t)
+    }
+  }
+  def client(m) {
+    //Some client logic
+    browse(m)
+    p.send(m) //Send a message to the server
+  }
+  //Run this code in different threads :
+  thread { server(s) }
+  thread { client("Message") }
+  thread { client("Message2") }
+  //Potentially many clients !
+}
+\end{lstlisting}
+    \end{minipage}
+    \begin{center}
+        \noindent\begin{minipage}{.89\textwidth}
+\begin{lstlisting}[title={NewOz 2020/2021},language=newoz]
+... {
+  val s=_, p=newPort(s)
+  defproc server(s1) {
+    match s1 {
+      case nil => {}
+      case m::t => {
+        handle(m)
+        server(t)
+      }
+    }
+  }
+  defproc client(m) {
+    //Some client logic
+    browse(m)
+    send(p, m) //Send a message to the server
+  }
+  //Run this code in different threads :
+  thread { server(s) }
+  thread { client("Message") }
+  thread { client("Message2") }
+  //Potentially many clients !
+}
+\end{lstlisting}
+        \end{minipage}
+    \end{center}
+    \caption{Functional dataflow syntax comparison}
+    \label{fig:code-comp-dataflow}
+\end{figure}
+
 \subsection{Other structures}
 Other syntactic structures have undergone some changes, whose motivation was simply to make them match with what had been modified before.
-In particular, the syntax for threads, locks, and the "\texttt{raise}" statement was slightly adapted to incorporate the new scope system using curly braces.\newline
+In particular, the syntax for locks and the "\texttt{raise}" statement were slightly adapted to incorporate the new scope system using curly braces.\newline
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-other}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
-                 \begin{lstlisting}[title={Oz},language=oz]
-local A B E in
-  thread {Compute A @B} end
+\begin{lstlisting}[title={Oz},language=oz]
+local A B={NewCell 0} E in
   lock A then C in C=@B B:=C+1 end
 
   raise E end
 end
-                 \end{lstlisting}
+\end{lstlisting}
     \end{minipage}
     \hfill
     \noindent\begin{minipage}{.49\textwidth}
-                 \begin{lstlisting}[title={Ozma},language=scala]
+\begin{lstlisting}[title={Ozma},language=scala]
 ... {
-  thread { compute(a, b) }
   // Locks do not have nice such a nice syntactic support in Scala
   throw e;
 }
-                 \end{lstlisting}
+\end{lstlisting}
     \end{minipage}
     \begin{center}
     \noindent\begin{minipage}{.89\textwidth}
 \begin{lstlisting}[title={NewOz 2020/2021},language=newoz]
 ... {
-  thread { compute(a, b) }
-  lock (a) {
-    var c
-    c = b
-    b = c+1
-  }
+  val a, e
+  var b
+  lock (a) { val c = b
+    b = c+1 }
   raise {e}
 }
 \end{lstlisting}
     \end{minipage}
     \end{center}
-\caption{Threads, locks and exception raising syntax comparison}
+\caption{Locks and exception raising syntax comparison}
 \label{fig:code-comp-other}
 \end{figure}
 
@@ -559,4 +646,8 @@ The Parser from M. Mbonyincungu only supported a subset of pre-defined functions
 this adaptation will allow a more convenient use of the language by developers, and is a major step towards the goal of reaching functional parity between \textit{NewOz} and \textit{Oz} in the future.
 
 \section{In the end : a self-evaluation}\label{sec:ch2-evaluation}
+In this section, we gave an overview of the current state of the \textit{NewOz} syntax, as well as the motivations behind each of the design and modification decisions.
+The interested reader will find relevant figures at the end of this document : Appendix~\ref{sec:appendix-grammar} contains the EBNF grammar of the last iteration of the syntax, while Appendix~\ref{sec:appendix-lexical-grammar} presents the bundled lexical grammar.
+Appendix~\ref{sec:appendix-kernel} presents a comparison of the kernel languages of \textit{Oz} and \textit{NewOz}.
+Finally, Appendix~\ref{sec:appendix-examples} presents some code example using various programming paradigms, written in \textit{Oz} and \textit{NewOz} to provide comparative value.\newline
 \textcolor{red}{[TODO] Briefly, what we think of our syntax at this stage}

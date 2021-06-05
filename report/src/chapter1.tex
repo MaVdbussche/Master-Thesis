@@ -8,19 +8,42 @@ functional programming (including compositional syntax, first-class procedures/f
 logic programming and constraint programming (including logic variables, constraints, disjunction constructs, and programmable search mechanisms).
 \textit{Oz} allows users to dynamically create any number of sequential threads, which can be described as dataflow-driven, in the sense that a thread executing an operation will suspend until all needed operands have a well-defined value~\cite{mozart2tutorial}.\newline
 
-Over the years, the \textit{Oz} programming language has been used with success in various MOOCs and university courses.
-It's multi-paradigm philosophy proved to be a valuable strength in teaching students the basics of programming paradigms, in a manner that very few other languages could, thanks to its ability to implement such a variety of concepts in a single unified syntax.
+Over the years, the \textit{Oz} programming language has been used with success in various MOOCs (Massive Open Online Courses) and university courses.
+Its multi-paradigm philosophy proved to be a valuable strength in teaching students the basics of programming paradigms, in a manner that very few other languages could, thanks to its ability to implement such a variety of concepts in a single unified syntax.
 However, it has become obvious over time that said syntax also constitutes a drawback.
 In particular, \textit{Oz} has not been updated like other languages have, which is hindering its ability to keep a growing and active community of developers around it.\newline
 
 Building upon this observation, it was decided by Professor Peter Van Roy at UCLouvain in 2019 that a new syntax would be developed for \textit{Oz}, with the ultimate goal of including this syntax in the official release of Mozart 2.
 The objective behind what would later be called \textit{NewOz} is ambitious : bringing the syntax of \textit{Oz} to par with modern programming languages, while keeping alive the philosophy that makes its strength : giving access to a plethora of programming paradigms in a single, coherent environment.
-This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis}, who created a first design for the \textit{NewOz} syntax, heavily inspired by \textit{Ozma} and \textit{Scala}.\newline
+This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis} (hereinafter "last year's thesis"), who created a first design for the \textit{NewOz} syntax, heavily inspired by \textit{Ozma} and \textit{Scala}.\newline
 
-In the following sections, we will provide an overview of what our sources of inspiration have been when designing this new syntax, which results previous works have achieved, and we will give an overview of the contributions that this thesis made to the \textit{NewOz} project in general.
+In the following sections, we will provide an overview of our evaluation method, our sources of inspiration for the design of this new syntax, and the results previous works have achieved.
+We will conclude this chapter by giving an overview of the contributions that this thesis made to the \textit{NewOz} project in general.
+\emph{Please note that in the context of this thesis, the reader is assumed to have some knowledge of what \textit{Oz} is, as well as a reasonable understanding of the concepts and philosophy characterizing the language.}
 
-\section{Our inspirations : a brief history}\label{sec:ch1-inspirations}
+\section{Methodology and evaluation approach}\label{sec:ch1-methodology}
+Before introducing the work that we did in this thesis, it is important to explicit the criteria we will use to evaluate our results, and to determine if the goals we set ourselves at the start, were attained.
+As we briefly mentioned, the \textit{NewOz} project was envisioned form the start as a process that would span multiple years.
+It is important to understand that designing the syntax of a programming language takes a long time, and that this time can't really be compressed in any meaningful way without sacrificing on the quality, and thus future acceptance, of the result.
+As we will further describe below, the thesis of M. Mbonyincungu was a first step towards our ultimate goal;
+and this thesis enters into the continuity of it.
+In our opinion, a number of conditions should be met before considering a syntax "ready" :
+\begin{itemize}
+    \item Most importantly, the syntax must give the programmer a way to reach all the language's features;
+    \item it should consistently follow its own rules and conventions;
+    \item it should avoid confusion whenever possible;
+    \item it should be efficient and pleasant to use;
+    \item it should be accepted by the users of the language and reach at least some level of consensus.
+\end{itemize}
+As you can see, those points are difficult to evaluate objectively, since terms like "consistency" and "pleasant" are mostly a matter of opinion.
+For this reason, it is crucial to include as many people as possible in the evaluation process, from the very start of the project;
+the opinion of programmers with different backgrounds, each with their opinions and knowledge of programming languages, is of the utmost importance to get inspired ideas and qualitative feedback.
+The ideal evaluation process would then be iterative : drafting a first version of the syntax, gathering feedback from people using it to write various programs, and then collecting their opinion to shape a new version.
+This is in our opinion the best way to reach a wide acceptance of the resulting syntax, but it has the downside of taking a lot more time and effort than other approaches.\newline
 
+In the rest of this document, and in its concluding chapter in particular, we ambition to demonstrate the progress that has been made towards the creation of such a "ready" syntax, but also to give a realistic view of what's still to be done in the coming months and years.
+
+\section{Our inspirations : a brief history}\label{sec:ch1-inspiration}
 Just like spoken languages, programming languages evolve over time.
 The needs of the industry are in constant motion, and therefore, the offer of programming languages has to adapt constantly.
 The only thing that seems certain, is that a modern programming language has to have multi-paradigm capabilities.
@@ -61,10 +84,10 @@ For each of these, code snippets in both \textit{Oz} and \textit{Scala}/\textit{
 The code served as a basis for the reflection and ensuing discussion, comparing pros and cons of both existing approaches, conceiving a new one when required, and motivating the final choices being made.
 The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.\newline
 
-This thesis has provided two main results :
+the two main results of this thesis could be summarized as follows :
 \begin{itemize}
     \item The definition of a new syntax (which we will refer to as \textit{NewOz} 2020 in this document), as we said before;
-    this syntax can be consulted in the appendices of the thesis\footnote{See the appendix C.2 of last year's thesis~\cite{jpthesis}} in the form of an EBNF grammar.
+    this syntax can be consulted in the appendices of the thesis\footnote{See the Appendix C.2 of last year's thesis~\cite{jpthesis}} in the form of an EBNF grammar.
     This result served as the starting point for the syntax designed in this year's work;
     chapter~\ref{ch:2} describes how we covered syntax elements left untouched last year, on top of further refining the others.
     \item The writing of what we will call the "Parser", which is able to convert code written in \textit{NewOz} to the equivalent \textit{Oz} code.
@@ -74,15 +97,16 @@ This thesis has provided two main results :
 \end{itemize}
 
 \section{Contributions of this thesis}\label{sec:ch1-3}
-This work provides  main results which can be summarized as follows :
+As we said before, our thesis enters into the continuation of last year's work.
+Nevertheless, it also provides its own results that go further than simply expanding the reflexion on \textit{NewOz}'s syntax :
 \begin{itemize}
-    \item Make further adaptations to the M. Mbonyincungu's \textit{NewOz 2020} syntax, by addressing points that were left open last year, or by expanding the reflection on other elements;
-    \item Creating a compiler for \textit{NewOz} : even if last year's thesis made work in that direction, we felt like a more robust solution was necessary to gain acceptance around \textit{NewOz};
-    \item Gathering, for the first time, feedback from the community on the new syntax : it is indeed crucial to leverage the experience and opinions of numerous programmers when designing a syntax, especially from people outside our close social and professional circle;
-    \item Conducting a broad reflection on what is necessary to design a good syntax, why it is important, and how this thesis enters into an ambitious, long-term goal of creating an improved and accepted syntax for the \textit{Oz} programming language.
+    \item We made further adaptations to the M. Mbonyincungu's \textit{NewOz 2020} syntax, by addressing points that were left open last year, or by expanding the reflection on other elements;
+    \item We also created a compiler for \textit{NewOz} : even if last year's thesis made work in that direction, we felt like a more robust solution was necessary to gain acceptance around \textit{NewOz};
+    \item We gathered, for the first time, feedback from the community on the new syntax : it is indeed crucial to leverage the experience and opinions of numerous programmers when designing a syntax, especially from people outside our close social and professional circle;
+    \item Finally, we conducted a broad reflection on what is necessary to design a good syntax, why it is important, and how this thesis enters into an ambitious, long-term goal of creating an improved and accepted syntax for the \textit{Oz} programming language.
 \end{itemize}
 
 \section{Conclusions and the road ahead}\label{sec:ch1-4}
 Finally, we will conclude this work by reflecting on the quality of our results, in an honest manner taking into account missed opportunities and genuine mistakes, but also time and physical constraints of the project.
 In a second time, we will then provide elements to help potential future works on this topic, in the form of ideas to explore, projects to take inspiration from, and goals to achieve.\newline
-In particular, we hope to demonstrate that placing this thesis in a multi-year process is not only the best to alleviate the intrinsic time limitations posed by the format of master theses, but also how it is simply the best way to carry out such reflections on computer language design in general, and complex, multi-paradigm languages in particular.
+In particular, we hope to demonstrate that placing this thesis in a multi-year process is not only the best method to alleviate the intrinsic time limitations posed by the format of master theses, but also the best way to carry out such reflections on computer language design in general, and complex, multi-paradigm languages in particular.
