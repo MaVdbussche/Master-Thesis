@@ -1,0 +1,24 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexampletryoz},title={File operations : an exception-prone program example (\textit{Oz} version)}]
+try
+  % Some code that could raise exceptions of various nature
+  {ProcessFile F}
+  1 = 2
+catch failure(...) then {Browse 'Caught a failure'}
+  [] X then {Browse 'Exception '#X#' when processing file'}
+  end
+finally {CloseFile F}
+end
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexampletrynewoz},title={File operations : an exception-prone program example (\textit{NewOz} version)}]
+try {
+  // Some code that could raise exceptions of various nature
+  processFile(f)
+  1 = 2
+} catch {
+  case 'failure(...) => { browse("Caught a failure") }
+  case x => { browse("Exception "+x+" when processing file") }
+} finally {
+  closeFile(f)
+}
+\end{lstlisting}

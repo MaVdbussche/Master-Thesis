@@ -1,0 +1,91 @@
+%! Author = Martin Vandenbussche
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexampleobjoz},title={Ball playing : a program using active objects (\textit{Oz} version)}]
+declare
+  fun {NewActive Class Init}
+    Obj={New Class Init}
+    P
+  in
+    thread S in
+      {NewPort S P}
+      for M in S do {Obj M} end
+    end
+    proc {$ M} {Send P M} end
+  end
+  class PlayerClass
+    attr state others
+    meth init(Others)
+      state:=0
+      others:=Others
+    end
+    meth ball
+      Ran = ({OS.rand} mod {Width @others})+1
+    in
+      {(@others).Ran ball}
+      state:=@state+1
+    end
+    meth get(X)
+      X=@state
+    end
+  end
+  fun {Player Others}
+    {NewActive PlayerClass init(Others)}
+  end
+  P1 P2 P3
+in
+  % Initialize the game
+  P1={Player others(P2 P3)}
+  P2={Player others(P1 P3)}
+  P3={Player others(P2 P3)}
+  % Launch the game
+  {P1 ball}
+  % Read the state
+  local X in {P1 get(X)} {Browse X} end
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexampleobjnewoz},title={Ball playing : a program using active objects (\textit{NewOz} version)}]
+declare {
+  defproc newActive(class, init, channel) {
+    val obj=new(class, init)
+    val p
+    thread {
+      val s
+      newPort(s, p)
+      for (m in s) { obj.m }
+    }
+    channel = defproc $(m) { send(p, m) }
+  }
+  class PlayerClass {
+    attr state attr others
+    def init(oth) {
+      state = 0
+      others = oth
+    }
+    def ball() {
+      val ran = (rand() % width(others))+1
+      (others.ran).ball()
+      state = state+1
+    }
+    def get(x) {
+      x = state
+    }
+  }
+  def player(others) {
+    val channel
+    newActive(PlayerClass, init(others), channel)
+    channel
+  }
+  val p1, p2, p3
+  // Initialize the game
+  p1 = player('others(p2, p3))
+  p2 = player('others(p1, p3))
+  p3 = player('others(p2, p3))
+  // Launch the game
+  p1(ball())
+  // Read the state
+  {
+    val x
+    p1(get(x))
+    browse(x)
+  }
+}
+\end{lstlisting}

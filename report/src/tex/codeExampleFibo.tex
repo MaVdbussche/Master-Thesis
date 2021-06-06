@@ -1,0 +1,26 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexamplefibooz},title={Fibonacci : a program using recursion and lambdas (\textit{Oz} version)}]
+declare
+  Fibo Out Show
+in
+  Fibo = fun {$ N}
+    if N<2 then 1
+    else {Fibo X-1}+{Fibo X-2}
+    end
+  end
+  Show = proc {$ S} {Browse S} end
+  Out = {Fibo 30}
+  {Show Out}
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexamplefibonewoz},title={Fibonacci : a program using recursion and lambdas (\textit{NewOz} version)}]
+declare {
+  val fibo, out, show
+  fibo = def $ (n) {
+    if (n<2) {1}
+    else {fibo(n-1)+fibo(n-2)}
+  }
+  show = defproc $ (s) {browse(s)}
+  out = fibo(30)
+  show(out)
+}
+\end{lstlisting}

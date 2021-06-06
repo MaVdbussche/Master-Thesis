@@ -1,5 +1,4 @@
 %! Author = Martin Vandenbussche
-
 \appendix
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
@@ -21,10 +20,21 @@ The right-most column gives the \textit{NewOz} equivalent, which allows the user
 \input{tex/kernel.tex}
 
 \section{Appendix D : Some Examples}\label{sec:appendix-examples}
-Code examples : Oz vs \textit{NewOz}
-\input{tex/codeExample1.tex}
+This appendix contains a series of real-world programs written in both \textit{Oz} and \textit{NewOz 2021}, allowing the reader to see the new syntax in action and forge themselves an opinion base on extensive examples.
+\input{tex/codeExampleFibo.tex}
+\input{tex/codeExampleMergeSort.tex}
+\input{tex/codeExampleAgents.tex}
+\input{tex/codeExampleRMI.tex}
+\input{tex/codeExampleObject.tex}
+\input{tex/codeExampleExceptions.tex}
 
 \section{Appendix E : Compilation example}\label{sec:appendix-compilation}
+This appendix presents the different states a program's code goes through during the compilation process performed by \texttt{nozc}.
+All the following outputs are produced by the command-line utility directly : like briefly mentioned in section~\ref{sec:ch3-nozc}, \texttt{nozc} provides the option to visualizes the abstract representations of the code at various stages of the compilation process.
+This can prove useful in an educational context !
+\input{tex/compilationSteps.tex}
 
 \section{Appendix F : Documentation and tutorial}\label{sec:appendix-doc}
-Move this as the first appendix ?
+The interested reader will find a tutorial and documentation on the \texttt{nozc} \textit{GitHub} repository.~\cite{NozcGitHub}
+We chose not to include them here because it added little value to this paper, since they are publicly available online.
+Furthermore, they will most likely evolve in the future with the next releases of \texttt{nozc} and the upcoming iterations of \textit{NewOz}, making their version included here obsolete.

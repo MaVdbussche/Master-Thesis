@@ -1,0 +1,263 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=newoz,label={lst:compilation-in},title={Input code in \textit{NewOz}}]
+declare {
+  val a, b=3, c
+  def tripleSum(x, y, z) {
+    x+y+z
+  }
+  browse(tripleSum(a,b,c))
+}
+\end{lstlisting}
+\begin{lstlisting}[label={lst:compilation-t},title={Output of the command "\texttt{\$ nozc code.nozc -t}", demonstrating the first part of the compilation (lexer/tokenizer)}]
+nozc 0.0.5-beta
+(c) Martin "Barasingha" Vandenbussche 2021
+Running via Picocli 4.6.2-SNAPSHOT
+JVM: 16.0.1 (Private Build OpenJDK 64-Bit Server VM 16.0.1+9-Ubuntu-1)
+OS: Linux 5.11.0-18-generic amd64
+This software is distributed under the BSD license, available at https://github.com/MaVdbussche/nozc/blob/master/LICENSE
+[INFO] : Compiling 1 NewOz file(s) to destination directory "."
+[INFO] : Created output file ./code.oz
+[INFO] : ==========Scanning started==========
+1	 : "declare" = declare
+1	 : "{" = {
+2	 : "val" = val
+2	 : <VARIABLE> = a
+2	 : "," = ,
+2	 : <VARIABLE> = b
+2	 : "=" = =
+2	 : <INT> = 3
+2	 : "," = ,
+2	 : <VARIABLE> = c
+3	 : "def" = def
+3	 : <VARIABLE> = tripleSum
+3	 : "(" = (
+3	 : <VARIABLE> = x
+3	 : "," = ,
+3	 : <VARIABLE> = y
+3	 : "," = ,
+3	 : <VARIABLE> = z
+3	 : ")" = )
+3	 : "{" = {
+4	 : <VARIABLE> = x
+4	 : "+" = +
+4	 : <VARIABLE> = y
+4	 : "+" = +
+4	 : <VARIABLE> = z
+5	 : "}" = }
+6	 : <VARIABLE> = browse
+6	 : "(" = (
+6	 : <VARIABLE> = tripleSum
+6	 : "(" = (
+6	 : <VARIABLE> = a
+6	 : "," = ,
+6	 : <VARIABLE> = b
+6	 : "," = ,
+6	 : <VARIABLE> = c
+6	 : ")" = )
+6	 : ")" = )
+7	 : "}" = }
+7	 : <EOF> =
+[INFO] : ==========Scanning done in 0m:0s:6ms:157µs:827ns==========
+\end{lstlisting}
+\begin{lstlisting}[label={lst:compilation-s},title={Output of the command "\texttt{\$ nozc code.nozc -s}", demonstrating the second part of the compilation (scanner/syntax analysis)}]
+nozc 0.0.5-beta
+(c) Martin "Barasingha" Vandenbussche 2021
+Running via Picocli 4.6.2-SNAPSHOT
+JVM: 16.0.1 (Private Build OpenJDK 64-Bit Server VM 16.0.1+9-Ubuntu-1)
+OS: Linux 5.11.0-18-generic amd64
+This software is distributed under the BSD license, available at https://github.com/MaVdbussche/nozc/blob/master/LICENSE
+[INFO] : Compiling 1 NewOz file(s) to destination directory "."
+[INFO] : Created output file ./code.oz
+[INFO] : ==========Scanning started==========
+[INFO] : ==========Scanning done in 0m:0s:2ms:481µs:399ns==========
+[INFO] : ==========Parsing input==========
+<InteractiveStatement line="1">
+<StatementBlock line="1">
+  <ConstantDeclaration line="2" name="a">
+    <Value : none>
+  </ConstantDeclaration>
+  <ConstantDeclaration line="2" name="c">
+    <Value : none>
+  </ConstantDeclaration>
+  <ConstantDeclaration line="2" name="b">
+    <Value :>
+    <Literal image="3">
+  </ConstantDeclaration>
+  <FunctionDeclaration line="3" name="tripleSum">
+    <Argument>
+      <Variable>
+        <name:x constant:true>
+      </Variable>
+    </Argument>
+    <Argument>
+      <Variable>
+        <name:y constant:true>
+      </Variable>
+    </Argument>
+    <Argument>
+      <Variable>
+        <name:z constant:true>
+      </Variable>
+    </Argument>
+    <ExpressionBlock line="3">
+      <BinaryExpression line="4" type="" operator="+">
+        <Lhs>
+          <BinaryExpression line="4" type="" operator="+">
+            <Lhs>
+              <Variable>
+                <name:x constant:true>
+              </Variable>
+            </Lhs>
+            <Rhs>
+              <Variable>
+                <name:y constant:true>
+              </Variable>
+            </Rhs>
+          </BinaryExpression>
+        </Lhs>
+        <Rhs>
+          <Variable>
+            <name:z constant:true>
+          </Variable>
+        </Rhs>
+      </BinaryExpression>
+    </ExpressionBlock>
+  </FunctionDeclaration>
+  <CallProcedureStatement line="6" name="browse">
+    <Arguments>
+      <Argument>
+        <CallFunctionExpression line="6" name="tripleSum">
+          <Arguments>
+            <Argument>
+              <Variable>
+                <name:a constant:true>
+              </Variable>
+            </Argument>
+            <Argument>
+              <Variable>
+                <name:b constant:true>
+              </Variable>
+            </Argument>
+            <Argument>
+              <Variable>
+                <name:c constant:true>
+              </Variable>
+            </Argument>
+          </Arguments>
+        </CallFunctionExpression>
+      </Argument>
+    </Arguments>
+  </CallProcedureStatement>
+</StatementBlock>
+</InteractiveStatement>
+[INFO] : ==========Parsing done in 0m:0s:25ms:661µs:614ns==========
+\end{lstlisting}
+\begin{lstlisting}[label={lst:compilation-a},title={Output of the command "\texttt{\$ nozc code.nozc -a}", demonstrating the third part of the compilation (semantic analysis)}]
+nozc 0.0.5-beta
+(c) Martin "Barasingha" Vandenbussche 2021
+Running via Picocli 4.6.2-SNAPSHOT
+JVM: 16.0.1 (Private Build OpenJDK 64-Bit Server VM 16.0.1+9-Ubuntu-1)
+OS: Linux 5.11.0-18-generic amd64
+This software is distributed under the BSD license, available at https://github.com/MaVdbussche/nozc/blob/master/LICENSE
+[INFO] : Compiling 1 NewOz file(s) to destination directory "."
+[INFO] : Created output file ./code.oz
+[INFO] : ==========Scanning started==========
+[INFO] : ==========Scanning done in 0m:0s:1ms:627µs:381ns==========
+[INFO] : ==========Parsing input==========
+[INFO] : ==========Parsing done in 0m:0s:14ms:894µs:931ns==========
+[INFO] : ==========Pre-analyzing input==========
+[INFO] : ==========Pre-analyzing done in 0m:0s:9ms:49µs:596ns==========
+[INFO] : ==========Analyzing input==========
+<InteractiveStatement line="1">
+<StatementBlock line="1">
+  <ConstantDeclaration line="2" name="a">
+    <Value : none>
+  </ConstantDeclaration>
+  <ConstantDeclaration line="2" name="c">
+    <Value : none>
+  </ConstantDeclaration>
+  <ConstantDeclaration line="2" name="b">
+    <Value :>
+    <Literal image="3">
+  </ConstantDeclaration>
+  <FunctionDeclaration line="3" name="tripleSum">
+    <Argument>
+      <Variable>
+        <name:x constant:true>
+      </Variable>
+    </Argument>
+    <Argument>
+      <Variable>
+        <name:y constant:true>
+      </Variable>
+    </Argument>
+    <Argument>
+      <Variable>
+        <name:z constant:true>
+      </Variable>
+    </Argument>
+    <ExpressionBlock line="3">
+      <BinaryExpression line="4" type="Any" operator="+">
+        <Lhs>
+          <BinaryExpression line="4" type="Any" operator="+">
+            <Lhs>
+              <Variable>
+                <name:x constant:true>
+              </Variable>
+            </Lhs>
+            <Rhs>
+              <Variable>
+                <name:y constant:true>
+              </Variable>
+            </Rhs>
+          </BinaryExpression>
+        </Lhs>
+        <Rhs>
+          <Variable>
+            <name:z constant:true>
+          </Variable>
+        </Rhs>
+      </BinaryExpression>
+    </ExpressionBlock>
+  </FunctionDeclaration>
+  <CallProcedureStatement line="6" name="browse">
+    <Arguments>
+      <Argument>
+        <CallFunctionExpression line="6" name="tripleSum">
+          <Arguments>
+            <Argument>
+              <Variable>
+                <name:a constant:true>
+              </Variable>
+            </Argument>
+            <Argument>
+              <Variable>
+                <name:b constant:true>
+              </Variable>
+            </Argument>
+            <Argument>
+              <Variable>
+                <name:c constant:true>
+              </Variable>
+            </Argument>
+          </Arguments>
+        </CallFunctionExpression>
+      </Argument>
+    </Arguments>
+  </CallProcedureStatement>
+</StatementBlock>
+</InteractiveStatement>
+[INFO] : ==========Analyzing done in 0m:0s:24ms:247µs:102ns==========
+\end{lstlisting}
+\begin{lstlisting}[label={lst:compilation-a},title={Resulting \textit{Oz} code, demonstrating the successful compilation process}]
+declare
+A
+B=3
+C
+fun{TripleSum X Y Z}
+X + Y + Z
+end
+in
+{Browse {TripleSum A B C} }
+\end{lstlisting}
+\textit{The formatting of the output \textit{Oz} code, as we mentioned before, should be one of the main attention points in future improvements of \texttt{nozc}.}

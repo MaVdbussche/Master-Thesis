@@ -1,0 +1,60 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexamplemergeoz},title={Merge sort : working with lists and tail recursion (\textit{Oz} version)}]
+declare
+  fun {Merge Xs Ys}
+    case Xs#Ys
+    of nil#Ys then Ys
+    [] Xs#nil then Xs
+    [] (X|Xr)#(Y|Yr) then
+      if X<Y then X|{Merge Xr Ys}
+      else Y|{Merge Xs Yr}
+      end
+    end
+  end
+  fun {MergeSort Xs}
+    fun {MergeSortAcc L1 N}
+      if N==0 then nil#L1
+      elseif N==1 then (L1.1|nil)#(L1.2)
+      elseif N>1 then
+        NL=N div 2
+        NR=N-NL
+        Ys#L2 = {MergeSortAcc L1 NL}
+        Zs#L3 = {MergeSortAcc L2 NR}
+      in
+        {Merge Ys Zs}#L3
+      end
+    end
+  end
+in
+  {MergeSortAcc Xs {Length Xs}.1
+end
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexamplemergenewoz},title={Merge sort : working with lists and tail recursion (\textit{NewOz} version)}]
+declare {
+  def merge(xs, ys) {
+    match (xs#ys) {
+      case (nil#ys) => {ys}
+      case (xs#nil) => {xs}
+      case ((x::xr)#(y::yr)) => {
+        if (x<y) {x::merge(xr, ys)}
+        else {y::merge(xs, yr)}
+      }
+    }
+  }
+  def mergeSort(xs) {
+    def mergeSortAcc(l1, n) {
+      if (n==0) {nil#l1}
+      else if (n==1) {(l1.1::nil)#(l1.2)}
+      else if (n>1) {
+        val nl = n/2
+        val nr = n-nl
+        val ys,l2,zs,l3
+        ys#l2 = mergeSortAcc(l1, nl)
+        zs#l3 = mergeSortAcc(l2, nr)
+        merge(ys, zs)#l3
+      }
+    }
+  }
+  mergeSortAcc(xs, length(xs)).1
+}
+\end{lstlisting}

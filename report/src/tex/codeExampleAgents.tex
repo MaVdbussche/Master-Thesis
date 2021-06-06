@@ -1,0 +1,44 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexampleagentsoz},title={Pipeline : a concurrent program example (\textit{Oz} version)}]
+declare
+  % Consumer logic
+  proc {Disp S}
+    case S of X|S2 then {Browse X} {Disp S2} end
+  end
+  % Producer logic
+  fun {Prod N} {Delay 1000} N|{Prod N+1} end
+  % Transformer logic
+  fun {Trans S}
+    case S of X|S2 then X*X|{Trans S2} end
+  end
+  S1 S2
+in
+  thread S1 = {Prod 1} end % Producer agent
+  thread S2 = {Trans S1} end % Producer-Consumer agent
+  thread {Disp S2} end % Consumer agent
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexampleagentsnewoz},title={Pipeline : a concurrent program example (\textit{NewOz} version)}]
+declare {
+  // Consumer logic
+  defproc disp(s) {
+    match s {
+      case x::s2 => {browse(x) disp(s2)}
+    }
+  }
+  // Producer logic
+  def prod(n) {
+    delay(1000) n::prod(n+1)
+  }
+  // Transformer logic
+  def trans(s) {
+    match s {
+      case x::s2 => {x*x::trans(s2)}
+    }
+  }
+val s1, s2
+
+thread { s1 = prod(1) } // Producer agent
+thread { s2 = trans(s1) } // Producer-Consumer agent
+thread { disp(s2) } // Consumer agent
+}
+\end{lstlisting}

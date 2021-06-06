@@ -1,0 +1,76 @@
+%! Author = Martin Vandenbussche
+\begin{lstlisting}[language=oz,label={lst:lstexamplermioz},title={RMI with callback : a message passing program example (\textit{Oz} version)}]
+declare
+  % Defining a stateless server port object
+  fun {NewPortObject2 Proc}
+    P S
+  in
+    {NewPort S P}
+    thread
+      for M in S do {Proc M} end
+    end
+    P
+  end
+  % Server logic
+  proc {ServerProc Msg}
+    case Msg of calc(X Y Client) then D in
+      {Send Client delta(D)}
+      Y = X*X+2.0*D*X+D*D+23.0
+    end
+  end
+  Server = {NewPortObject2 ServerProc}
+  % Client logic
+  proc {ClientProc Msg}
+    case Msg of work(Z) then Y in
+      {Send Server calc(10.0 Y Client)}
+      thread Z=Y+10.0 end
+    [] delta(D) then D=0.1
+    end
+  end
+  Client={NewPortObject2 ClientProc}
+  % Value to work on
+  Z
+in
+  {Send Client work(Z)}
+  {Browse Z}
+\end{lstlisting}
+\begin{lstlisting}[language=newoz,label={lst:lstexamplerminewoz},title={RMI with callback : a message passing program example (\textit{NewOz} version)}]
+declare {
+  // Defining a stateless server port object
+  def newPortObject2(proc) {
+    val p, s
+    newPort(s, p)
+    thread {
+      for (m in s) {proc(m)}
+    }
+    p
+  }
+  // Server logic
+  defproc serverProc(msg) {
+    match msg {
+      case 'calc(x, y, client) => {
+        val d
+        send(client, 'delta(d))
+        y = x*x+2.0*d*x+d*d+23.0
+      }
+    }
+  }
+  val server = newPortObject2(serverProc)
+  // Client logic
+  defproc clientProc(msg) {
+    match msg {
+      case 'work(z) => {
+        val y
+        send(server, 'calc(10.0, y, client))
+        thread {z = y + 10.0}
+      }
+      case 'delta(d) => { d = 0.1 }
+    }
+  }
+  val client = newPortObject2(clientProc)
+  // Value to work on
+  val z
+  send(client, 'work(z))
+  browse(z)
+}
+\end{lstlisting}

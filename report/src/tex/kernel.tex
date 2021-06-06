@@ -20,10 +20,10 @@
 ~~|  <y>=!!<x> & \multicolumn{2}{c}{Read-only view} & \emph{Not implemented yet}\\
 \hline
 \begin{tabular}[c]{@{}l@{}}~~|  \textbf{try} <s>\textsubscript{1} \textbf{catch} <x>\\~~~~\textbf{then} <s>\textsubscript{2} \textbf{end}\end{tabular} & \multicolumn{2}{c}{Exception context} & \begin{tabular}[c]{@{}l@{}}~~|  \textbf{try} \{ <s>\textsubscript{1} \} \textbf{catch} \{\\~~~~\textbf{case} <pattern> => \{<s>\textsubscript{2}\}\}\end{tabular}\\
-~~|  \textbf{raise} <x> \textbf{end} & \multicolumn{2}{c}{Raise exception} & ~~|  raise \{ <x> \}\\
+~~|  \textbf{raise} <x> \textbf{end} & \multicolumn{2}{c}{Raise exception} & ~~|  \textbf{raise} \{ <x> \}\\
 ~~|  \{FailedValue <x> <y>\} & \multicolumn{2}{c}{Failed value} & ~~|  failed(<x>, <y>)\\
 \hline
-~~|  \{NewCell <x> <y>\} & Cell creation & Variable declaration & ~~|  var <x>=<y>\\
+~~|  \{NewCell <x> <y>\} & Cell creation & Variable declaration & ~~|  \textbf{var} <x>=<y>\\
 ~~|  \{Exchange <x> <y> <z>\} & \multicolumn{2}{c}{Cell exchange} & ~~|  exchangeCell(<x>, <y>, <z>)\\
 ~~|  \{IsDet <x> <y>\} & \multicolumn{2}{c}{Boundness test} & ~~|  isDet(<x>, <y>)\\
 \hline
