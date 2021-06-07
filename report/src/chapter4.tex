@@ -1,7 +1,7 @@
 %! Author = Martin Vandenbussche
 In this chapter, we will describe the process we put in place to obtain a good evaluation of the syntax proposed in chapter~\ref{ch:2}.
 Starting with the approach we followed to gather feedback from various developers from both in and outside our network,
-we will then give a first critical evaluation of this process for gathering feedback, and explain the reasons that pushed us to adjust it in a second phase.
+we will then give a critical evaluation of this process, and explain the reasons that pushed us to adjust it.
 Finally, we will conclude the chapter by giving a broader reflection on the approach this thesis took, both when it comes to the design and the evaluation of the syntax, but also on the future we envision for \textit{NewOz}.
 Our hope is that those reflections will help future contributors select the most appropriate approach in their work, in order to make \textit{NewOz} as successful as possible.
 
@@ -9,36 +9,36 @@ Our hope is that those reflections will help future contributors select the most
 Before describing our evaluation approach, it is important to describe what its objectives were, and what a perfect evaluation would have looked like.\newline
 One of the main goals of this thesis, as we briefly mentioned in the introduction chapter, was to gather, for the first time, feedback from people unfamiliar to the project.
 Specifically, we wanted to collect opinions on the syntax as it stands at this point in time, after two successive years of work on it.
-The importance of this process can't be overstated as, like in other matters, an outsider's opinion often brings a new perspective on things, pointing a finger on what seemed like an unimportant detail, and asking uncomfortable questions that forces us to reevaluate our stance.\newline
+The importance of this process should not be underestimated as, like in other matters, an outsider's opinion often brings a new perspective on things, pointing a finger on what seemed like an unimportant detail, and asking uncomfortable questions that forces us to reevaluate our stance.\newline
 
-A syntax can't be designed lightly : if it is to stand the test of time, it should be conceived organically, by gathering feedback and adjusting specific elements, in an iterative process that can (and should) take a long time.
+A syntax cannot be designed lightly : if it is to stand the test of time, it should be conceived organically, by gathering feedback and adjusting specific elements, in an iterative process that can (and should) take a long time.
 This is the best way to obtain a result that satisfies as many people as possible;
 in turn, this means it will be used by a lot of programmers \emph{because it suits their needs}.
 After all, we have to remember that programming languages exist to solve real issues people face, be it in a professional or an educational environment;
 this is not a purely theoretical exercise designed by some computer scientists to challenge themselves.\newline
 
 In the light of this, our intention was to put together opinions from as many programmers as possible, and we first took the time to carefully design our evaluation process.
-Two main issues now had to be tackled : (a) contacting those people and sparkling their interest in the project; (b) finding an effective way to gather their opinions, while allowing a real debate to take place between contributors.\newline
+Two main issues had to be tackled : (a) contacting those people and sparkling their interest in the project; (b) finding an effective way to gather their opinions, while allowing a real debate to take place between contributors.\newline
 
-The first point was fairly easy to address, and we send messages through different channels : mailing lists of EPL alumni, private messages to friends working in STEM, as well as Professor Van Roy's \textit{Twitter} account, on which the message reached a couple of hundreds of people.\newline
+The first point was fairly easy to address, and we sent messages through different channels : mailing lists of EPL alumni, private messages to friends working in STEM, as well as through Professor Van Roy's \textit{Twitter} account, on which the message reached a couple of hundreds of people.\newline
 The second one demanded a bit more work.
 We decided to use the \textit{issues} feature of \textit{GitHub} to host the discussions, for multiple reasons :
 \begin{enumerate}
     \item It is a website that tech-savvy people generally trust and know how to use, at least on a basic level;
     \item It is a highly customizable platform, where issues can be categorized with labels, linked with each other, or cited from elsewhere;
-    \item \textit{Github} is available is all countries, and has taken specific actions to limit the likelihood of it being blocked in certain parts of the world\footnote{Readers interested in this topic can consult the repository at \url{https://github.com/github/gov-takedowns} for an example of such actions};
+    \item \textit{GitHub} is available is all countries, and has taken specific actions to limit the likelihood of it being blocked in certain parts of the world\footnote{Readers interested in this topic can consult the repository at \url{https://github.com/github/gov-takedowns} for an example of such actions};
     \item Most potential contributors will already have a \textit{GitHub} account;
     if not, creating one is free and easy to do.
 \end{enumerate}
-It made sense to host this discussion on the \textit{GitHub} repository already hosting the code for the \texttt{nozc} compiler.
-However, we firstly had to create an extensive documentation around the language, with tutorials and code examples, to help contributors get started with \textit{NewOz}.
+It made sense to organize this discussion on the \textit{GitHub} repository already hosting the code for the \texttt{nozc} compiler.
+However, we first had to create an extensive documentation around the language, with tutorials and code examples, to help contributors get started with \textit{NewOz}.
 This documentation is also available on the same repository, at~\cite{NozcGitHub}.
 
 \subsection{Results of this approach}
 In this section, we will provide a rapid summary of contributions we received from the community;
-the interested reader can consult (and participate in !) the full discussion online.
+the interested reader can consult (and participate in) the full discussion online.
 All of these opinions and ideas were gathered on \textit{GitHub}, as we said, and will remain available at~\cite{NozcGitHub}.
-The contributors keep full intellectual credit for their contribution;
+The contributors keep full intellectual credit for their own contribution;
 we simply compile them here in a succinct manner for the purposes of the discussion.\newline
 
 A first suggestion that was brought to the table was the addition of a "\texttt{return}" keyword.
@@ -50,10 +50,10 @@ However, we identified two problems with this suggestion :
     \item Distinguishing functions from procedures is arguably easy enough, thanks to the use of separate keywords in their respective definition, but also because of the point above.
 \end{itemize}
 The point about future tooling like syntax highlighting was indeed important to mention;
-even though the language is still far from a state where a proper software ecosystem develops around it, it is still important to keep this sort of things in mind from the start.
+even though the language is still far from a state where a proper software ecosystem grows around it, it is still important to keep this sort of things in mind from the start.
 In this specific case, the absence of a return keyword means that some sort of analysis phase needs to be performed on the program to determine if a phrase is an expression or a statement, which can in turn determine if it is a suitable last phrase in a function.
-It does not seem to us like a big issue, even though we admittedly don't have much knowledge about this type of tools.
-Another option could be to copy the behavior of \textit{Scala}, which seems to make the "\texttt{return}" keyword optional;
+It does not seem to us to be a big issue, even though we admittedly don't have much knowledge about this type of tools.
+Another option could be to copy the behavior of \textit{Scala}, which \emph{seems} to make the "\texttt{return}" keyword optional;
 but this comes with its own problems\footnote{See in that regard the answer from user \texttt{dhg} on \textit{StackOverflow} (\url{https://stackoverflow.com/a/12560532}), but also the blog post from Rob Norris at~\cite{returnscala}}.\newline
 
 Another talking point was the way attributes in classes are expressed.
@@ -64,15 +64,15 @@ More simply, declaring them in a sequence, separating them with commas, could be
 It was also mentioned that the choice of the keywords "\texttt{var}"/"\texttt{val}" might not be most wise, as they look very similar, which might pose problems for some people.
 Different options were proposed, like "\texttt{mut}"/"\texttt{val}", "\texttt{let mut}"/"\texttt{let}", or even "\texttt{cel/cell}"/"\texttt{var}", in a witty nod to \textit{Oz}'s cells feature.
 A lot of arguments can be made for each of those propositions and others;
-the good point here is that it does not impact the language's philosophy in any way, nor its implementation significantly, as modifications to the lexical grammar have minimal consequences on the compiler's implementation.
-Changes to it will, however, break compatibility with existing programs, something that has to be kept in mind in future iterations of the syntax.
+a good point here is that it does not impact the language's philosophy in any way, nor its implementation significantly, as modifications to the lexical grammar have minimal consequences on the compiler's implementation.
+Changes to it will, however, break compatibility with existing programs, something that has to be kept in mind in future iterations of the syntax.\newline
 
 Additionally, another good point was made regarding a visually confusing syntax element : the labels and features of records.
-The current version of the syntax uses an apostrophe "\texttt{\'}" in front of the non-capitalized name, which is necessary to make the distinction with variable names or method calls.
-However, it was brought to our attention how this could be not only be too subtle for people with poor eyesight, but also how it could be confused with strings in general.
+The current version of the syntax uses an apostrophe "\texttt{'}" in front of the non-capitalized name, which is necessary to make the distinction with variable names or method calls.
+However, it was brought to our attention how this could be not only too subtle for people with poor eyesight, but also how it could be confused with strings in general.
 While we agree that the current solution is not satisfactory, we could not find a suitable replacement yet : most characters on the keyboard are either already used, or are not standard enough to appear on all keyboard layouts.
 A syntax using chevrons was suggested, but we didn't take it on as it would create a lot of problems with \textit{HTML}-like content;
-in particular, online documentation and emails displaying code snippets would see their formatting disrupted if these particular characters were used without careful escaping.\newline
+in particular, online documentation and emails displaying code snippets would see their formatting disrupted if these particular characters were used without careful and quite tedious escaping.\newline
 
 Finally, we will quickly mention the problem that was brought to our attention regarding Unicode support in \textit{Mozart}.
 Even though \texttt{nozc} could natively supports all Unicode characters, the fact that the Mozart2 compiler doesn't, poses a problem : a variable named "\texttt{bµ}" can't be compiled by the underlying \texttt{ozc} compiler.
@@ -80,8 +80,9 @@ This problem could be circumvented by "translating" problematic characters, givi
 We find this solution acceptable since it probably won't enter into play very often;
 nonetheless, it is an important addition to include in a future version of \texttt{nozc}.
 
-\section{First evaluation and adjustments}\label{sec:ch4-adjustments}
-Our general takeaway on the feedback we received is the following : we didn't get the high-level, philosophical reflections we expected, but the fault probably lies in our ill-suited approach for a debate on those subjects.\newline
+\section{Evaluation of those results}\label{sec:ch4-evaluation}
+Our general takeaway on the feedback we received is the following : \emph{we didn't get the high-level, philosophical reflections we expected, but the fault probably lies in our ill-suited approach for a debate on those subjects.}\newline
+
 In terms of content, we hoped for more content-focused reactions on the general philosphy of the language.
 Instead, we mainly got propositions for the usage of a particular keyword or small-scope syntax modifications.
 We identify two possible reasons for this discrepancy between the expected and the actual feedback.\newline
@@ -92,16 +93,17 @@ But this means that the feedback they are able to give is mainly focused on what
 In-depth reflections can only come after extensive use of the syntax, from people having written different programs using various paradigms.
 In that regard, calling upon the online community to help us in a deep reflection on the philosophy of a syntax was probably a process that was doomed to fail.\newline
 
-Secondly, the "philosophy" behind the \textit{NewOz} maybe wasn't explicit enough in the first place;
+Secondly, the "philosophy" behind \textit{NewOz} was maybe not explicit enough in the first place;
 how then could users react upon it ?
 The debate would probably have benefited from a deeper high-level presentation of the language in the documentation, similar to the extensive syntax tutorial that was written.
-Such a document could have presented our vision more explicitly, which would have allowed contributors to gie us some of their opinions on it.\newline
+Such a document could have presented our vision more explicitly, which would have allowed contributors to share some of their opinions on it.\newline
 
 With all this being said, the remarks we did gather still raised interesting questions and will definitely be useful in the design process of \textit{NewOz}.
 Relevant syntax elements from different languages were proposed, and it is clear that such proposals are essential to design a good syntax, simply because the experience of each programmer is different, and so is their knowledge and approach of what a powerful, convenient, or even fun programming syntax is.
 
 \section{A second approach : a broader reflection on the project itself}\label{sec:ch4-reflection}
 \textcolor{red}{[TODO] Broad reflection on how syntax design should happen. Did we do a good job at that ?}
+
 We see two ways to do it :  (a) start from Oz, "translate" it piece by piece with various inspirations (while keeping consistency) (this is what we did with newOz) (b) Take an existing language, and add what we need on top of it (e.g. Ozma, FlowJava). This ensures consistency, but is it really its own language at this point ?
 Explicit our opinion on this matter.
 

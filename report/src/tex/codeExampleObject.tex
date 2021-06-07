@@ -54,8 +54,8 @@ declare {
     }
     channel = defproc $(m) { send(p, m) }
   }
-  class PlayerClass {
-    attr state attr others
+  class PlayerClass
+    attr state attr others {
     def init(oth) {
       state = 0
       others = oth
