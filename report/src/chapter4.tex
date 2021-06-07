@@ -14,7 +14,7 @@ The importance of this process should not be underestimated as, like in other ma
 A syntax cannot be designed lightly : if it is to stand the test of time, it should be conceived organically, by gathering feedback and adjusting specific elements, in an iterative process that can (and should) take a long time.
 This is the best way to obtain a result that satisfies as many people as possible;
 in turn, this means it will be used by a lot of programmers \emph{because it suits their needs}.
-After all, we have to remember that programming languages exist to solve real issues people face, be it in a professional or an educational environment;
+After all, we have to remember that programming languages exist to solve real issues people face, be it in a professional, or an educational environment;
 this is not a purely theoretical exercise designed by some computer scientists to challenge themselves.\newline
 
 In the light of this, our intention was to put together opinions from as many programmers as possible, and we first took the time to carefully design our evaluation process.
@@ -34,7 +34,7 @@ It made sense to organize this discussion on the \textit{GitHub} repository alre
 However, we first had to create an extensive documentation around the language, with tutorials and code examples, to help contributors get started with \textit{NewOz}.
 This documentation is also available on the same repository, at~\cite{NozcGitHub}.
 
-\subsection{Results of this approach}
+\subsection{Results of this approach}\label{subsec:ch4-results}
 In this section, we will provide a rapid summary of contributions we received from the community;
 the interested reader can consult (and participate in) the full discussion online.
 All of these opinions and ideas were gathered on \textit{GitHub}, as we said, and will remain available at~\cite{NozcGitHub}.
@@ -75,7 +75,7 @@ A syntax using chevrons was suggested, but we didn't take it on as it would crea
 in particular, online documentation and emails displaying code snippets would see their formatting disrupted if these particular characters were used without careful and quite tedious escaping.\newline
 
 Finally, we will quickly mention the problem that was brought to our attention regarding Unicode support in \textit{Mozart}.
-Even though \texttt{nozc} could natively supports all Unicode characters, the fact that the Mozart2 compiler doesn't, poses a problem : a variable named "\texttt{bµ}" can't be compiled by the underlying \texttt{ozc} compiler.
+Even though \texttt{nozc} could natively support all Unicode characters, the fact that the Mozart2 compiler doesn't, poses a problem : a variable named "\texttt{bµ}" can't be compiled by the underlying \texttt{ozc} compiler.
 This problem could be circumvented by "translating" problematic characters, giving something like "\texttt{B\_C2B5\_}" in output of \texttt{nozc}.
 We find this solution acceptable since it probably won't enter into play very often;
 nonetheless, it is an important addition to include in a future version of \texttt{nozc}.
@@ -83,7 +83,7 @@ nonetheless, it is an important addition to include in a future version of \text
 \section{Evaluation of those results}\label{sec:ch4-evaluation}
 Our general takeaway on the feedback we received is the following : \emph{we didn't get the high-level, philosophical reflections we expected, but the fault probably lies in our ill-suited approach for a debate on those subjects.}\newline
 
-In terms of content, we hoped for more content-focused reactions on the general philosphy of the language.
+In terms of content, we hoped for more content-focused reactions on the general philosophy of the language.
 Instead, we mainly got propositions for the usage of a particular keyword or small-scope syntax modifications.
 We identify two possible reasons for this discrepancy between the expected and the actual feedback.\newline
 
@@ -104,6 +104,61 @@ Relevant syntax elements from different languages were proposed, and it is clear
 \section{A second approach : a broader reflection on the project itself}\label{sec:ch4-reflection}
 \textcolor{red}{[TODO] Broad reflection on how syntax design should happen. Did we do a good job at that ?}
 
+These thoughts encouraged us to take a step back and reevaluate the \textit{NewOz} project as a whole.
+Up until now, we always envisioned this new version of the language as a stand-alone system, that would either run on the existing \textit{Mozart} virtual machine or on its own, depending on the choices that will be made in the future regarding the compiler.
+However, a new idea was brought up during a discussion with Martin Henz, Associate Professor at the National University of Singapore\footnote{\url{https://www.comp.nus.edu.sg/cs/bio/henz/}} and reader of this thesis.
+What if, instead of "refreshing" \textit{Oz} and its concepts in the form of a new syntax, we took the interesting concepts and paradigms behind \textit{Oz}, and incorporated them in an existing language with a robust syntax and more importantly, an established community ?
+This approach would have many advantages :
+\begin{itemize}
+    \item By creating an extension to an existing language, we could easily reach its existing developers community;
+    \item We would build upon an existing syntax, which has already gone through the long process of design and acceptance;
+    \item We could also probably reuse the existing software ecosystem around the language, at least to some extent;
+    \item It would give more credibility and visibility to the language than the "stand-alone" approach, making it easier to attract and engage newcomers.
+\end{itemize}
+Amazingly, this addresses most of the problems \textit{Oz} faces today, that we described in chapter~\ref{ch:1}.\newline
+
+The attentive reader might notice how this approach is looks like the one \textit{Ozma} selected years ago : by creating a conservative extension to \textit{Scala}, this project was able to incorporate powerful concepts from \textit{Oz} into an existing syntax~\cite{Ozma}.
+However, there is one key difference that need to be explained : \textit{Ozma} did not target an existing platform.
+In particular, it does not target the \textit{JVM} : the \textit{Ozma} compiler uses the \textit{Mozart} engine as its backend, even though its syntax is an extension of Scala's.
+The approach we propose here is somewhat different, in the sense that we would target the same platform as the base language of our conservative extension.\newline
+
+Another work which followed a similar approach is \textit{Flow Java}~\cite{drejhammar2003flow}, which conservatively extended \textit{Java} and the \textit{Gnu Java Compiler} to support "single assignment variables and futures as variants of logic variables".
+This work targeted the \texttt{libjava} runtime environment.\newline
+
+Driven by his long teaching experience at the NUS, Martin Henz proposed the idea to create a conservative extension of \textit{JavaScript}, which could address a number of points that are considered problematic in the current version of the language and in its implementations :
+\begin{itemize}
+    \item The mystically-called "Temporal Dead Zone", which requires a bit of an explanation.
+    In \textit{JavaScript}, variables can be declared in 3 ways : (a) using \texttt{var}, which makes the variable global (if it is declared outside a function), or function scoped otherwise; (b) using \texttt{let}, which makes the variable block-scoped (a block is defined as anything between curly braces \texttt{\{\}}); (c) using \texttt{const}, which essentially follows the same rules as \texttt{let} with the exception that the variable is -you guessed it- a constant, making it only assignable once.
+    But there is another important, albeit more subtle difference that is important to understand when choosing the correct keyword, which has to do with a concept called \textit{variable hoisting}.\newline
+    Let us take an example to explain this concept (see Figure~\ref{fig:js-hoisting}\footnote{The code examples in this section were taken from~\cite{jsTDZ}}).
+    \begin{figure}[H]
+    \begin{lstlisting}[language=JavaScript]
+        {
+            console.log(hoistedVariable); // undefined
+            var hoistedVariable = 1;
+        }
+        // Which is functionally identical to :
+        {
+            var hoistedVariable;
+            console.log(hoistedVariable); // undefined
+            hoistedVariable = 1;
+        }
+    \end{lstlisting}
+    \caption{Hoisting of a \texttt{var}}
+    \label{fig:js-hoisting}
+    \end{figure}
+    As you can see, when \textit{hoisting} a \texttt{var}, the parser gives it an \texttt{undefined} value.
+    Compare now with the following example (see Figure~\ref{fig:js-hoisting-2}):
+    \begin{figure}[H]
+    \begin{lstlisting}[language=javaScript]
+    \end{lstlisting}
+    \caption{test2}
+    \label{fig:js-hoisting-2}
+    \end{figure}
+    \item declared inside a scope are available in the whole context, and not only after their declaration
+\end{itemize}
+
+Together with Martin Henz, we identified two ways
 We see two ways to do it :  (a) start from Oz, "translate" it piece by piece with various inspirations (while keeping consistency) (this is what we did with newOz) (b) Take an existing language, and add what we need on top of it (e.g. Ozma, FlowJava). This ensures consistency, but is it really its own language at this point ?
 Explicit our opinion on this matter.
 
