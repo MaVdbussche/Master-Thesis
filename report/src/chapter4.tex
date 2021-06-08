@@ -102,8 +102,6 @@ With all this being said, the remarks we did gather still raised interesting que
 Relevant syntax elements from different languages were proposed, and it is clear that such proposals are essential to design a good syntax, simply because the experience of each programmer is different, and so is their knowledge and approach of what a powerful, convenient, or even fun programming syntax is.
 
 \section{A second approach : a broader reflection on the project itself}\label{sec:ch4-reflection}
-\textcolor{red}{[TODO] Broad reflection on how syntax design should happen. Did we do a good job at that ?}
-
 These thoughts encouraged us to take a step back and reevaluate the \textit{NewOz} project as a whole.
 Up until now, we always envisioned this new version of the language as a stand-alone system, that would either run on the existing \textit{Mozart} virtual machine or on its own, depending on the choices that will be made in the future regarding the compiler.
 However, a new idea was brought up during a discussion with Martin Henz, Associate Professor at the National University of Singapore\footnote{\url{https://www.comp.nus.edu.sg/cs/bio/henz/}} and reader of this thesis.
@@ -127,22 +125,22 @@ This work targeted the \texttt{libjava} runtime environment.\newline
 
 Driven by his long teaching experience at the NUS, Martin Henz proposed the idea to create a conservative extension of \textit{JavaScript}, which could address a number of points that are considered problematic in the current version of the language and in its implementations :
 \begin{itemize}
-    \item The mystically-called "Temporal Dead Zone", which requires a bit of an explanation.
+    \item The mystically-called "Temporal Dead Zone" (or TDZ), which requires a bit of an explanation.
     In \textit{JavaScript}, variables can be declared in 3 ways : (a) using \texttt{var}, which makes the variable global (if it is declared outside a function), or function scoped otherwise; (b) using \texttt{let}, which makes the variable block-scoped (a block is defined as anything between curly braces \texttt{\{\}}); (c) using \texttt{const}, which essentially follows the same rules as \texttt{let} with the exception that the variable is -you guessed it- a constant, making it only assignable once.
     But there is another important, albeit more subtle difference that is important to understand when choosing the correct keyword, which has to do with a concept called \textit{variable hoisting}.\newline
     Let us take an example to explain this concept (see Figure~\ref{fig:js-hoisting}\footnote{The code examples in this section were taken from~\cite{jsTDZ}}).
     \begin{figure}[H]
     \begin{lstlisting}[language=JavaScript]
-        {
-            console.log(hoistedVariable); // undefined
-            var hoistedVariable = 1;
-        }
-        // Which is functionally identical to :
-        {
-            var hoistedVariable;
-            console.log(hoistedVariable); // undefined
-            hoistedVariable = 1;
-        }
+    {
+        console.log(hoistedVariable); // undefined
+        var hoistedVariable = 1;
+    }
+    // Which is functionally identical to :
+    {
+        var hoistedVariable; // Initialized to undefined
+        console.log(hoistedVariable); // undefined
+        hoistedVariable = 1;
+    }
     \end{lstlisting}
     \caption{Hoisting of a \texttt{var}}
     \label{fig:js-hoisting}
@@ -151,21 +149,68 @@ Driven by his long teaching experience at the NUS, Martin Henz proposed the idea
     Compare now with the following example (see Figure~\ref{fig:js-hoisting-2}):
     \begin{figure}[H]
     \begin{lstlisting}[language=javaScript]
+    {
+        console.log(hoistedVariable); // undefined
+        let hoistedVariable = 1;
+    }
+    // Which is functionally identical to :
+    {
+        let hoistedVariable; // Not initialized
+        // hoistedVariable is in the TDZ
+        console.log(hoistedVariable); // Throws a ReferenceError
+        hoistedVariable = 1;
+    }
     \end{lstlisting}
-    \caption{test2}
+    \caption{Hoisting of a \texttt{let}}
     \label{fig:js-hoisting-2}
     \end{figure}
-    \item declared inside a scope are available in the whole context, and not only after their declaration
-\end{itemize}
+    \textit{Hoisting} refers to the apparent rearrangement of arguments done by the \textit{JS} parser.
+    The idea behind this, is that variables declared in a scope are made accessible at \emph{any point in said scope}.
+    Because of this design choice to allow variables access \emph{before} their declaration, the \textit{hoisting} process is required for the parsing to succeed.
+    In most languages, this is not allowed : in \textit{Oz} for example, the declarations have to appear before their use in any given scope.
+    The implementation of \texttt{var}s \textit{hoisting} in \textit{JavaScript} is often considered problematic\footnote{See~\cite{whyTDZ}}, because it hides errors.
+    If a programmer declared a variable after accessing it, it was probably by accident : for this reason, they should receive a warning from the parser.
+    The implementation of \textit{hoisting} for \texttt{var}s, however, does not throw any warning, since the variable is silently initialized to \texttt{undefined}.
+    \textit{ES6} corrects this problem with the TDZ, which describes the period between a variable (\texttt{let} or \texttt{const}) declaration and its initialization.
+    Any access attempt during this period will result in a \texttt{ReferenceError}.\newline
 
-Together with Martin Henz, we identified two ways
-We see two ways to do it :  (a) start from Oz, "translate" it piece by piece with various inspirations (while keeping consistency) (this is what we did with newOz) (b) Take an existing language, and add what we need on top of it (e.g. Ozma, FlowJava). This ensures consistency, but is it really its own language at this point ?
-Explicit our opinion on this matter.
-
-\begin{itemize}
-\item We are but one step in a large-scope work (long-term project/collaboration) - spread over multiple master's projects
-\item Toward ultimate goal of a new, improved, and accepted syntax for the Oz multi-paradigm language (Multiparadigm = now it is accepted that languages must be multiparadigm-Java has lambdas, Scala is functional-objet, Cloud analytics combine functional, concurrent, and database structure)
-\item Be honest - it is hard to design a syntax - problems encountered, why this is a multi-year project -> what we did to alleviate these challenges
-\item Final, definitive way of formulating a multiparadigm language.  Oz was a pioneer, followed by Scala, Ozma, etc., but what will multiparadigm languages look like in the future?  In the future when all languages are multiparadigm. We are making steps toward this - take Oz original ideas but with new syntax inspired by existing languages. Lyric goal : here we made one small step in this (Apollo reference?)
+    This is a nice approach, but it still can be confusing for the programmer, as it isn't very intuitive : if I am not allowed to access the variable, why could I declare it after its access in the first place ?
+    \textit{Oz} provides a much more elegant approach, with the concept of \textit{unbound values} (see Figure~\ref{fig:oz-unbound}).
+    Any function that needs to access such a value will wait until it is available, which allows creating data-driven operations (\textit{dataflow execution}).
+    This is a fundamentally different approach to this problem, but one that is probably worth exploring in an extension of \textit{JavaScript}, notably by using its asynchronous capabilities\cite{ozjs}.
+    \begin{figure}
+        \begin{lstlisting}[language=oz]
+        local
+            A % Equivalent to A = _
+        in
+            {Browse {PerformComputation 5 1 A}}
+            % The function holds until A gets a value
+            % A is still unbound
+            A = 1 % The function can get evaluated
+        end
+        \end{lstlisting}
+        \caption{Unbound values in \textit{Oz}}
+        \label{fig:oz-unbound}
+    \end{figure}
+    \item The absence of proper multi-threading capabilities.
+    The \textit{JavaScript} runtime uses an event-driven system which sequentially executes actions based on events occurring on the web page.
+    This gives the impression of a concurrent system, but it is far less powerful than the declarative concurrency capabilities \textit{Oz} offers.
+    It would thus be interesting to explore an extension of \textit{JavaScript} allowing to simulate the behavior of threads in a syntax as neat and concise as \textit{Oz}'s.
+    This could be achieved using \textit{web workers}, or using asynchronous functions, as demonstrated in~\cite{ozjs}.
+    \item A third problem with \textit{JavaScript} lies in the fact that most \textit{JavaScript} engines don't implement tail call optimization in function.
+    Because functions have to return a value (\texttt{undefined} in the case of procedures), even a well-written, tail-recursive function written by a smart programmer using an accumulator will not see the memory optimization they could expect, because of the presence of this \texttt{undefined} value on the stack.
+    The ECMAScript 2015 specification includes optimizations for this specific case\footnote{See \url{https://262.ecma-international.org/6.0/\#sec-tail-position-calls}}.
+    Sadly, very few platforms have implemented them at the time of writing\footnote{See \url{https://kangax.github.io/compat-table/es6/}. Some vendors are actually saying they don't even plan on supporting the feature (\url{https://www.chromestatus.com/feature/5516876633341952\#details})}.
+    The lack of support by vendors is once again a great opportunity to demonstrate the power of \textit{Oz}'s logic variables, which would bypass the need to maintain a memory-hungry call stack.
 \end{itemize}
-Some items of this list probably have their place in the next chapter !
+The list goes on, but we feel like those examples are enough to show how interesting it could be to integrate concepts of \textit{Oz} into other languages.
+Future could design conservative extensions of existing languages adding the abilities of one or two paradigms at a time.
+This approach would fit very nicely in many programming courses, by introducing students to a few concepts at the start, and then adding paradigms on top of acquired concepts.
+The educational value of this approach is invaluable, and it is used in university courses like the ones given by Martin Henz and Peter van Roy.
+It is also the approach followed in~\cite{van2004concepts}.\newline
+
+Clearly, this new idea is drastically different from what was envisioned at the start of this thesis.
+But we feel like it combines a lot of the advantages over a complete rewrite of \textit{Oz}, on top of the benefits and stability brought by the integration into an existing platform.
+Next steps in this direction should now make the difficult decision of choosing the target language/platform that would receive those conservative extensions.
+We already made a good case for \textit{JavaScript}, but works like~\cite{Ozma} and~\cite{drejhammar2003flow} show that the \textit{JVM} is also a perfectly valid target.
+Arguments for the selection of a platform should evaluate elements like the size and engagement of the community, the philosophy and future objectives of the institution promoting it, as well as open-source and legal considerations, which are important since the platform would be modified and used in an educational environment.

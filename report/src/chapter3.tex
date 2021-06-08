@@ -163,7 +163,7 @@ As often seems to be the case in master theses however, time was a limiting fact
 supporting machine code generation for the various existing systems would take a lot of time and effort which we simply didn't have this year.\newline
 A solution to consider could be to rely on the JVM's multi-platform capabilities, by making \texttt{nozc} output JVM bytecode, effectively removing the need for  "manual" multi-platform support.
 However, this approach would also come with its own drawbacks and difficulties, as some programming paradigms provided by \textit{Oz} and \textit{NewOz} will probably be difficult to support and implement on the JVM (in particular, one would lose Mozart's support for fine-grain threads, dataflow, and failed values)\footnote{Further reflections on this approach might benefit from reading the work of Sébastien Doeraene on Ozma~\cite{Ozma}}.\newline
-Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax. \textcolor{red}{[Reformulate : "plug" nozc as a front-end to ozc]}\newline
+Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax, making in a way, \texttt{nozc} the new front-end of \texttt{ozc}.\newline
 
 But the main area of focus for future \texttt{nozc} improvements should probably be its integration in the existing Mozart environment through its Emacs interface.
 The ability to compile regions of code directly from the Emacs editor is a major feature of \textit{Oz}, that has been left aside in this current implementation.

@@ -1,15 +1,39 @@
 %! Author = Martin Vandenbussche
-\textcolor{red}{[TODO] Complete this section}
-Resume our approach and each chapter briefly
-How the situation of \textit{Oz} has evolved thanks to this works.\newline
-What did we do well, what did we miss ? (use User feedback examples)\newline
-What could future works do ? (refer to aforementioned compiler improvements, user feedback left to address)\newline
-\begin{itemize}
-    \item integrate in a course ? Gather feedback from students working a medium-scale project-> after some weeks/months, they might give more high-level fedback ?
-    \item New version of~\cite{van2004concepts} ?
-    \item Integration in Mozart/Emacs
-    \item Other things left to do/address
-\end{itemize}
+In this thesis, we continued the work of Jean-Pacifique Mbonyincungu on the \textit{NewOz} syntax, which is an attempt to implement the numerous paradigms supported by \textit{Oz}, in a more modern and user-friendly syntax.
+We systematically reviewed each class of instructions, providing refinements or modifications to create a new version of \textit{Oz}'s syntax we called \textit{NewOz 2021}.
+We then proceeded to create a compiler for this syntax called \texttt{nozc}, with a strong focus on code maintainability and adhesion to open-source principles.
+In a third phase we asked for the help of the online community to give us their opinions on the newly designed syntax.
+We held a discussion online for a couple of weeks, and compiled this feedback for potential future contributors.
+We then gave a critical evaluation of this feedback process, and of the results it delivered.
+Finally, we conducted a broader reflection on the objectives behind this new version of \textit{Oz}, and how its purposes could be achieved by porting the principles that govern the language, other existing platforms.\newline
 
-!!! So far \textit{NewOz} focused on the subset of \textit{Oz} used at UCL and presented in~\cite{van2004concepts}.
-A mature version of \textit{NewOz} should allow programmers to use the full capabilities of the \textit{Oz} language in the new syntax, which is a necessary step if \textit{NewOz} is to be included in the official release of Mozart 2.
+This last idea places \textit{Oz} at a crossroad in its story, and forces to think about how we want to define the language itself.
+Do we find the language itself more important than the principles it teaches ?
+Do we think of it as a unified and inseparable block, or would we allow a subset of its features to be ported elsewhere ?
+Do we find value in the \textit{Mozart} platform itself such that we want to keep using it, or are we ready to let \textit{Oz} and its philosophy find a new home ?
+No matter the opinion of each reader on these questions, we feel like this work provided satisfactory advancements in the reflection on the subject.\newline
+
+In the former case, which we could describe as the "conservative standpoint", the improvements made in \textit{NewOz 2021}, and the first versions of \texttt{nozc} provide a solid base for the new syntax to keep growing as a part of the \textit{Mozart} ecosystem.
+Future works could provide improvements to the syntax and to \texttt{nozc}, in order to cover more parts of the \textit{Oz} language than those described in~\cite{van2004concepts}.
+The integration and compatibility with the existing EMACS environment should also be a priority, given its central part in the \textit{Mozart} ecosystem.\newline
+In the latter case, (the "revolutionary view"), we provided arguments for the creation of conservative extensions of existing language(s) providing \textit{Oz}'s approach on specific programming paradigms.
+We showed that this process has already been successfully conducted in the past, and that it can provide the same educational value as the existing approach advocated by \textit{Oz} ion its current form.\newline
+
+But even more importantly, the work proved how difficult it is to create a new syntax.
+This process takes a lot of time, and requires the input of many people;
+no matter which of the stances described above is taken, more feedback periods will be necessary to achieve satisfactory results.
+In particular, more attention will need to be paid to the feedback procedure itself, to avoid repeating the mistakes we made and described in section~\ref{sec:ch4-evaluation}.
+An interesting option could be to use the new language in a university course, in the context of a mid-sized programming project.
+The feedback from students would be close to what future users would experience, and be of great value in the iterative design process.\newline
+Additionally, in a much later phase, the various teaching materials used for \textit{Oz} will need to be adapted to take the new syntax (and possibly the new platform) into account.\newline
+
+As we said, the task at hand is long and difficult.
+It forces us to constantly reevaluate our stance on things, and to be ready to sometimes reconsider our approach altogether.
+This is one of the reasons why this project is taking placing over multiple master theses spanning multiple years;
+this work was only a step in the long and ambitious project to create a new, improved, and accepted syntax for the \textit{Oz} multip-paradigm language.
+In many ways, \textit{Oz} was a pioneer;
+other languages like \textit{Scala} followed its ideas to integrate multiple paradigms in a unified and coherent syntax.
+And there is no doubt today that modern and futures languages need to have multi-paradigm capabilities.
+For those reasons, it is clear to us that \textit{Oz} still has an important role in this play.\newline
+Updating the syntax of \textit{Oz} to be able to bring his advanced capabilities into the hands of more programmers will not be an easy task.
+But it is exciting to think that this multi-year project might have an impact on the future of programming languages as a whole.
