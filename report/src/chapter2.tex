@@ -103,13 +103,14 @@ end
 \subsection{Functions and procedures definition}
 In \textit{Oz}, functions are in fact a subclass of procedures.
 This allows for a lot of flexibility in the way they are called, since it allows for the ability to store the result in a variable, or to return it directly.
-Consequently, it allows for the call to be a statement or an expression, depending on what the situation demands.\newline
+Consequently, it allows for the call to be a statement or an expression, depending on what the situation demands.
 However, there is still a syntactic difference between the two : the keywords used to declare them highlights this contrast, and provide an important educational, but also visual, value.
 The decision was thus made by M. Mbonyincungu to keep two separate keywords for the two use cases, albeit not the same : "\texttt{fun}" becomes "\texttt{def}" and "\texttt{proc}" becomes "\texttt{defproc}".\newline
+
 More importantly, the way those functions and procedures are called has been completely overhauled, to align with \textit{Scala} and other modern languages.
 In particular, functions are now called using their (non-capitalized) name, followed by the comma-separated arguments list enclosed in parentheses.
 Similarly, their definition also requires the arguments to be separated by commas.
-This feels way better than the old curly braces-based method, on top of improving consistency with the objects syntax (see below).\newline
+This feels way better than the old curly braces-based method, on top of improving consistency with the objects syntax (see below).
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-fun}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -151,7 +152,7 @@ The syntactic elements related to data structures like lists, records, and tuple
 Lists can now be defined using a square brackets-enclosed, comma-separated list of values, in a desire to align with the way functions and procedures arguments are now defined (see before).\newline
 
 Numeric labels (implicit or not) for records, tuples, and trees are fully supported in \textit{NewOz}, which is something that wasn't possible in \textit{Scala} but existed in \textit{Oz}.
-Finally, those labels must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.\newline
+Finally, those labels must begin in \textit{NewOz} with an apostrophe, in order to distinguish them from method calls.
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-data}.
 \begin{figure}[t]
     \noindent\begin{minipage}{.49\textwidth}
@@ -205,7 +206,7 @@ end
 \subsection{Mathematical elements}
 All mathematical operations in \textit{NewOz} are directly inherited from \textit{Scala}.
 In particular, the keywords "\texttt{orelse}" and "\texttt{andthen}" in \textit{Oz} have been replaced by the more modern "\texttt{||}" and "\texttt{\&\&}", since the confusion with the pipe symbol "\texttt{|}" has been lifted following the syntactic changes made to lists (see above).
-Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".\newline
+Some other weird particularities of \textit{Oz} were corrected, like the comparisons operators "\texttt{=<}" now being replaced by "\texttt{<=}", or the minus prefix-operator finally using the minus "\texttt{-}" sign instead of a tilde "\texttt{\textasciitilde}".
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-math}.
 \begin{figure}[t]
     \noindent\begin{minipage}{.49\textwidth}
@@ -277,7 +278,7 @@ Lambda procedures, on the other hand, omit this symbol.
 We feel like this is not a very great way to differentiate functions and procedures in this case, because it makes the definition of lambda procedures confusing;
 it is our opinion that keeping the keywords "\texttt{fun}" and "\texttt{proc}", or rather their replacement "\texttt{def}" and "\texttt{defproc}", would be preferable.\newline
 We also think that this "\textit{arguments} \texttt{=>} \textit{body}" construction, while it fits vey well in \textit{Scala}'s overall syntax, felt a little out-of-place in \textit{NewOz}, giving the feeling that it was a syntactic sugar for something else.
-For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.\newline
+For those reasons, we proposed a solution that was way closer to \textit{Oz}'s original syntax, but that still incorporates the major improvements that the new functions/procedures definition, and the revamped code blocks, represent.
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-lambda}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -334,7 +335,7 @@ In \textit{NewOz 2021}, class methods must now use the keyword "\texttt{defproc}
 they are procedures, and we feel like this syntactic change is also a better way to explicit this than the "\texttt{meth}" keyword used in \textit{Oz}.\newline
 
 \textit{NewOz 2021} now enforces the first letter of class names to be capitalized, following the conventions of languages like \textit{Java}, \textit{Swift} or \textit{Python}.
-Finally, object application no longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.\newline
+Finally, object application no longer uses the comma "\texttt{,}", symbol, but is now expressed using a dot "\texttt{.}" instead, which feels way more natural to anyone that has used other languages with object-oriented capabilities.
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-obj}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -403,6 +404,7 @@ class Child extends Counter, Other {
   def superCall() {
     super(Counter).inc(5)
   }
+
 }
 \end{lstlisting}
     \end{minipage}
@@ -425,7 +427,7 @@ class Counter {
 class Child extends Counter, Other {
   def superCall() {
     super(Counter).inc(5)
-    //In case of single inheritance :
+    //Or, in case of single inheritance :
     super.inc(5)
   }
 }
@@ -442,7 +444,7 @@ However, we felt like this was kind of arbitrary, and we valued the consistency 
 We also feel, even though this could be a matter of personal opinions, that a code block makes the code easier to read.\newline
 
 Similarly, the \texttt{catch} clauses make use of pattern-matching on the caught expression.
-Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.\newline
+Their syntax has also been adapted to be consistent with what was discussed above, following \textit{Oz}'s intention of making those two structures as similar as possible.
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-cond}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}
@@ -599,7 +601,7 @@ end
 
 \subsection{Other structures}
 Other syntactic structures have undergone some changes, whose motivation was simply to make them match with what had been modified before.
-In particular, the syntax for locks and the "\texttt{raise}" statement were slightly adapted to incorporate the new scope system using curly braces.\newline
+In particular, the syntax for locks and the "\texttt{raise}" statement were slightly adapted to incorporate the new scope system using curly braces.
 A comparison of the successive versions of this syntax can be found in Figure~\ref{fig:code-comp-other}.
 \begin{figure}
     \noindent\begin{minipage}{.49\textwidth}

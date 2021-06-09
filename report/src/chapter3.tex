@@ -9,13 +9,14 @@ In programming, a compiler is a piece of software that is able to translate code
 The \textit{target} language is usually a lower-level language : the main use of compilers is to create machine level, platform-specific code that is directly executable by the computer.
 \textit{C}, \textit{Erlang} and \textit{Rust} are examples of compiled languages.
 Compilers are usually designed in three main blocks : a front-end, middle-end, and back-end.~\cite{wikiCompiler}\newline
+
 The front-end typically scans the input code in a \textit{Lexer}, recognizing keywords and known literals and storing them as \textit{tokens}.
 It then proceeds with the syntax analysis, which will try to match those series of tokens to known language structures, such as statements, arithmetic operations, or method definitions.
 This allows for the creation of an \textit{Abstract Syntax Tree}, which stores the program's in a structure that is not only easy to analyze and understand, but also generic enough to be compatible with the middle- and back-end.
-In a third step, the compiler performs \textit{semantic analysis} on the generated \textit{AST}, checking variable types and assignments and populating the \textit{symbol table}, which stores the names and definitions known in the context of the program.\newline
+In a third step, the compiler performs \textit{semantic analysis} on the generated \textit{AST}, checking variable types and assignments and populating the \textit{symbol table}, which stores the names and definitions known in the context of the program.
 The middle-end of a compiler performs optimizations on the \textit{AST} to improve the performance of the target code that will be generated in the next step.
 An important property of compilers is that the middle-end is typically independent of both the source language being compiled, and the target platform, thanks to the generic properties of the \textit{AST}.
-A fascinating example of this property is the \textit{GNU Compiler Collection}~\cite{gcc}, which provides a single middle-end used in multiple front- and back-end combinations.\newline
+A fascinating example of this property is the \textit{GNU Compiler Collection}~\cite{gcc}, which provides a single middle-end used in multiple front- and back-end combinations.
 Finally, the back-end part of a compiler will generate the target computer code from the optimized \textit{AST}.
 This code is usually machine code, specialized for a specific CPU architecture and operating system, but there are exceptions (\texttt{nozc} is one of them).
 \begin{figure}
@@ -25,7 +26,7 @@ This code is usually machine code, specialized for a specific CPU architecture a
     \caption{Schematic representation of a classic compiler model}
 \end{figure}
 
-\section{The intial situation}\label{sec:ch3-Parser}
+\section{The initial situation}\label{sec:ch3-Parser}
 As M. Mbonyincungu explains in his thesis~\cite{jpthesis}, creating a new syntax only makes sense if it can actually be used by programmers.
 This requires the creation of some kind of program able to eventually transform \textit{NewOz} code into machine code.
 Two possible approaches were identified : rewriting the existing \textit{Oz} compiler, \textit{ozc}, or creating a NewOz-to-Oz compiler.
@@ -68,7 +69,7 @@ M. Mbonyincungu then describes the limitations and problems identified in his ap
     making it impossible, for example, to evaluate the validity of an arithmetic operation for two given arguments.
 \end{enumerate}
 
-\section{The need for something else}\label{sec:ch3-problems}
+\section{Limitations of the initial approach and proposed solution}\label{sec:ch3-problems}
 To explain the thought process that led to the creation of \texttt{nozc}, we think it is important to firstly explain our interpretation and opinion on the points enumerated above.
 Points 1 through 3 are very valid considerations when tackling a project of this size, especially in the context of a master thesis with limited time and a fixed deadline.
 In that regard, the Parser is a great solution that accomplishes its objective : allowing programmers to test and run code written using the \textit{NewOz} syntax.\newline
@@ -76,12 +77,10 @@ In that regard, the Parser is a great solution that accomplishes its objective :
 However, since this work was placed in the direct continuation of M. Mbonyincungu's thesis, we had significantly more time to design a solution that is more ambitious technically and, we hope, easier to use.
 In that context, points 4 and 5 were certainly taken into account : it is now clear that the \textit{NewOz} project's implementation will span multiple years, and it is essential to reduce the hand-over effort between maintainers to a minimum.
 This implies, among other things, using popular technologies, maintaining a good documentation, writing modular and maintainable code, but also publishing it under an appropriate open-source license;
-these considerations are further described in the next sections.\newline
-
+these considerations are further described in the next sections.
 The problem identified in point 6 is in fact inherent to the library used;
 as such, no amount of code optimization by the programmer could bring satisfactory results in that area.
-This finding alone, in our opinion, revealed the need to have a new technical approach if we were to improve the \textit{NewOz} compiler.\newline
-
+This finding alone, in our opinion, revealed the need to have a new technical approach if we were to improve the \textit{NewOz} compiler.
 Finally, the statelessness of the Parser also greatly limits the flexibility of the syntax in such a way that we could not consider it acceptable for real-world use.
 This further reinforced our feeling that a new approach was necessary.\newline
 
@@ -124,7 +123,7 @@ As said before, an important consideration when designing \texttt{nozc} was the 
 Because this project will continue for multiple years and see different maintainers, it was important to select a technology that was either widespread and well known, or easy to apprehend, to future contributors to the project.
 Another point of attention is the future support of the technologies chosen: again, later contributors should be able to find support and documentation easily.
 For the programming language itself, our choice landed on \textit{Java}, more specifically the last version to date, JDK16.
-Oracle's release cycle for Java has provided a major release every 6 months since September 2017, and it is a given at this point that Java will remain relevant for the years to come.\newline
+Oracle's release cycle for Java has provided a major release every 6 months since September 2017, and it is a given at this point that Java will remain relevant for the years to come.
 Other tools and libraries include :
 \begin{itemize}
     \item Picocli, a framework for creating Java command line applications following POSIX conventions\footnote{The online documentation for Picocli is located at \url{https://picocli.info/}~\cite{picocli}}.
@@ -142,15 +141,15 @@ Other tools and libraries include :
     \item JUnit, the best unit testing framework for \textit{Java} programs.
     An additional library called System Rules\footnote{This collection of JUnit~\cite{JUnit} rules allows to test programs that make use of the \textit{System.exit()} instruction, allowing to test the correctness of the program's return codes directly from a JUnit test suite, without having to interrupt it. See \url{https://stefanbirkner.github.io/system-rules/index.html}~\cite{SystemRules}} was used for some specific test cases.
 \end{itemize}
-Overall, a great emphasis has been put on making \texttt{nozc} a future-proof and maintainable tool by : (a) using popular tools that, if they are not already mastered by future contributors, can be in a timely manner; (b) using tools that are actively maintained, reducing the risk associated with legacy code; (c) selecting trusted, open-source software, with licences that make them suited for use in our context; (d) limiting the amount of external tools, once again to reduce the risk of dependencies depreciation and other technical debt in the future.\newline
+Overall, a great emphasis has been put on making \texttt{nozc} a future-proof and maintainable tool by : (a) using popular tools that, if they are not already mastered by future contributors, can be in a timely manner; (b) using tools that are actively maintained, reducing the risk associated with legacy code; (c) selecting trusted, open-source software, with licences that make them suited for use in our context; (d) limiting the amount of external tools, once again to reduce the risk of dependencies depreciation and other technical debt in the future.
 The program itself is published on GitHub under the BSD license\footnote{This license is available for consultation at \url{https://github.com/MaVdbussche/nozc/blob/master/LICENSE}}.
 
 \section{Evaluation of our approach}\label{sec:ch3-pros-cons}
-We are convinced that the approach we selected with \texttt{nozc} makes it a great tool for the future contributors who will continue to work on \textit{NewOz}'s syntax in the coming years.
+We are convinced that the approach we selected with \texttt{nozc} makes it a great tool for the future contributors who would continue to work on \textit{NewOz}'s syntax in the coming years.
 The modularity of the code makes it easy to add and remove language features without affecting others, while remaining flexible by making few assumptions about the language's grammar.
-The code is also well documented, and we strongly believe that it can serve as a stepping stone towards the creation of a complete software ecosystem around \textit{NewOz}.\newline
-
+The code is also well documented, and we strongly believe that it can serve as a stepping stone towards the creation of a complete software ecosystem around \textit{NewOz}.
 However, we have to mention limitations that we identified in our current implementation.\newline
+
 The main one, in our opinion, is the inability of the compiler to print the generated \textit{Oz} code in a format that stays as close as possible to that of the source \textit{NewOz} code.
 This is due to the fact that the lexer, in this particular implementation, ignores spaces and new line characters when reading the input.
 This comes as a disadvantage compared to last year's Parser, but it also allows for a lot more flexibility in the way the programmer is allowed to format the source code.
@@ -160,10 +159,10 @@ However, this problem will progressively disappear over time with the maturation
 Another issue with of our approach lies in the fact that this compiler does not free itself from the dependency on the legacy \texttt{ozc}, which was one of our criticism towards M. Mbonyincungu's Parser implementation.
 A more mature compiler should be able to generate machine code directly, or at the very least code that can be executed through Mozart's \texttt{ozengine} command, by itself, without relying on another piece of software.
 As often seems to be the case in master theses however, time was a limiting factor;
-supporting machine code generation for the various existing systems would take a lot of time and effort which we simply didn't have this year.\newline
+supporting machine code generation for the various existing systems would take a lot of time and effort which we simply didn't have this year.
 A solution to consider could be to rely on the JVM's multi-platform capabilities, by making \texttt{nozc} output JVM bytecode, effectively removing the need for  "manual" multi-platform support.
-However, this approach would also come with its own drawbacks and difficulties, as some programming paradigms provided by \textit{Oz} and \textit{NewOz} will probably be difficult to support and implement on the JVM (in particular, one would lose Mozart's support for fine-grain threads, dataflow, and failed values)\footnote{Further reflections on this approach might benefit from reading the work of Sébastien Doeraene on Ozma~\cite{Ozma}}.\newline
-Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax, making in a way, \texttt{nozc} the new front-end of \texttt{ozc}.\newline
+However, this approach would also come with its own drawbacks and difficulties, as some programming paradigms provided by \textit{Oz} and \textit{NewOz} will probably be difficult to support and implement on the JVM (in particular, one would lose Mozart's support for fine-grain threads, dataflow, and failed values)\footnote{Further reflections on this approach might benefit from reading the work of Sébastien Doeraene on Ozma~\cite{Ozma}}.
+Another solution would be to fork the existing \texttt{ozc} compiler and modify its front-end to accept the new syntax, making, in a way, \texttt{nozc} the new front-end of \texttt{ozc}.\newline
 
 But the main area of focus for future \texttt{nozc} improvements should probably be its integration in the existing Mozart environment through its Emacs interface.
 The ability to compile regions of code directly from the Emacs editor is a major feature of \textit{Oz}, that has been left aside in this current implementation.

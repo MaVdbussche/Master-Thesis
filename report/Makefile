@@ -19,4 +19,6 @@ build_latex/main.pdf: src/main.tex #src/tex/*
 	@echo "\e[1;7;32m[=]\e[27m Compiling $< to $@ ...\e[0m"
 	latexmk $(LATEX_FLAGS) $(LATEX_OPT) -outdir=../$(@D) $< $(BASH_POSTPROCESSING)
 
-
+build_latex/cover.pdf: EPL-master-thesis-covers-templates-Word-LaTeX/LaTeX/EPL-master-thesis-covers-template-EN.tex
+	@echo "\e[1;7;32m[=]\e[27m Compiling $< to $@ ...\e[0m"
+	latexmk $(LATEX_FLAGS) $(LATEX_OPT) -outdir=../../$(@D) $< $(BASH_POSTPROCESSING)
