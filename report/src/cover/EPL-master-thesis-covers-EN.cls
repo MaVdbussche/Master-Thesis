@@ -1,6 +1,6 @@
 % http://ctan.mirrors.hoobly.com/macros/latex/doc/clsguide.pdf
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{eplmastersthesis}[2018/12/04 EPL Master''s Thesis class]
+\ProvidesClass{EPL-master-thesis-covers-EN}[2018/12/04 EPL Master''s Thesis class]
 
 \LoadClass[12pt, a4paper, openright]{report}
 
@@ -46,7 +46,7 @@
     
     % background
     \noindent \hspace{-3cm} 
-    \includegraphics{_frontbanner_EPL-master-thesis.pdf}\\
+    \includegraphics{_frontbanner_EPL-master-thesis}\\
     \vspace*{-\textheight}
     
     % Font
@@ -122,7 +122,7 @@
   \newpage
   \thispagestyle{empty}
   \newgeometry{top=0cm,bottom=0cm,left=0cm,right=0cm}
-  \includegraphics{_backbanner_EPL-master-thesis.pdf}
+  \includegraphics{_backbanner_EPL-master-thesis}
 
 }
 
