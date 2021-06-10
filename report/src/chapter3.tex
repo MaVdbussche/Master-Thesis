@@ -8,7 +8,7 @@ We will then conclude the chapter by providing a self-evaluation of the implemen
 In programming, a compiler is a piece of software that is able to translate code written in one language, to another language.
 The \textit{target} language is usually a lower-level language : the main use of compilers is to create machine level, platform-specific code that is directly executable by the computer.
 \textit{C}, \textit{Erlang} and \textit{Rust} are examples of compiled languages.
-Compilers are usually designed in three main blocks : a front-end, middle-end, and back-end.~\cite{wikiCompiler}\newline
+Compilers are usually designed in three main blocks : a front-end, middle-end, and back-end~\cite{wikiCompiler}.\newline
 
 The front-end typically scans the input code in a \textit{Lexer}, recognizing keywords and known literals and storing them as \textit{tokens}.
 It then proceeds with the syntax analysis, which will try to match those series of tokens to known language structures, such as statements, arithmetic operations, or method definitions.
@@ -20,11 +20,12 @@ A fascinating example of this property is the \textit{GNU Compiler Collection}~\
 Finally, the back-end part of a compiler will generate the target computer code from the optimized \textit{AST}.
 This code is usually machine code, specialized for a specific CPU architecture and operating system, but there are exceptions (\texttt{nozc} is one of them).
 \begin{figure}
-    \begin{lstlisting}
-        TODO
-    \end{lstlisting}
-    \caption{Schematic representation of a classic compiler model}
+    \centering
+    \includegraphics[width=\textwidth]{img/Compiler structure}
+    \caption{Schematic representation of a classic compiler model\protect\footnotemark}
+    \label{fig:compiler}
 \end{figure}
+\footnotetext{Modified image base on an illustration by Pronesto - File:Compiler design IPL.png, CC BY-SA 3.0, \url{https://commons.wikimedia.org/w/index.php?curid=49520771}}
 
 \section{The initial situation}\label{sec:ch3-Parser}
 As M. Mbonyincungu explains in his thesis~\cite{jpthesis}, creating a new syntax only makes sense if it can actually be used by programmers.
@@ -94,7 +95,7 @@ Moreover, we should remember that one of the goals of this approach was to make 
 Even though the Parser's output formatting does a great job at maintaining a visual equivalency between the \textit{NewOz} and \textit{Oz} versions of the code, some error messages will inevitably be undecipherable for the end user.
 In my opinion, this limitation somehow defeats the purpose of making a new syntax and compiler in the first place, and is the main reason that pushed us to conceive a new solution involving a more complete compiler.
 
-\section{A solution : \texttt{Nozc} in details}\label{sec:ch3-nozc}
+\section{A solution : \texttt{Nozc}}\label{sec:ch3-nozc}
 The \textit{NewOz} Compiler~\cite{NozcGitHub}, which we decided to call \texttt{nozc} in reference to Mozart's \texttt{ozc} utility, is a complete compiler able to transform a \textit{NewOz} program written in a \texttt{.noz} file, into code executable using Mozart's \texttt{ozengine} command.
 In that regard, it does not fit the most classic definition of a compiler, as we mentioned before, since it does not generate low-level machine code, but instead translates from one high-level language to another.
 The current version of \texttt{nozc} runs on Windows, MacOS, and Linux, through a command-line interface.\newline
@@ -110,11 +111,12 @@ On top of its standard compilation functionality, \texttt{nozc} also provides ot
 Additionally, a couple of quality-of-life features have been embedded, such as a robust command-line interface that will make \texttt{nozc} easy to integrate in other tools by complying with general, good-practice CLI guidelines\footnote{More information on those practices can be found at \url{https://clig.dev/\#philosophy}~\cite{clig}}.
 The user also has the ability to see the intermediary \textit{Oz} code generated during the compilation, or even to personalize the logging level of the output, by using the well-known Apache's Log4j logging levels\footnote{To be exact, \texttt{nozc} does not use Log4j, but adopted the same logging levels per convention. See \url{https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/Level.html} for a technical description of those levels and their meanings~\cite{log4j}}.\newline
 \begin{figure}
-    \begin{lstlisting}
-        TODO - reusing the same image as above, but slightly modifed to nozc
-    \end{lstlisting}
-    \caption{Schematic representation of the structure of the \texttt{nozc} compiler}
+    \centering
+    \includegraphics[width=\textwidth]{img/Compiler structure nozc}
+    \caption{Schematic representation of the \texttt{nozc} compiler\protect\footnotemark}
+    \label{fig:compilerNozc}
 \end{figure}
+\footnotetext{Modified image base on an illustration by Pronesto - File:Compiler design IPL.png, CC BY-SA 3.0, \url{https://commons.wikimedia.org/w/index.php?curid=49520771}}
 
 The interested reader will find in Appendix~\ref{sec:appendix-compilation} a small example of the compilation process in \texttt{nozc}.
 

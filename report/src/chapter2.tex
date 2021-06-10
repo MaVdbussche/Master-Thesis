@@ -4,7 +4,7 @@ We will then review the important changes that were made  with respects to \text
 The goal here is not to repeat what was said before by M. Mbonyincungu in~\cite{jpthesis};
 the interested reader can consult his thesis for a systematic review of the syntactic changes proposed last year.
 We will instead focus on syntax elements that were either overlooked in that thesis, or that have been significantly modified during this year's work.
-Finally, we will conclude the chapter by evaluating whether this new version of \textit{NewOz} fulfills its announced objectives, and outline potential improvements areas that we identified at this stage of the work.\newline
+Finally, we will conclude the chapter by outlining potential improvements areas that we identified at this stage of the work.\newline
 
 \section{The big picture : what we started with}\label{sec:ch2-goal}
 The main goal of the multi-year project, as we have said before, is to create a new syntax that feels more modern to new programmers than the existing one, while keeping in the language all the functionalities that \textit{Oz} currently has.
@@ -325,11 +325,11 @@ The way of accessing class attributes has been adapted to match the changes disc
 the motivation for this was of course to keep the language consistent, as class attributes are in fact a syntactic sugar for cells.
 The keyword "\texttt{super}", used to reference the parent class, can now omit the name of said class : it is now only mandatory to avoid confusion in multi-inheritance cases.
 It will be up to the compiler to enforce the presence of this argument when it is necessary.
-This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also chapter~\ref{ch:3}).\newline
+This improvement was actually discussed by M. Mbonyincungu in his work, but it was abandoned due to the technical limitations of his Parser (see also Chapter~\ref{ch:3}).\newline
 
 Similarly, public methods don't need to be written using an \textit{atomLisp} (using the apostrophe "\texttt{'}") anymore;
 this was only done due to the fact that the Parser was stateless, and thus couldn't differentiate public methods from attributes in \textit{NewOz 2020}.
-Since the new compiler can now leverage a symbol table, this limitation is lifted and more "standard" function names can be used (again, see chapter~\ref{ch:3}).\newline
+Since the new compiler can now leverage a symbol table, this limitation is lifted and more "standard" function names can be used (again, see Chapter~\ref{ch:3}).\newline
 
 In \textit{NewOz 2021}, class methods must now use the keyword "\texttt{defproc}". \textit{NewOz 2020} used "\texttt{def}", which is misleading in our opinion since class methods cannot return values in \textit{Oz};
 they are procedures, and we feel like this syntactic change is also a better way to explicit this than the "\texttt{meth}" keyword used in \textit{Oz}.\newline
@@ -646,7 +646,17 @@ this adaptation will allow a more convenient use of the language by developers, 
 
 \section{Going further}\label{sec:ch2-evaluation}
 In this section, we gave an overview of the current state of the \textit{NewOz} syntax, as well as the motivations behind each of the design and modification decisions.
+Even though this current version feels cohesive and pleasant to use, there is still a lot of work to be done before it reaches maturity.
+In particular, this year's work, like M. Mbonyincungu's thesis, focuses on the subset of \textit{Oz} presented in~\cite{van2004concepts};
+it would be beneficial to address other parts of the language, in order to reach functional parity with \textit{Oz}.
+Other future steps include the creation of software support for the new syntax : this took the form of the \texttt{nozc} \textsc{nozc} compiler presented in Chapter~\ref{ch:3}.
+It is also crucial to gather feedback from future users of the language.
+We describe this process in Chapter~\ref{ch:4}.
+Finally, another important, albeit more distant, step will be the update of the existing documentation and various material surrounding the language.
+A first step has been made in this direction (see Appendix~\ref{sec:appendix-doc})
+\newline
+\textit{
 The interested reader will find relevant figures at the end of this document : Appendix~\ref{sec:appendix-grammar} contains the EBNF grammar of the last iteration of the syntax, while Appendix~\ref{sec:appendix-lexical-grammar} presents the bundled lexical grammar.
 Appendix~\ref{sec:appendix-kernel} presents a comparison of the kernel languages of \textit{Oz} and \textit{NewOz}.
 Finally, Appendix~\ref{sec:appendix-examples} presents some code example using various programming paradigms, written in \textit{Oz} and \textit{NewOz} to provide comparative value.\newline
-\textcolor{red}{[TODO] Briefly, what we think of our syntax at this stage}
+}

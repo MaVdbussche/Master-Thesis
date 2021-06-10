@@ -8,6 +8,59 @@ declare {
   browse(tripleSum(a,b,c))
 }
 \end{lstlisting}
+\begin{lstlisting}[label={lst:compilation-h},title={Output of the command "\texttt{\$ nozc -h}", showing help regarding the usage of the command}]
+(*\texttt{\textcolor{mauve}{nozc 0.0.5-beta}}*)
+(c) Martin "Barasingha" Vandenbussche 2021
+Run via Picocli 4.6.2-SNAPSHOT
+JVM: 16.0.1 (Private Build OpenJDK 64-Bit Server VM 16.0.1+9-Ubuntu-1)
+OS: Linux 5.11.0-18-generic amd64
+This software is distributed under the BSD license, available at https://github.com/MaVdbussche/nozc/blob/master/LICENSE
+(*\texttt{\underline{Usage:}}*)
+
+nozc [(*\texttt{\textcolor{mauve}{-ahpstV}}*)] [(*\texttt{\textcolor{mauve}{--[no-]compile}}*)] [(*\texttt{\textcolor{mauve}{--[no-]keep}}*)] [(*\texttt{\textcolor{mauve}{-d}}*)=<destDirectory>]
+     [(*\texttt{\textcolor{mauve}{-o}}*)=<outputFileName>] [(*\texttt{\textcolor{mauve}{-v}}*)=<verbosity>] (*\texttt{\textcolor{mauve}{FILE}}*)...
+
+(*\texttt{\underline{Description:}}*)
+
+Compiles a NewOz program file, or translate it to a valid equivalent Oz program
+file.
+
+(*\texttt{\underline{Parameters:}}*)
+      (*\texttt{\textcolor{mauve}{FILE}}*)...          The .noz file(s) to compile or translate.
+
+(*\texttt{\underline{Options:}}*)
+      (*\texttt{\textcolor{mauve}{--[no-]keep}}*)      Keep the intermediary Oz files in the output folder.
+                         True by default
+      (*\texttt{\textcolor{mauve}{--[no-]compile}}*)   Continue the program after Oz code generation. The
+                         actual Oz code compilation will be executed. True by
+                         default
+  (*\texttt{\textcolor{mauve}{-t}}*), (*\texttt{\textcolor{mauve}{--tokenize}}*)       Tokenize the NewOz input, print the tokens to STDOUT,
+                         and then stop the compilation
+  (*\texttt{\textcolor{mauve}{-s}}*), (*\texttt{\textcolor{mauve}{--scan}}*)           Scan/parse the NewOz input, print the AST to STDOUT, and
+                         then stop the compilation
+  (*\texttt{\textcolor{mauve}{-p}}*), (*\texttt{\textcolor{mauve}{--preAnalyze}}*)     Pre-analyze the NewOz input, print the AST to STDOUT,
+                         and then stop the compilation
+  (*\texttt{\textcolor{mauve}{-a}}*), (*\texttt{\textcolor{mauve}{--analyze}}*)        Analyze the NewOz input, print the AST to STDOUT, and
+                         then stop the compilation
+  (*\texttt{\textcolor{mauve}{-v}}*), (*\texttt{\textcolor{mauve}{--verbosity}}*)=<verbosity>
+                       The verbosity you want to see in output.
+                       Available levels : [OFF, FATAL, ERROR, WARN, INFO,
+                         DEBUG, ALL] (default: INFO)
+  (*\texttt{\textcolor{mauve}{-o}}*), (*\texttt{\textcolor{mauve}{--out}}*)=<outputFileName>
+                       Name of the output file (WITHOUT ANY EXTENSION !). This
+                         option will be ignored if you pass more than one input
+                         file.
+  (*\texttt{\textcolor{mauve}{-d}}*), (*\texttt{\textcolor{mauve}{--directory}}*)=<destDirectory>
+                       Output directory for compiled and/or translated files
+                         (default: .)
+  (*\texttt{\textcolor{mauve}{-h}}*), (*\texttt{\textcolor{mauve}{--help}}*)           Show this help message and exit.
+  (*\texttt{\textcolor{mauve}{-V}}*), (*\texttt{\textcolor{mauve}{--version}}*)        Print version information and exit.
+
+(*\texttt{\underline{Exit codes:}}*)
+  0   Successful program execution
+  1   Exception occurred during program execution
+  2   Invalid input (usage)
+\end{lstlisting}
 \begin{lstlisting}[label={lst:compilation-t},title={Output of the command "\texttt{\$ nozc code.nozc -t}", demonstrating the first part of the compilation (lexer/tokenizer)}]
 nozc 0.0.5-beta
 (c) Martin "Barasingha" Vandenbussche 2021

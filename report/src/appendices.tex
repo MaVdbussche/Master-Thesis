@@ -2,24 +2,24 @@
 \appendix
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
-\renewcommand{\thesection}{}
+\renewcommand{\thesection}{\Alph{section}}
 
-\section{Appendix A : \textit{NewOz} EBNF grammar (2021 version)}\label{sec:appendix-grammar}
+\section{\textit{NewOz} EBNF grammar (2021 version)}\label{sec:appendix-grammar}
 This EBNF grammar is a reworked version of the one provided in the appendices of Jean-Pacifique Mbonyincungu's thesis,
 removing left-recursion problems and including changes made in the syntax since then.
 It is thus suitable for recursive descent, and is the grammar used by \texttt{nozc}.
 \input{tex/grammarNewOz.tex}
 
-\section{Appendix B : Lexical grammar (2021 version)}\label{sec:appendix-lexical-grammar}
+\section{Lexical grammar (2021 version)}\label{sec:appendix-lexical-grammar}
 This is the lexical grammar used by \texttt{nozc}.
 \input{tex/lexicalGrammarNewOz.tex}
 
-\section{Appendix C : Kernel language}\label{sec:appendix-kernel}
+\section{Kernel language}\label{sec:appendix-kernel}
 The following table~\ref{tab:OzKernel} gives the kernel language of the \textit{general computational model} of \textit{Oz}, as defined in~\cite{van2004concepts}.
 The right-most column gives the \textit{NewOz} equivalent, which allows the user to quickly compare both approaches.
 \input{tex/kernel.tex}
 
-\section{Appendix D : Some translation examples}\label{sec:appendix-examples}
+\section{Some translation examples}\label{sec:appendix-examples}
 This appendix contains a series of real-world programs written in both \textit{Oz} and \textit{NewOz 2021}, allowing the reader to see the new syntax in action and forge themselves an opinion base on extensive examples.
 \input{tex/codeExampleFibo.tex}
 \input{tex/codeExampleMergeSort.tex}
@@ -28,13 +28,16 @@ This appendix contains a series of real-world programs written in both \textit{O
 \input{tex/codeExampleObject.tex}
 \input{tex/codeExampleExceptions.tex}
 
-\section{Appendix E : Compilation example}\label{sec:appendix-compilation}
+\section{Compilation example}\label{sec:appendix-compilation}
 This appendix presents the different states a program's code goes through during the compilation process performed by \texttt{nozc}.
-All the following outputs are produced by the command-line utility directly : like briefly mentioned in section~\ref{sec:ch3-nozc}, \texttt{nozc} provides the option to visualizes the abstract representations of the code at various stages of the compilation process.
-This can prove useful in an educational context !
+All the following outputs are produced by the command-line utility directly : the usage help is shown as well.
+Like briefly mentioned in Section~\ref{sec:ch3-nozc}, \texttt{nozc} provides the option to visualizes the abstract representations of the code at various stages of the compilation process;
+this can be very useful in an educational context !
 \input{tex/compilationSteps.tex}
 
-\section{Appendix F : Documentation and tutorial}\label{sec:appendix-doc}
-The interested reader will find a tutorial and documentation on the \texttt{nozc} \textit{GitHub} repository~\cite{NozcGitHub}.
+\section{Documentation and tutorial}\label{sec:appendix-doc}
+The interested reader will find tutorials and documentation about the \textit{NewOz} syntax and the usage of its compiler on the \texttt{nozc} \textit{GitHub} repository~\cite{NozcGitHub}.
+This documentation, like the rest of this repository, is completely open source and anyone is welcome to collaborate on its writing.
+Our long-term goal is for this knowledge base to serve as a complement to a future version of the \textit{Concepts, techniques, and models of computer programming} book, which would rely on \textit{NewOz} instead of \textit{Oz}.
 We chose not to include them here because it added little value to this paper, since they are publicly available online.
 Furthermore, they will most likely evolve in the future with the next releases of \texttt{nozc} and the upcoming iterations of \textit{NewOz}, making their version included here obsolete.
