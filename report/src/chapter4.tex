@@ -115,8 +115,8 @@ This approach would have many advantages :
 \end{itemize}
 Amazingly, this addresses most of the problems \textit{Oz} faces today, that we described in chapter~\ref{ch:1}.\newline
 
-The attentive reader might notice how this approach is looks like the one \textit{Ozma} selected years ago : by creating a conservative extension to \textit{Scala}, this project was able to incorporate powerful concepts from \textit{Oz} into an existing syntax~\cite{Ozma}.
-However, there is one key difference that need to be explained : \textit{Ozma} did not target an existing platform.
+The attentive reader might notice how this approach looks like the one \textit{Ozma} selected years ago : by creating a conservative extension to \textit{Scala}, this project was able to incorporate powerful concepts from \textit{Oz} into an existing syntax~\cite{Ozma}.
+However, there is one key difference that needs to be explained : \textit{Ozma} did not target an existing platform.
 In particular, it does not target the \textit{JVM} : the \textit{Ozma} compiler uses the \textit{Mozart} engine as its backend, even though its syntax is an extension of Scala's.
 The approach we propose here is somewhat different, in the sense that we would target the same platform as the base language of our conservative extension.\newline
 
@@ -177,7 +177,7 @@ Driven by his long teaching experience at the NUS, Martin Henz proposed the idea
     This is a nice approach, but it still can be confusing for the programmer, as it isn't very intuitive : if I am not allowed to access the variable, why could I declare it after its access in the first place ?
     \textit{Oz} provides a much more elegant approach, with the concept of \textit{unbound values} (see Figure~\ref{fig:oz-unbound}).
     Any function that needs to access such a value will wait until it is available, which allows creating data-driven operations (\textit{dataflow execution}).
-    This is a fundamentally different approach to this problem, but one that is probably worth exploring in an extension of \textit{JavaScript}, notably by using its asynchronous capabilities\cite{ozjs}.
+    This is a fundamentally different approach to this problem, but one that is probably worth exploring in an extension of \textit{JavaScript}, notably by using its asynchronous capabilities~\cite{ozjs}.
     \begin{figure}
         \begin{lstlisting}[language=oz]
         local
@@ -205,8 +205,8 @@ Driven by his long teaching experience at the NUS, Martin Henz proposed the idea
 \end{itemize}
 The list goes on, but we feel like those examples are enough to show how interesting it could be to integrate concepts of \textit{Oz} into other languages.
 Future could design conservative extensions of existing languages adding the abilities of one or two paradigms at a time.
-This approach would fit very nicely in many programming courses, by introducing students to a few concepts at the start, and then adding paradigms on top of acquired concepts.
-The educational value of this approach is invaluable, and it is used in university courses like the ones given by Martin Henz and Peter van Roy.
+This approach would fit very nicely in many programming courses, by introducing students to a few concepts at the start, and then progressively adding paradigms on top of acquired concepts.
+The educational value of this approach is invaluable, and it is used in university courses like those given by Martin Henz and Peter van Roy.
 It is also the approach followed in~\cite{van2004concepts}.\newline
 
 Clearly, this new idea is drastically different from what was envisioned at the start of this thesis.

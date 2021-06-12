@@ -17,7 +17,7 @@ The objective behind what would later be called \textit{NewOz} is ambitious : br
 This process has started in 2020, with the master thesis of M. Mbonyincungu~\cite{jpthesis} (hereinafter "last year's thesis"), who created a first design for the \textit{NewOz} syntax, heavily inspired by \textit{Ozma} and \textit{Scala}.\newline
 
 In the following sections, we will provide an overview of our evaluation method, our sources of inspiration for the design of this new syntax, and the results previous works have achieved.
-We will conclude this chapter by giving an overview of the contributions that this thesis made to the \textit{NewOz} project in general.
+We will conclude this chapter by giving an overview of the contributions that this thesis made to the \textit{NewOz} project in general, as well as different ideas on how this project could evolve over the course of the next years.
 \emph{Please note that in the context of this thesis, the reader is assumed to have some knowledge of what \textit{Oz} is, as well as a reasonable understanding of the concepts and philosophy characterizing the language.}
 
 \section{Methodology and evaluation approach}\label{sec:ch1-methodology}
@@ -32,7 +32,7 @@ In our opinion, a number of conditions should be met before considering a syntax
     \item it should consistently follow its own rules and conventions;
     \item it should avoid confusion whenever possible;
     \item it should be efficient and pleasant to use;
-    \item it should be accepted by the users of the language and reach at least some level of consensus.
+    \item it should be accepted by the users of the language and reach a satisfactory level of consensus.
 \end{itemize}
 As you can see, those points are difficult to evaluate objectively, since terms like "consistency" and "pleasant" are mostly a matter of opinion.
 For this reason, it is crucial to include as many people as possible in the evaluation process, from the very start of the project;
@@ -82,7 +82,7 @@ For each of these, code snippets in both \textit{Oz} and \textit{Scala}/\textit{
 The code served as a basis for the reflection and ensuing discussion, comparing pros and cons of both existing approaches, conceiving a new one when required, and motivating the final choices being made.
 The process was rationalized by using a set of objective factors, allowing to rate each choice on a numeric scale in an attempt to provide the best syntax for each language feature.\newline
 
-The two main results of this thesis could be summarized as follows :
+The two main results of the previous thesis could be summarized as follows :
 \begin{itemize}
     \item The definition of a new syntax (which we will refer to as \textit{NewOz} 2020 in this document), as we said before;
     this syntax can be consulted in the appendices of the thesis\footnote{See the Appendix C.2 of last year's thesis~\cite{jpthesis}} in the form of an EBNF grammar.
@@ -101,7 +101,10 @@ Nevertheless, it also provides its own results that go further than simply expan
     \item We made further adaptations to the M. Mbonyincungu's \textit{NewOz 2020} syntax, by addressing points that were left open last year, or by expanding the reflection on other elements;
     \item We also created a compiler for \textit{NewOz} : even if last year's thesis made work in that direction, we felt like a more robust solution was necessary to gain acceptance around \textit{NewOz};
     \item We gathered, for the first time, feedback from the community on the new syntax : it is indeed crucial to leverage the experience and opinions of numerous programmers when designing a syntax, especially from people outside our close social and professional circle;
-    \item Finally, we conducted a broad reflection on what is necessary to design a good syntax, why it is important, and how this thesis enters into an ambitious, long-term goal of creating an improved and accepted syntax for the \textit{Oz} programming language.
+    \item We proposed another vision for the future of \textit{Oz}, in the form of conservative approaches to other existing languages.
+    This approach is radically different, as it places the emphasis on the concepts behind \textit{Oz}, rather than on the language itself.
+    Viewed through this lens, said concepts can be ported to any platform to bring their educational and functional value to many more programmers.
+    \item Finally, we conducted a broad reflection on what is necessary to design a good syntax, why it is important, and how this thesis enters into an ambitious, long-term goal of creating an improved and accepted multi-paradigm programming language.
 \end{itemize}
 
 \section{Conclusions and the road ahead}\label{sec:ch1-4}
